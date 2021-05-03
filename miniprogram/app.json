@@ -10,5 +10,27 @@
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
-  "style": "v2"
+  "style": "v2",
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "black",
+    "list": [
+      {
+        "selectedIconPath": "image/select_home.png",
+        "iconPath": "image/home.png",
+        "pagePath": "pages/index/index"
+      },
+      {
+        "iconPath": "image/send.png",
+        "selectedIconPath": "image/send.png",
+        "pagePath": "pages/index/index"
+      },
+      {
+        "selectedIconPath": "image/select_personal.png",
+        "iconPath": "image/personal.png",
+        "pagePath": "pages/index/index"
+      }
+    ]
+  }
 }
