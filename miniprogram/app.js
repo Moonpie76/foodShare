@@ -13,7 +13,6 @@ App({
         // env: 'my-env-id',
         traceUser: true,
       })
-      //const db = wx.cloud.database()
     }
 
     this.globalData = {}
