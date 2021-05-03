@@ -23,6 +23,7 @@
       },
       {
         "iconPath": "image/send.png",
+        "selectedIconPath": "image/send.png",
         "pagePath": "pages/index/index"
       },
       {
