@@ -1,0 +1,14 @@
+<view class="top">
+    <view class="top_lead">
+        <view class="lead">
+            <icon class="locate .icon-locate">
+            </icon>
+        </view>
+        <view class="search">
+            search
+        </view>
+    </view>
+    <view class="note">
+        note
+    </view>
+</view>
