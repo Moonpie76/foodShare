@@ -1,8 +1,13 @@
-<view class="top">
+<view class="father">
     <view class="top_lead">
-        <view class="lead">
-            <icon class="locate .icon-locate">
+        <view class="locate">
+            <icon class="locate_icon .icon-locate">
             </icon>
+            <view class="locate_text">
+                <text class="text">
+                    获取定位后填在这里
+                </text>
+            </view>
         </view>
         <view class="search">
             search
