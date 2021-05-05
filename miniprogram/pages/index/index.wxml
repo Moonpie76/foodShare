@@ -1,8 +1,7 @@
 <view class="father">
     <view class="top_lead">
         <view class="locate">
-            <icon class="locate_icon .icon-locate">
-            </icon>
+            <icon class="locate_icon .icon-locate"></icon>
             <view class="locate_text">
                 <text class="text">
                     获取定位后填在这里
@@ -10,7 +9,10 @@
             </view>
         </view>
         <view class="search">
-            search
+            <view class="search_bar">
+                <icon class="search_icon" type="search" size="14"></icon>
+                <input type="text" class="search_input" placeholder="请输入搜索内容" confirm-type="search" />
+            </view>
         </view>
     </view>
     <view class="note">
