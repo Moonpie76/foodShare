@@ -1,11 +1,9 @@
 <view class="father">
     <view class="top_lead">
         <view class="locate">
-            <icon class="locate_icon .icon-locate"></icon>
+            <icon class="locate_icon .icon-locate" bindtap="showCityPicker"></icon>
             <view class="locate_text">
-                <text class="text">
-                    获取定位后填在这里
-                </text>
+                <text class="text">{{city}}</text>
             </view>
         </view>
         <view class="search">
@@ -15,6 +13,12 @@
             </view>
         </view>
     </view>
+    <city-picker
+    id="city-picker"
+    value="{{cityPickerValue}}" 
+    isShow="{{cityPickerIsShow}}"
+    bindsureclick="cityPickerOnSureClick"
+    bindcancelclick="cityPickerOnCancelClick" />
     <view class="note">
         note
     </view>
