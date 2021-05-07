@@ -62,12 +62,14 @@
 }
 
 .text {
+    width: 150rpx;
     display: -webkit-box;
     font-size: 30rpx;
     -webkit-line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    white-space: nowrap;
 }
 
 .search {
