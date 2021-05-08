@@ -7,8 +7,26 @@ Page({
     city: '',
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
+    noteList: []
   },
 
+  getNotes: function (num=4, page=0) {
+    wx.cloud.callFunction({
+      name: "showNotes",
+      data: {
+        num: num,
+        page: page,
+        city: this.data.city
+      }
+    }).then(res=>{
+      var oldData = this.data.noteList
+      var newData = oldData.concat(res.result.data)
+      this.setData({
+        noteList: newData
+      })
+      console.log(this.data.noteList)
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -20,7 +38,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+    this.getNotes()
   },
 
   /**
@@ -48,14 +66,15 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    this.getNotes()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+    var page = this.data.noteList.length
+    this.getNotes(4, page)
   },
 
   /**
@@ -71,8 +90,10 @@ Page({
   cityPickerOnSureClick: function (e) {
     console.log('cityPickerOnSureClick');
     console.log(e);
+    var city = e.detail.valueName[1];
+    city = city.substr(0, city.length-1);
     this.setData({
-      city: e.detail.valueName[1],
+      city: city,
       cityPickerValue: e.detail.valueCode,
       cityPickerIsShow: false,
     });
@@ -106,7 +127,6 @@ Page({
      // success 
      var longitude = res.longitude
      var latitude = res.latitude
-     console.log(longitude)
      page.loadCity(longitude, latitude)
      }
     })
@@ -122,8 +142,9 @@ Page({
       },
      success: function (res) {
      // success 
-     console.log(res);
+     console.log(res.data.result.addressComponent);
      var city = res.data.result.addressComponent.city;
+     city = city.substr(0, city.length-1)
      console.log("城市为" + city)
      page.setData({ city: city });
      }
