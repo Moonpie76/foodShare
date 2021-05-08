@@ -1,3 +1,4 @@
+<import src="../templete/note.wxml" />
 <view class="father">
     <view class="top_lead">
         <view class="locate">
@@ -13,12 +14,21 @@
             </view>
         </view>
     </view>
-    <city-picker
-    id="city-picker"
-    value="{{cityPickerValue}}" 
-    isShow="{{cityPickerIsShow}}"
-    bindsureclick="cityPickerOnSureClick"
-    bindcancelclick="cityPickerOnCancelClick" />
-    <view class="note" wx:for="{{noteList}}" wx:key="index">
+    <view class="divLine"></view>
+    <view class="notes">
+        <view class="left">
+            <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
+                <template is="msg" data="{{item_note}}" wx:if="{{index%2==0}}"></template>
+            </block>
+        </view>
+        <view class="right">
+            <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
+                <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}"></template>
+            </block>
+        </view>
+        <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
+            bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
+        <view class="note" wx:for="{{noteList}}" wx:key="index">
+        </view>
     </view>
 </view>

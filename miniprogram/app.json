@@ -30,7 +30,8 @@
       {
         "selectedIconPath": "image/select_personal.png",
         "iconPath": "image/personal.png",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/index/index",
+        "text": "我的"
       }
     ]
   },
