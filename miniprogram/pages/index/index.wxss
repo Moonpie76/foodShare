@@ -65,20 +65,19 @@
     align-items: center;
     width: 85%;
     height: 100%;
-    margin-bottom: 45rpx;
-    margin-left: 10rpx;
+    margin-left: 15rpx;
 }
 
 .text {
-    font-family: 'PingFang SC-Medium';
-    color: rgb(58, 57, 57);
-    display: block;
+    width: 150rpx;
     display: -webkit-box;
     font-size: 30rpx;
     -webkit-line-clamp: 2;
     overflow: hidden;
+    font-family: 'PingFang SC-Medium';
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    white-space: nowrap;
 }
 
 .search {
