@@ -1,3 +1,4 @@
+<import src="../templete/note.wxml" />
 <view class="father">
     <view class="top_lead">
         <view class="locate">
@@ -15,7 +16,17 @@
             </view>
         </view>
     </view>
-    <view class="note">
-        note
+    <view class="divLine"></view>
+    <view class="notes">
+        <view class="left">
+            <block wx:for="{{noramalData}}" wx:key="index" wx:for-item="item_note">
+                <template is="{{msg}}" data="{{item_note}}" wx:if="{{index%2==0}}"></template>
+            </block>
+        </view>
+        <view class="right">
+            <block wx:for="{{noramalData}}" wx:key="index" wx:for-item="item_note">
+                <template is="{{msg}}" data="{{item_note}}" wx:if="{{index%2==1}}"></template>
+            </block>
+        </view>
     </view>
 </view>
