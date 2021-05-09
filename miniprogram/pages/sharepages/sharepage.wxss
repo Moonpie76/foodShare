@@ -9,10 +9,11 @@
   margin-top: 95px;
 }
 
+.citytext{
+  padding-top:7px;
+}
 .btn1{
-  
   padding-left:20px;
- 
 }
 .btn2{
  

@@ -35,11 +35,12 @@
 
 <view class="locate" >
     <view class="locatetext">添加地点</view>
-    <image src="locate.jpg"  bindtap="getlocate"  class="locatepic" mode="aspectFill" ></image>
+    <image src="locate.jpg"  bindtap="showCityPicker"  class="locatepic" mode="aspectFill" ></image>
+    <view class="citytext">{{city}}</view>
+
 </view>
-
-
-
+<city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
+            bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 
 <view class="button">
 <view class="btn1">
