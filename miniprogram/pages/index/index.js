@@ -1,10 +1,11 @@
+const db = wx.cloud.database()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    city: '',
+    city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
     noteList: []
