@@ -1,7 +1,14 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/sharepages/sharepage",
+    "pages/index/index",
+    "utils/util"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "是否允许获取当前位置信息"
+    }
+  },
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
