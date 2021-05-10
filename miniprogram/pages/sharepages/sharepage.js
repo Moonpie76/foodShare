@@ -27,8 +27,25 @@ Page({
 /**
  返回函数
  */
-fanhuiupload:function(){
-  if(e.currentTarget.id="fanhui"){
+fanhuiupload:function(e){
+  var that=this;
+  for(var i=0;i<that.data.images.length;i++){
+    wx.cloud.uploadFile({
+      cloudPath:'test1/' + Math.floor(Math.random()*1000000),
+      filePath:that.data.images[i],
+      success(res){
+        console.log(res)
+        console.log(e.currentTarget.id)
+        console.log(res.fileID)
+        that.setData({
+        Astring:that.data.Astring.concat(JSON.stringify(res.fileID)), 
+        });
+        console.log(that.data.Astring[0])
+      }
+    })
+    }
+    this.getTime()
+  //if(e.currentTarget.id="fanhui"){  
     wx.showModal({
       title: '退出当前编辑',
       content: '需要保存编辑吗？',
@@ -38,14 +55,33 @@ fanhuiupload:function(){
       confirmText:"保存",//默认是“确定”
       cancelColor: 'cancelColor',
       success: function (res) {
-        if (res.cancel) {
-           //点击取消,默认隐藏弹框
-          
+        if (res.confirm) {
+             db.collection('note').add({
+              // data 字段表示需新增的 JSON 数据
+              data: {
+                title: that.data.title,
+                discribe: that.data.content,
+                picture:that.data.images,             
+                time:that.data.time,
+                level:that.data.one_2,
+                flag:0
+              }
+            })
+            .then(res => {
+              console.log(res)
+            })
+            wx.switchTab({
+              url: '/pages/index/index',
+            });
+
+         //this.uploaddata();
         } else{
-        
+          wx.switchTab({
+            url: '/pages/index/index',
+          });
         }}
     })
-  }
+  
 
 },
 
@@ -90,10 +126,10 @@ var index = e.currentTarget.dataset.index;
 var images = that.data.images;
 console.log(index)
   wx.showActionSheet({
-    itemList: ["添加标签","删除图片"],
+    itemList: ["删除图片"],
     success(res){
       console.log(res.tapIndex)
-      if(res.tapIndex==1){
+      if(res.tapIndex==0){
         images.splice(index, 1); //从数组中删除index下标位置，指定数量1，返回新的数组
         that.setData({
           images: images,
@@ -122,9 +158,6 @@ getTime:function(){
   上传内容
 */
 uploaddata:function(e){
-  var a=0
-  
-  console.log(a)
   var that=this;
   for(var i=0;i<that.data.images.length;i++){
     wx.cloud.uploadFile({
@@ -132,37 +165,30 @@ uploaddata:function(e){
       filePath:that.data.images[i],
       success(res){
         console.log(res)
-        //console.log(that.data.testa)
+       
         console.log(e.currentTarget.id)
           console.log(res.fileID)
           that.setData({
-          //fileIDs:res.fileID,
-          Astring:that.data.Astring.concat(JSON.stringify(res.fileID)),
-          //testb:that.data.testb.concat(Astring)
+         
+          //Astring:that.data.Astring.concat(JSON.stringify(res.fileID)),
+          
         });
         console.log(that.data.Astring[0])
       }
     })
-    }
-    var flag;
-    if(e.currentTarget.id=="fabu"){
-      flag=1;
-    }
-    else{ 
-      flag=0;
-    }
-    
+    } 
     this.getTime()
   db.collection('note').add({
     // data 字段表示需新增的 JSON 数据
     data: {
       title: that.data.title,
       discribe: that.data.content,
-      picture:that.data.Astring,
+      picture:that.data.images,
       location:this.data.city,
+      picture:that.data.images,
       time:that.data.time,
       level:that.data.one_2,
-      flag:flag
+      flag:1
     }
   })
   .then(res => {
@@ -171,7 +197,11 @@ uploaddata:function(e){
   wx.switchTab({
     url: '/pages/index/index',
   });
+
  // console.log(that.data.testb)
+
+ // console.log(picture)
+
 },
 /**
  获取当前位置
