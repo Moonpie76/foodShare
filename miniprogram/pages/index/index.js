@@ -1,3 +1,4 @@
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -10,13 +11,29 @@ Page({
     noteList: []
   },
 
-  getNotes: function (num=4, page=0) {
+  decodeUnicode: function () {
+    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
+    console.log(str)
+    },
+  transform: function(e){
+    var note = JSON.stringify(e.currentTarget.dataset.note);
+    wx.navigateTo({
+      url: '../view/view?note=' + note,
+    })
+  },
+  handleInput:function() {
+    wx.navigateTo({
+      url: '/pages/search/search'
+    })
+  },
+
+  getNotes: function (num=4, page=0, city) {
     wx.cloud.callFunction({
       name: "showNotes",
       data: {
         num: num,
         page: page,
-        city: this.data.city
+        city: city
       }
     }).then(res=>{
       var oldData = this.data.noteList
@@ -38,7 +55,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getNotes()
+    
   },
 
   /**
@@ -66,7 +83,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.getNotes()
+    this.setData({
+      noteList: []
+    })
+    this.getNotes(4, 0, this.data.city)
   },
 
   /**
@@ -74,7 +94,13 @@ Page({
    */
   onReachBottom: function () {
     var page = this.data.noteList.length
-    this.getNotes(4, page)
+    this.getNotes(4, page, this.data.city)
+  },
+
+  /**
+   页面监听点击“+”
+   */
+  Onadd:function(){
   },
 
   /**
@@ -88,8 +114,6 @@ Page({
    * 城市选择确认
    */
   cityPickerOnSureClick: function (e) {
-    console.log('cityPickerOnSureClick');
-    console.log(e);
     var city = e.detail.valueName[1];
     city = city.substr(0, city.length-1);
     this.setData({
@@ -103,8 +127,6 @@ Page({
    * 城市选择取消
    */
   cityPickerOnCancelClick: function (event) {
-    console.log('cityPickerOnCancelClick');
-    console.log(event);
     this.setData({
       cityPickerIsShow: false,
     });
@@ -112,28 +134,23 @@ Page({
 
 
   showCityPicker() {
-    // this.data.cityPicker.show()
-    console.log("show city-picker")
     this.setData({
       cityPickerIsShow: true,
     });
   },
 
   autoLocate: function () {
-    var page = this
     wx.getLocation({
      type: 'wgs84',
-     success: function (res) {
-     // success 
-     var longitude = res.longitude
-     var latitude = res.latitude
-     page.loadCity(longitude, latitude)
-     }
+    }).then(res=>{
+      var longitude = res.longitude
+      var latitude = res.latitude
+      this.loadCity(longitude, latitude)
     })
   },
      
     loadCity: function (longitude, latitude) {
-      var page = this
+      var that = this
       wx.request({
       url: 'https://api.map.baidu.com/reverse_geocoding/v3/?ak=zFlHvfuzeORso0OveUQDCElE118kdlbz&output=json&coordtype=wgs84ll&location=' + latitude + ',' + longitude + '',
       data: {},
@@ -142,11 +159,10 @@ Page({
       },
      success: function (res) {
      // success 
-     console.log(res.data.result.addressComponent);
      var city = res.data.result.addressComponent.city;
      city = city.substr(0, city.length-1)
-     console.log("城市为" + city)
-     page.setData({ city: city });
+     that.setData({ city: city });
+     that.getNotes(4, 0, that.data.city)
      }
     })
   }

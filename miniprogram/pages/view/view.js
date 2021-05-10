@@ -11,7 +11,8 @@ Page({
     autoplay: false,
     interval: 100,
     duration: 500,
-    flag:0
+    flag:0,
+    note:{}
   },
   realImageLoad: function(e) {
     var $width=e.detail.width,    //获取图片真实宽度
@@ -34,7 +35,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    var note = options.obj;
+    console.log(options.obj)
+    this.setData({
+        note:note
+    })
   },
 
   /**
