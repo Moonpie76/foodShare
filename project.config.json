@@ -40,6 +40,7 @@
   "appid": "wx0d18bc43a037c2e8",
   "projectname": "foodShare",
   "libVersion": "2.14.1",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {
       "list": []

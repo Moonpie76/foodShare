@@ -1,0 +1,5 @@
+<view class="search_bar">
+  <icon class="search_icon" type="search" size="14"></icon>
+  <input type="text" class="search_input" placeholder="请输入搜索内容" confirm-type="search" focus="true" 
+  bindinput="search"/>
+</view>
