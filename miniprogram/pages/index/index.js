@@ -10,7 +10,7 @@ Page({
     noteList: []
   },
 
-  getNotes: function (num=4, page=0) {
+  getNotes: function (num = 4, page = 0) {
     wx.cloud.callFunction({
       name: "showNotes",
       data: {
@@ -18,7 +18,7 @@ Page({
         page: page,
         city: this.data.city
       }
-    }).then(res=>{
+    }).then(res => {
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
@@ -80,14 +80,13 @@ Page({
   /**
    页面监听点击“+”
    */
-  Onadd:function(){
-  },
+  Onadd: function () {},
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   },
 
   /**
@@ -97,7 +96,7 @@ Page({
     console.log('cityPickerOnSureClick');
     console.log(e);
     var city = e.detail.valueName[1];
-    city = city.substr(0, city.length-1);
+    city = city.substr(0, city.length - 1);
     this.setData({
       city: city,
       cityPickerValue: e.detail.valueCode,
@@ -128,32 +127,42 @@ Page({
   autoLocate: function () {
     var page = this
     wx.getLocation({
-     type: 'wgs84',
-     success: function (res) {
-     // success 
-     var longitude = res.longitude
-     var latitude = res.latitude
-     page.loadCity(longitude, latitude)
-     }
+      type: 'wgs84',
+      success: function (res) {
+        // success 
+        var longitude = res.longitude
+        var latitude = res.latitude
+        page.loadCity(longitude, latitude)
+      }
     })
   },
-     
-    loadCity: function (longitude, latitude) {
-      var page = this
-      wx.request({
+
+  loadCity: function (longitude, latitude) {
+    var page = this
+    wx.request({
       url: 'https://api.map.baidu.com/reverse_geocoding/v3/?ak=zFlHvfuzeORso0OveUQDCElE118kdlbz&output=json&coordtype=wgs84ll&location=' + latitude + ',' + longitude + '',
       data: {},
       header: {
         'Content-Type': 'application/json'
       },
-     success: function (res) {
-     // success 
-     console.log(res.data.result.addressComponent);
-     var city = res.data.result.addressComponent.city;
-     city = city.substr(0, city.length-1)
-     console.log("城市为" + city)
-     page.setData({ city: city });
-     }
+      success: function (res) {
+        // success 
+        console.log(res.data.result.addressComponent);
+        var city = res.data.result.addressComponent.city;
+        city = city.substr(0, city.length - 1)
+        console.log("城市为" + city)
+        page.setData({
+          city: city
+        });
+      }
+    })
+  },
+  checkNote: function (e) {
+    // 传递的参数
+    var model = JSON.stringify(e.currentTarget.dataset.note);
+    wx.navigateTo({
+      url: '../index?model=' + model,
     })
   }
+
 })

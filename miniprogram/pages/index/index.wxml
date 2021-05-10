@@ -18,17 +18,15 @@
     <view class="notes">
         <view class="left">
             <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-                <template is="msg" data="{{item_note}}" wx:if="{{index%2==0}}"></template>
+                <template is="msg" data="{{item_note}}" bindtap="checkNote" data-note="item_note" wx:if="{{index%2==0}}"></template>
             </block>
         </view>
         <view class="right">
             <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-                <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}"></template>
+                <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}" bindtap="checkNote" data-note="item_note"></template>
             </block>
         </view>
-        <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
-            bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
-        <view class="note" wx:for="{{noteList}}" wx:key="index">
-        </view>
     </view>
+    <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
+            bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 </view>

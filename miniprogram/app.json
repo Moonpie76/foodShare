@@ -1,9 +1,10 @@
 {
   "pages": [
-    "pages/sharepages/sharepage",
     "pages/index/index",
+    "pages/sharepages/sharepage",
     "utils/util"
   ],
+
   "permission": {
     "scope.userLocation": {
       "desc": "是否允许获取当前位置信息"
@@ -32,7 +33,7 @@
       {
         "iconPath": "image/send.png",
         "selectedIconPath": "image/send.png",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/sharepages/sharepage"
       },
       {
         "selectedIconPath": "image/select_personal.png",
@@ -42,6 +43,7 @@
       }
     ]
   },
+
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示",

@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   var page = event.page
   const city = event.city
   r_data = await db.collection("note").where({
-    post_location: "天津"
-  }).orderBy("post_time", "desc").limit(num).skip(page).get()
+    location: "天津"
+  }).orderBy("time", "desc").limit(num).skip(page).get()
   return r_data
 }
