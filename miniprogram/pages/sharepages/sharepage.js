@@ -158,7 +158,7 @@ uploaddata:function(e){
     data: {
       title: that.data.title,
       discribe: that.data.content,
-      picture:that.data.Astring,
+      picture:that.data.images,
       location:this.data.city,
       time:that.data.time,
       level:that.data.one_2,

@@ -33,3 +33,9 @@
 </viem>
 <view class='line'></view>
 <view class='grade'>美食体验感</view>
+<block >
+<image class="star" src='../sharepages/stars.jpg'></image>
+</block>
+<block >
+<image class="star" src='../sharepages/graystar.jpg'></image>
+</block>

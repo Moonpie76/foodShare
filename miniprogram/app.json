@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/view/view",
+    "pages/index/index",
     "pages/sharepages/sharepage",
     "utils/util",
     "pages/search",
@@ -36,7 +36,7 @@
       {
         "iconPath": "image/send.png",
         "selectedIconPath": "image/send.png",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/sharepages/sharepage"
       },
       {
         "selectedIconPath": "image/select_personal.png",

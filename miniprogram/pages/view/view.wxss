@@ -108,3 +108,9 @@
 .icon-fanhui:before {
   content: "\e604";
 }
+
+.star{
+  height: 60rpx;
+  width: 60rpx;
+  display: inline-block;
+}
