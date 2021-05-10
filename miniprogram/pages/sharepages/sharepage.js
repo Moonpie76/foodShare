@@ -1,5 +1,5 @@
 // miniprogram/pages/sharepage.js
-var util=require("../../util/util")
+var util = require("../../util/util")
 const db = wx.cloud.database()
 Page({
 
@@ -7,21 +7,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-      images:[],
-      title:[],
-      content:[],
-      city:"",
-      cityPickerValue: [0, 0],
-      cityPickerIsShow: false,
-      fileIDs:{},
-      testa:[],
-      testb:[],
-      Astring:[],
-      time:[],
-      one_1: '',
-      two_1: '',
-      one_2: 0,
-      two_2: 5
+    images: [],
+    title: [],
+    content: [],
+    city: "",
+    cityPickerValue: [0, 0],
+    cityPickerIsShow: false,
+    fileIDs: {},
+    testa: [],
+    testb: [],
+    Astring: [],
+    time: [],
+    one_1: '',
+    two_1: '',
+    one_2: 0,
+    two_2: 5
   },
 
 /**
@@ -83,7 +83,7 @@ fanhuiupload:function(e){
     })
   
 
-},
+  },
 
 
 
@@ -213,7 +213,7 @@ uploaddata:function(e){
     console.log('cityPickerOnSureClick');
     console.log(e);
     var city = e.detail.valueName[1];
-    city = city.substr(0, city.length-1);
+    city = city.substr(0, city.length - 1);
     this.setData({
       city: city,
       cityPickerValue: e.detail.valueCode,
@@ -242,58 +242,60 @@ uploaddata:function(e){
   },
 
 
-/**
- 获取标题内容
- */
-  biaoti:function(e){
-  var that=this;
-  
-  this.setData({
-  title:e.detail.value,
-})
-console.log(that.data.title)
-},
+  /**
+   获取标题内容
+   */
+  biaoti: function (e) {
+    var that = this;
 
-/**
- 获取正文内容
- */
-zhengwen:function(e) {
-var that=this;
-console.log(e.detail.value)
-this.setData({
-content:e.detail.value,
-})
-console.log(that.data.content)
-},
+    this.setData({
+      title: e.detail.value,
+    })
+    console.log(that.data.title)
+  },
+
+  /**
+   获取正文内容
+   */
+  zhengwen: function (e) {
+    var that = this;
+    console.log(e.detail.value)
+    this.setData({
+      content: e.detail.value,
+    })
+    console.log(that.data.content)
+  },
   /**
    跳转到相册 
    */
-  openalbum:function(){
-    var _this=this
+  openalbum: function () {
+    var _this = this
 
     wx.chooseImage({
-      count: 9-_this.data.images.length,
+      count: 9 - _this.data.images.length,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
-      success (res) {
-        if(_this.data.images.length<9){
-        _this.setData({
-          images:_this.data.images.concat(res.tempFilePaths)
-         })}
-         console.log(_this.data.images)
-         if(_this.data.images.length>=9){
-          var content="最多只能上传9张照片"
+      success(res) {
+        if (_this.data.images.length < 9) {
+          _this.setData({
+            images: _this.data.images.concat(res.tempFilePaths)
+          })
+        }
+        console.log(_this.data.images)
+        if (_this.data.images.length >= 9) {
+          var content = "最多只能上传9张照片"
           wx.showModal({
             cancelColor: 'cancelColor',
-            content:content
-          })}
-        
+            content: content
+          })
+        }
+
       }
     })
   },
 
- 
-  
+
+
 
   /**
    * 生命周期函数--监听页面加载

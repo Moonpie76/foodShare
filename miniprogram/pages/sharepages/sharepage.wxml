@@ -15,10 +15,12 @@
 </view>
 
 <view class="new2">
-<input  class="input1" maxlength="20" bindinput="biaoti"  placeholder="填写标题会让更多人搜到你的分享~" placeholder-class="myholder1"  selection-start="-1"></input>
-<scroll-view class="scrolltext" scroll-y>
-<textarea  class="input2" bindinput="zhengwen" placeholder="添加精美文案留下你的美食体验吧~" placeholder-class="myholder2"  ></textarea>
-</scroll-view>
+    <input class="input1" maxlength="20" bindinput="biaoti" placeholder="填写标题会让更多人搜到你的分享~" placeholder-class="myholder1"
+        selection-start="-1"></input>
+    <scroll-view class="scrolltext" scroll-y>
+        <textarea class="input2" bindinput="zhengwen" placeholder="添加精美文案留下你的美食体验吧~"
+            placeholder-class="myholder2"></textarea>
+    </scroll-view>
 </view>
 
 <view class="stars1">
@@ -33,7 +35,7 @@
 </view>
 </view>
 
-<view class="locate" >
+<view class="locate">
     <view class="locatetext">添加地点</view>
 
     <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.jpg"  bindtap="showCityPicker"  class="locatepic" mode="aspectFill" ></image>
@@ -43,7 +45,7 @@
 
 
 <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
-            bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
+    bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 
 
 <view class="button">
