@@ -2,11 +2,14 @@
   "pages": [
     "pages/sharepages/sharepage",
     "pages/index/index",
-    "utils/util"
+    "utils/util",
+    "pages/search",
+    "pages/search/search"
   ],
   "permission": {
     "scope.userLocation": {
-      "desc": "是否允许获取当前位置信息"
+      "desc": "你的位置信息将用于小程序位置接口的效果展示",
+      "value": true
     }
   },
   "window": {
@@ -41,11 +44,5 @@
         "text": "我的"
       }
     ]
-  },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示",
-      "value": true
-    }
-  }
+  } 
 }
