@@ -10,7 +10,9 @@ Page({
     images: [],
     title: [],
     content: [],
-    city: [],
+    city: "",
+    cityPickerValue: [0, 0],
+    cityPickerIsShow: false,
     fileIDs: {},
     testa: [],
     testb: [],
@@ -156,36 +158,64 @@ Page({
           title: that.data.title,
           discribe: that.data.content,
           picture: that.data.images,
-          location: "天津",
+          location: this.data.city,
           time: that.data.time,
           level: that.data.one_2,
           flag: flag
         }
       })
       .then(res => {
-        console.log(res);
+        console.log(res)
       })
     wx.switchTab({
       url: '/pages/index/index',
+      success: function (e) {  
+        var page = getCurrentPages().pop();  
+        if (page == undefined || page == null) return;  
+        page.onLoad();  
+      }  
     });
     // console.log(that.data.testb)
   },
   /**
    获取当前位置
    */
-  getlocate: function () {
-    const _this = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success(res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        console.log(latitude)
-        console.log(longitude)
-      }
-    })
+  /**
+   * 城市选择确认
+   */
+  cityPickerOnSureClick: function (e) {
+    console.log('cityPickerOnSureClick');
+    console.log(e);
+    var city = e.detail.valueName[1];
+    city = city.substr(0, city.length - 1);
+    this.setData({
+      city: city,
+      cityPickerValue: e.detail.valueCode,
+      cityPickerIsShow: false,
+    });
 
   },
+  /**
+   * 城市选择取消
+   */
+  cityPickerOnCancelClick: function (event) {
+    console.log('cityPickerOnCancelClick');
+    console.log(event);
+    this.setData({
+      cityPickerIsShow: false,
+    });
+  },
+
+
+  showCityPicker() {
+    // this.data.cityPicker.show()
+    console.log("show city-picker")
+    this.setData({
+      cityPickerIsShow: true,
+    });
+  },
+
+
   /**
    获取标题内容
    */
