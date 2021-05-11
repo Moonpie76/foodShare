@@ -45,21 +45,15 @@ Page({
           // success 
             var tips = new Array()
             const  rTips = res.data.data
-            console.log(rTips)
-            console.log(rTips.length)
             for(var i=0;i < rTips.length; i++) {
               tips.push(rTips[i])
             }
-            console.log("index"+tips.indexOf('['))
             if(tips.indexOf('[')!=-1) {
               tips.splice(tips.indexOf('['),1)
             }
-            console.log("index"+tips.indexOf(']'))
             if(tips.indexOf(']')!=-1) {
               tips.splice(tips.indexOf(']'),1)
             }
-            console.log(tips)
-            console.log(tips.length)
             if(tips.length != 0) {
               if(tips.indexOf(inputValue)==-1) {
                 tips.unshift(inputValue)
@@ -72,9 +66,6 @@ Page({
               const newTip = that.getInf(tip, inputValue)
               return newTip
           })
-    
-            console.log('newTips:', newTips)
-    
             that.setData({
               inputValue: inputValue,
               searchTip: newTips,
@@ -96,27 +87,35 @@ Page({
   },
   itemtap(e) {
     const { info } = e.currentTarget.dataset
-
+    console.log(info.join(''))
     this.setData({
       // 将点击选择的值展示在input框中
-      inputValue: info.content.join(''),
+      inputValue: info.join(''),
       // 当用户选择某个联想词，隐藏下拉列表
       hideScroll: true
     })
-    this.addHistorySearch(info)
+    this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
-    this.searchByKeyWord(info)
+    this.searchByKeyWord(this.data.inputValue)
   },
   searchByKeyWord(info) {
-    // 发起请求，获取面板数据
+    wx.cloud.callFunction({
+      name: "searchNotes",
+      data: {
+        keyword: info
+      }
+    }).then(res=>{
+      console.log(res)
+    })
   },
   addHistorySearch(value) {
     const historySearch = wx.getStorageSync('historySearch') || []
+
     // 是否有重复的历史记录
     let has = false
     for (let history of historySearch) {
-      const { content } = history
-      if (value.content === content) {
+      const content  = history
+      if (value === content) {
         has = true
         break
       }
@@ -125,7 +124,7 @@ Page({
       return
     }
     const len = historySearch.length
-    if (len >= 8) {
+    if (len >= 16) {
       historySearch.pop()
     }
     historySearch.unshift(value)
@@ -139,15 +138,12 @@ Page({
   },
 
   search: function (e) {
-     wx.cloud.callFunction({
-       name: "searchNotes",
-       data: {
-         keyword: e.detail.value
-       }
-     }).then(res=>{
-       console.log(res)
-       console.log(e.detail.value)
-     })
+     
+  },
+  searchHistory: function(e) {
+    const info = e.currentTarget.dataset
+    console.log(info.info)
+    this.searchByKeyWord(info.info)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -167,7 +163,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      historySearch: wx.getStorageSync('historySearch')
+    })
   },
 
   /**

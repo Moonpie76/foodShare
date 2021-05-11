@@ -3,7 +3,6 @@
     "pages/index/index",
     "pages/sharepages/sharepage",
     "utils/util",
-    "pages/search",
     "pages/search/search"
   ],
 
