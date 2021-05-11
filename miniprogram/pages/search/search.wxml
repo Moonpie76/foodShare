@@ -6,7 +6,7 @@
         <view class="border-title">历史搜索</view>
         <view class="search-content">
             <block wx:for="{{historySearch}}" wx:key="*this">
-                <view class="search-item">{{util.join(item.content)}}</view>
+                <view class="search-item" bindtap="searchHistory" data-info="{{item}}">{{item}}</view>
             </block>
         </view>
 </view>
