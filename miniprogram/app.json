@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/view/view",
     "pages/index/index",
     "pages/sharepages/sharepage",
     "utils/util",
