@@ -55,6 +55,7 @@
 .grade{
   margin:10px;
   font-style: inherit;
+  display: flex;
 }
 .handel{
   margin:5px;

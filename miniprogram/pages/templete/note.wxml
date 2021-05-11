@@ -1,13 +1,13 @@
 <template name="msg">
     <view class="item">
-        <image class="pic" src="../../image/home.png" mode="widthFix"></image>
+        <image class="pic" src="{{item_note.picture[0]}}" mode="widthFix"></image>
         <view class="title-wrap">
-            <navigator url="url" class="title">title11111111111111111111111111111111111</navigator>
+            <navigator url="url" class="title">{{item_note.title}}</navigator>
         </view>
         <view class="bottom">
             <view class="face-name">
-                <image class="face" src="../../image/home.png"></image>
-                <text class="name">name</text>
+                <image class="face" src="{{item_note.face}}"></image>
+                <text class="name">{{item_note.name}}</text>
             </view>
         </view>
     </view>
