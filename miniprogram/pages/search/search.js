@@ -5,7 +5,137 @@ Page({
    * 页面的初始数据
    */
   data: {
-    noteList: []
+    noteList: [],
+    // 模糊查询时长
+    timer: 0,
+    // 点击结果项之后替换到文本框的值
+    inputValue: '',
+    // 是否隐藏模糊查询的面板
+    hideScroll: true,
+    // 历史查询记录
+    historySearch: wx.getStorageSync('historySearch') || [],
+    // 模糊查询结果
+    searchTip: []
+  },
+
+  getInf(str, key) {
+    return str
+      .replace(new RegExp(`${key}`, 'g'), `%%${key}%%`)
+      .split('%%')
+      .filter(item => {
+        if (item) {
+          return true
+        }
+        return false
+      })
+  },
+  onInput(e) {
+    var that = this
+    const inputValue = e.detail.value
+    clearTimeout(that.data.timer)
+    let timer = setTimeout(() => {
+      if (inputValue) {
+        wx.request({
+          url: 'https://home.meishichina.com/ajax/ajax.php?ac=commondata&op=searchTips&q=' + inputValue + '',
+          data: {},
+          header: {
+            'Content-Type': 'application/json'
+          },
+          success: function (res) {
+          // success 
+            var tips = new Array()
+            const  rTips = res.data.data
+            console.log(rTips)
+            console.log(rTips.length)
+            for(var i=0;i < rTips.length; i++) {
+              tips.push(rTips[i])
+            }
+            console.log("index"+tips.indexOf('['))
+            if(tips.indexOf('[')!=-1) {
+              tips.splice(tips.indexOf('['),1)
+            }
+            console.log("index"+tips.indexOf(']'))
+            if(tips.indexOf(']')!=-1) {
+              tips.splice(tips.indexOf(']'),1)
+            }
+            console.log(tips)
+            console.log(tips.length)
+            if(tips.length != 0) {
+              if(tips.indexOf(inputValue)==-1) {
+                tips.unshift(inputValue)
+              }
+            } else {
+              tips.push(inputValue)
+            }
+            const newTips = tips.map(item => {
+              const tip = item
+              const newTip = that.getInf(tip, inputValue)
+              return newTip
+          })
+    
+            console.log('newTips:', newTips)
+    
+            that.setData({
+              inputValue: inputValue,
+              searchTip: newTips,
+              hideScroll: false
+            })
+            return
+          }
+        })
+      }
+      // 如果为空，则收起
+      that.setData({
+        searchTip: [],
+        hideScroll: true,
+        inputValue: ''
+      })
+    }, 600)
+
+    that.data.timer = timer
+  },
+  itemtap(e) {
+    const { info } = e.currentTarget.dataset
+
+    this.setData({
+      // 将点击选择的值展示在input框中
+      inputValue: info.content.join(''),
+      // 当用户选择某个联想词，隐藏下拉列表
+      hideScroll: true
+    })
+    this.addHistorySearch(info)
+    // 发起请求，获取查询结果
+    this.searchByKeyWord(info)
+  },
+  searchByKeyWord(info) {
+    // 发起请求，获取面板数据
+  },
+  addHistorySearch(value) {
+    const historySearch = wx.getStorageSync('historySearch') || []
+    // 是否有重复的历史记录
+    let has = false
+    for (let history of historySearch) {
+      const { content } = history
+      if (value.content === content) {
+        has = true
+        break
+      }
+    }
+    if (has) {
+      return
+    }
+    const len = historySearch.length
+    if (len >= 8) {
+      historySearch.pop()
+    }
+    historySearch.unshift(value)
+    wx.setStorage({
+      key: 'historySearch',
+      data: historySearch,
+      success: () => {
+        this.setData({ historySearch: historySearch })
+      }
+    })
   },
 
   search: function (e) {
