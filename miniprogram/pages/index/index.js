@@ -14,9 +14,13 @@ Page({
   decodeUnicode: function () {
     var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
     console.log(str)
-    
-    
     },
+  transform: function(e){
+    var note = JSON.stringify(e.currentTarget.dataset.note);
+    wx.navigateTo({
+      url: '../view/view?note=' + note,
+    })
+  },
   handleInput:function() {
     wx.navigateTo({
       url: '/pages/search/search'
