@@ -1,3 +1,4 @@
+/* miniprogram/pages/viewnote/viewnote.wxss */
 .host{
   width:100%;
   margin:2px;
@@ -32,8 +33,7 @@
   margin: 10px;
   margin-top:20px;
   font-weight: 550;
-  font-family: sans-serif;
-  
+  font-family: sans-serif; 
 }
 .detail{
   margin: 10px;
@@ -55,7 +55,17 @@
 .grade{
   margin:10px;
   font-style: inherit;
+  align-items: center;
   display: flex;
+}
+.foodfeel{
+  margin-right: 10px;
+}
+#star{
+  margin:2px;
+  height: 60rpx;
+  width: 60rpx;
+  display: inline-block;
 }
 .handel{
   margin:5px;
@@ -108,10 +118,4 @@
 
 .icon-fanhui:before {
   content: "\e604";
-}
-
-.star{
-  height: 60rpx;
-  width: 60rpx;
-  display: inline-block;
 }

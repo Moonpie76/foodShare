@@ -1,0 +1,36 @@
+<view class='host'>
+  <view bindload="returnPage"><text class="iconfont icon-fanhui"></text></view>
+  <view class='profile'>
+    <image src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars.jpg' class='avatar'></image>
+  </view>
+  <view class='name'>小李小李是条锦鲤</view>
+</view>
+<view class='photo'>
+  <swiper indicator-dots="true"style="height:350px">
+        <block wx:for="{{background}}" wx:key="*this">
+          <swiper-item id='photo'>
+            <image src="{{item}}" bindload="realImageLoad" data-index="{{ index }}" style="width:{{ images[index].width }}rpx; height:{{ images[index].height }}rpx;"/>
+          </swiper-item>
+        </block>
+      </swiper>
+</view>
+<view class='title'>
+  <text>{{title}}</text>
+</view>
+<view class='detail'>
+  <text>{{detail}}</text>
+</view>
+<viem class='timelocation'>
+  <view class='time'>{{time}}</view>
+  <view class='location'>{{location}}</view>
+</viem>
+<view class='line'></view>
+<view class='grade'>
+<text class='foodfeel'>美食体验感</text>
+<view class='stars'  wx:for="{{starnumber}}" wx:key="index">
+<image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars.jpg'></image>
+</view>
+<view class='stars'  wx:for="{{nostarnumber}}" wx:key="index">
+<image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/微信图片_20210510220229 (2).jpg'></image>
+</view>
+</view>

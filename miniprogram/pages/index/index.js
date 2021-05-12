@@ -17,8 +17,9 @@ Page({
     },
   transform: function(e){
     var note = JSON.stringify(e.currentTarget.dataset.note);
+    console.log(note.obj);
     wx.navigateTo({
-      url: '../view/view?note=' + note,
+      url: '/pages/viewnote/viewnote?note=' + note,
     })
   },
   handleInput:function() {

@@ -18,8 +18,10 @@
     <view class="notes">
         <view class="left">
             <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-                <template is="msg" data="{{item_note}}" bindtap="checkNote" data-note="item_note"
+                <view bindtap="transform" data-note="item_note">
+                <template is="msg" data="{{item_note}}" 
                     wx:if="{{index%2==0}}"></template>
+                </view>
             </block>
         </view>
         <view class="right">
