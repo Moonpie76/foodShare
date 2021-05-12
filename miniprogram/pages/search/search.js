@@ -15,7 +15,8 @@ Page({
     // 历史查询记录
     historySearch: wx.getStorageSync('historySearch') || [],
     // 模糊查询结果
-    searchTip: []
+    searchTip: [],
+    hideHistory: false
   },
 
   getInf(str, key) {
@@ -85,6 +86,53 @@ Page({
 
     that.data.timer = timer
   },
+
+  tapSearchBar:function() {
+    var that = this
+    var inputValue = that.data.inputValue
+    if (inputValue) {
+      wx.request({
+        url: 'https://home.meishichina.com/ajax/ajax.php?ac=commondata&op=searchTips&q=' + inputValue + '',
+        data: {},
+        header: {
+          'Content-Type': 'application/json'
+        },
+        success: function (res) {
+        // success 
+          var tips = new Array()
+          const  rTips = res.data.data
+          for(var i=0;i < rTips.length; i++) {
+            tips.push(rTips[i])
+          }
+          if(tips.indexOf('[')!=-1) {
+            tips.splice(tips.indexOf('['),1)
+          }
+          if(tips.indexOf(']')!=-1) {
+            tips.splice(tips.indexOf(']'),1)
+          }
+          if(tips.length != 0) {
+            if(tips.indexOf(inputValue)==-1) {
+              tips.unshift(inputValue)
+            }
+          } else {
+            tips.push(inputValue)
+          }
+          const newTips = tips.map(item => {
+            const tip = item
+            const newTip = that.getInf(tip, inputValue)
+            return newTip
+        })
+        that.setData({
+          noteList: [],
+          hideScroll: false,
+          searchTip: newTips
+        })
+          return
+        }
+      })
+    }
+  },
+
   itemtap(e) {
     const { info } = e.currentTarget.dataset
     console.log(info.join(''))
@@ -96,16 +144,24 @@ Page({
     })
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
-    this.searchByKeyWord(this.data.inputValue)
+    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
+    console.log(this.data.noteList)
   },
-  searchByKeyWord(info) {
+  searchByKeyWord(info, num=4, page=0, city) {
     wx.cloud.callFunction({
       name: "searchNotes",
       data: {
-        keyword: info
+        keyword: info,
+        num: num,
+        page: page,
+        city: city
       }
     }).then(res=>{
-      console.log(res)
+      var oldData = this.data.noteList
+      var newData = oldData.concat(res.result.data)
+      this.setData({
+        noteList: newData
+      })
     })
   },
   addHistorySearch(value) {
@@ -141,9 +197,14 @@ Page({
      
   },
   searchHistory: function(e) {
+    // this.setData({
+    //   hideHistory: true
+    // })
     const info = e.currentTarget.dataset
-    console.log(info.info)
-    this.searchByKeyWord(info.info)
+    this.setData({
+      inputValue: info.info
+    })
+    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -164,7 +225,8 @@ Page({
    */
   onShow: function () {
     this.setData({
-      historySearch: wx.getStorageSync('historySearch')
+      historySearch: wx.getStorageSync('historySearch'),
+      city: wx.getStorageSync('city')
     })
   },
 
@@ -193,7 +255,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if(this.data.hideHistory && this.data.hideScroll) {
+      var page = this.data.noteList.length
+      this.searchByKeyWord(this.data.inputValue, 4, page, this.data.city)
+    }
   },
 
   /**
