@@ -5,6 +5,7 @@
     "utils/util",
     "pages/view/view",
     "pages/search/search"
+    
   ],
 
   "permission": {

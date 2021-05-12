@@ -21,7 +21,8 @@ Page({
     one_1: '',
     two_1: '',
     one_2: 0,
-    two_2: 5
+    two_2: 5,
+    mypic:1
   },
 
 /**
@@ -29,6 +30,7 @@ Page({
  */
 fanhuiupload:function(e){
   var that=this;
+  var title1=that.data.title
   for(var i=0;i<that.data.images.length;i++){
     wx.cloud.uploadFile({
       cloudPath:'test1/' + Math.floor(Math.random()*1000000),
@@ -76,6 +78,14 @@ fanhuiupload:function(e){
 
          //this.uploaddata();
         } else{
+          that.setData({
+            title: [],
+            content: [],
+            images:[],             
+            time:[],
+            level:0,
+            
+          })
           wx.switchTab({
             url: '/pages/index/index',
           });
@@ -194,6 +204,12 @@ uploaddata:function(e){
   .then(res => {
     console.log(res)
   })
+  that.data.title=[];
+  // console.log(that.data.title)
+  that.data.content=[];
+  that.data.images=[];
+  that.data.time=[];
+  that.data.one_2=0;
   wx.switchTab({
     url: '/pages/index/index',
   });
