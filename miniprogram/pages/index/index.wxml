@@ -1,8 +1,8 @@
 <import src="../templete/note.wxml" />
 <view class="{{noteList.length > 2?father:father_small}}">
     <view class="top_lead">
-        <view class="locate">
-            <icon class="locate_icon .icon-locate" bindtap="showCityPicker"></icon>
+        <view class="locate" bindtap="showCityPicker">
+            <icon class="locate_icon .icon-locate"></icon>
             <view class="locate_text">
                 <text class="text">{{city}}</text>
             </view>

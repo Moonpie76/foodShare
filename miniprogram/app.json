@@ -29,19 +29,19 @@
     "borderStyle": "black",
     "list": [
       {
-        "selectedIconPath": "image/select_home.png",
-        "iconPath": "image/home.png",
+        "selectedIconPath": "./image/select_home.png",
+        "iconPath": "./image/home.png",
         "pagePath": "pages/index/index",
         "text": "首页"
       },
       {
-        "iconPath": "image/send.png",
-        "selectedIconPath": "image/send.png",
+        "iconPath": "./image/send.png",
+        "selectedIconPath": "./image/send.png",
         "pagePath": "pages/sharepages/sharepage"
       },
       {
-        "selectedIconPath": "image/select_personal.png",
-        "iconPath": "image/personal.png",
+        "selectedIconPath": "./image/select_personal.png",
+        "iconPath": "./image/personal.png",
         "pagePath": "pages/index/index",
         "text": "我的"
       }
