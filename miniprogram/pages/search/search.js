@@ -88,12 +88,49 @@ Page({
   },
 
   tapSearchBar:function() {
-    console.log(this.data.searchTip)
-    console.log(this.data.inputValue)
-    this.setData({
-      noteList: [],
-      hideScroll: false
-    })
+    var that = this
+    var inputValue = that.data.inputValue
+    if (inputValue) {
+      wx.request({
+        url: 'https://home.meishichina.com/ajax/ajax.php?ac=commondata&op=searchTips&q=' + inputValue + '',
+        data: {},
+        header: {
+          'Content-Type': 'application/json'
+        },
+        success: function (res) {
+        // success 
+          var tips = new Array()
+          const  rTips = res.data.data
+          for(var i=0;i < rTips.length; i++) {
+            tips.push(rTips[i])
+          }
+          if(tips.indexOf('[')!=-1) {
+            tips.splice(tips.indexOf('['),1)
+          }
+          if(tips.indexOf(']')!=-1) {
+            tips.splice(tips.indexOf(']'),1)
+          }
+          if(tips.length != 0) {
+            if(tips.indexOf(inputValue)==-1) {
+              tips.unshift(inputValue)
+            }
+          } else {
+            tips.push(inputValue)
+          }
+          const newTips = tips.map(item => {
+            const tip = item
+            const newTip = that.getInf(tip, inputValue)
+            return newTip
+        })
+        that.setData({
+          noteList: [],
+          hideScroll: false,
+          searchTip: newTips
+        })
+          return
+        }
+      })
+    }
   },
 
   itemtap(e) {
@@ -123,8 +160,7 @@ Page({
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
-        noteList: newData,
-        hideHistory: true
+        noteList: newData
       })
     })
   },
@@ -161,9 +197,9 @@ Page({
      
   },
   searchHistory: function(e) {
-    this.setData({
-      hideHistory: true
-    })
+    // this.setData({
+    //   hideHistory: true
+    // })
     const info = e.currentTarget.dataset
     this.setData({
       inputValue: info.info
