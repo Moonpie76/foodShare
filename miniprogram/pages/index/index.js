@@ -11,12 +11,6 @@ Page({
     noteList: []
   },
 
-  decodeUnicode: function () {
-    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
-    console.log(str)
-    
-    
-    },
   handleInput:function() {
     wx.navigateTo({
       url: '/pages/search/search'

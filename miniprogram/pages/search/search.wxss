@@ -57,6 +57,19 @@
   margin-top: 30rpx;
 }
 
+.notes {
+  display: flex;
+  justify-content: center;
+  clear: both;
+  overflow: hidden;
+  width: 97%;
+  margin-top: 5rpx;
+  margin-left: 2%;
+  padding-top: 20rpx;
+  border-top: 1px;
+  background-color: rgba(255, 255, 255, 0.644);
+}
+
 
 .tip-item {
   display: flex;

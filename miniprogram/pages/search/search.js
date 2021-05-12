@@ -15,7 +15,8 @@ Page({
     // 历史查询记录
     historySearch: wx.getStorageSync('historySearch') || [],
     // 模糊查询结果
-    searchTip: []
+    searchTip: [],
+    hideHistory: false
   },
 
   getInf(str, key) {
@@ -106,6 +107,9 @@ Page({
       }
     }).then(res=>{
       console.log(res)
+      this.setData({
+        noteList:res.result.data
+      })
     })
   },
   addHistorySearch(value) {
@@ -141,8 +145,10 @@ Page({
      
   },
   searchHistory: function(e) {
+    this.setData({
+      hideHistory: true
+    })
     const info = e.currentTarget.dataset
-    console.log(info.info)
     this.searchByKeyWord(info.info)
   },
   /**
