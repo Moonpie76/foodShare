@@ -41,7 +41,6 @@ Page({
       this.setData({
         noteList: newData
       })
-      console.log(this.data.noteList)
     })
   },
   /**
@@ -116,11 +115,17 @@ Page({
   cityPickerOnSureClick: function (e) {
     var city = e.detail.valueName[1];
     city = city.substr(0, city.length-1);
-    this.setData({
-      city: city,
-      cityPickerValue: e.detail.valueCode,
-      cityPickerIsShow: false,
-    });
+    wx.setStorage({
+      key: 'city',
+      data: city,
+      success: () => {
+        this.setData({
+          city: city,
+          cityPickerValue: e.detail.valueCode,
+          cityPickerIsShow: false,
+        });
+      }
+    })
 
   },
   /**
@@ -161,8 +166,14 @@ Page({
      // success 
      var city = res.data.result.addressComponent.city;
      city = city.substr(0, city.length-1)
-     that.setData({ city: city });
-     that.getNotes(4, 0, that.data.city)
+     wx.setStorage({
+      key: 'city',
+      data: city,
+      success: () => {
+        that.setData({ city: city })
+        that.getNotes(4, 0, that.data.city)
+      }
+    })
      }
     })
   }
