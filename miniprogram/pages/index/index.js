@@ -14,20 +14,23 @@ Page({
   decodeUnicode: function () {
     var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
     console.log(str)
-    },
-  transform: function(e){
-    var note = JSON.stringify(e.currentTarget.dataset.note);
+  },
+
+  checkNote: function (e) {
+    var id = e.currentTarget.dataset["id"];
+    console.log(id);
     wx.navigateTo({
-      url: '../view/view?note=' + note,
+      url: '../view/view?id=' + id,
     })
   },
-  handleInput:function() {
+
+  handleInput: function () {
     wx.navigateTo({
       url: '/pages/search/search'
     })
   },
 
-  getNotes: function (num=4, page=0, city) {
+  getNotes: function (num = 4, page = 0, city) {
     wx.cloud.callFunction({
       name: "showNotes",
       data: {
@@ -35,7 +38,7 @@ Page({
         page: page,
         city: city
       }
-    }).then(res=>{
+    }).then(res => {
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
@@ -54,7 +57,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
@@ -99,14 +102,13 @@ Page({
   /**
    页面监听点击“+”
    */
-  Onadd:function(){
-  },
+  Onadd: function () {},
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   },
 
   /**
@@ -114,7 +116,7 @@ Page({
    */
   cityPickerOnSureClick: function (e) {
     var city = e.detail.valueName[1];
-    city = city.substr(0, city.length-1);
+    city = city.substr(0, city.length - 1);
     wx.setStorage({
       key: 'city',
       data: city,
@@ -146,35 +148,37 @@ Page({
 
   autoLocate: function () {
     wx.getLocation({
-     type: 'wgs84',
-    }).then(res=>{
+      type: 'wgs84',
+    }).then(res => {
       var longitude = res.longitude
       var latitude = res.latitude
       this.loadCity(longitude, latitude)
     })
   },
-     
-    loadCity: function (longitude, latitude) {
-      var that = this
-      wx.request({
+
+  loadCity: function (longitude, latitude) {
+    var that = this
+    wx.request({
       url: 'https://api.map.baidu.com/reverse_geocoding/v3/?ak=zFlHvfuzeORso0OveUQDCElE118kdlbz&output=json&coordtype=wgs84ll&location=' + latitude + ',' + longitude + '',
       data: {},
       header: {
         'Content-Type': 'application/json'
       },
-     success: function (res) {
-     // success 
-     var city = res.data.result.addressComponent.city;
-     city = city.substr(0, city.length-1)
-     wx.setStorage({
-      key: 'city',
-      data: city,
-      success: () => {
-        that.setData({ city: city })
-        that.getNotes(4, 0, that.data.city)
+      success: function (res) {
+        // success 
+        var city = res.data.result.addressComponent.city;
+        city = city.substr(0, city.length - 1)
+        wx.setStorage({
+          key: 'city',
+          data: city,
+          success: () => {
+            that.setData({
+              city: city
+            })
+            that.getNotes(4, 0, that.data.city)
+          }
+        })
       }
-    })
-     }
     })
   }
 })
