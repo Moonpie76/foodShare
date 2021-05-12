@@ -3,8 +3,9 @@
     "pages/index/index",
     "pages/sharepages/sharepage",
     "utils/util",
-    "pages/search",
+    "pages/view/view",
     "pages/search/search"
+    
   ],
 
   "permission": {
