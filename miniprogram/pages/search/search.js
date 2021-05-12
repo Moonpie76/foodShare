@@ -86,6 +86,16 @@ Page({
 
     that.data.timer = timer
   },
+
+  tapSearchBar:function() {
+    console.log(this.data.searchTip)
+    console.log(this.data.inputValue)
+    this.setData({
+      noteList: [],
+      hideScroll: false
+    })
+  },
+
   itemtap(e) {
     const { info } = e.currentTarget.dataset
     console.log(info.join(''))
@@ -97,18 +107,24 @@ Page({
     })
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
-    this.searchByKeyWord(this.data.inputValue)
+    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
+    console.log(this.data.noteList)
   },
-  searchByKeyWord(info) {
+  searchByKeyWord(info, num=4, page=0, city) {
     wx.cloud.callFunction({
       name: "searchNotes",
       data: {
-        keyword: info
+        keyword: info,
+        num: num,
+        page: page,
+        city: city
       }
     }).then(res=>{
-      console.log(res)
+      var oldData = this.data.noteList
+      var newData = oldData.concat(res.result.data)
       this.setData({
-        noteList:res.result.data
+        noteList: newData,
+        hideHistory: true
       })
     })
   },
@@ -149,7 +165,10 @@ Page({
       hideHistory: true
     })
     const info = e.currentTarget.dataset
-    this.searchByKeyWord(info.info)
+    this.setData({
+      inputValue: info.info
+    })
+    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -170,7 +189,8 @@ Page({
    */
   onShow: function () {
     this.setData({
-      historySearch: wx.getStorageSync('historySearch')
+      historySearch: wx.getStorageSync('historySearch'),
+      city: wx.getStorageSync('city')
     })
   },
 
@@ -199,7 +219,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if(this.data.hideHistory && this.data.hideScroll) {
+      var page = this.data.noteList.length
+      this.searchByKeyWord(this.data.inputValue, 4, page, this.data.city)
+    }
   },
 
   /**

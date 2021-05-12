@@ -11,6 +11,16 @@ Page({
     noteList: []
   },
 
+  decodeUnicode: function () {
+    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
+    console.log(str)
+    },
+  transform: function(e){
+    var note = JSON.stringify(e.currentTarget.dataset.note);
+    wx.navigateTo({
+      url: '../view/view?note=' + note,
+    })
+  },
   handleInput:function() {
     wx.navigateTo({
       url: '/pages/search/search'
@@ -31,7 +41,6 @@ Page({
       this.setData({
         noteList: newData
       })
-      console.log(this.data.noteList)
     })
   },
   /**
@@ -106,11 +115,17 @@ Page({
   cityPickerOnSureClick: function (e) {
     var city = e.detail.valueName[1];
     city = city.substr(0, city.length-1);
-    this.setData({
-      city: city,
-      cityPickerValue: e.detail.valueCode,
-      cityPickerIsShow: false,
-    });
+    wx.setStorage({
+      key: 'city',
+      data: city,
+      success: () => {
+        this.setData({
+          city: city,
+          cityPickerValue: e.detail.valueCode,
+          cityPickerIsShow: false,
+        });
+      }
+    })
 
   },
   /**
@@ -151,8 +166,14 @@ Page({
      // success 
      var city = res.data.result.addressComponent.city;
      city = city.substr(0, city.length-1)
-     that.setData({ city: city });
-     that.getNotes(4, 0, that.data.city)
+     wx.setStorage({
+      key: 'city',
+      data: city,
+      success: () => {
+        that.setData({ city: city })
+        that.getNotes(4, 0, that.data.city)
+      }
+    })
      }
     })
   }

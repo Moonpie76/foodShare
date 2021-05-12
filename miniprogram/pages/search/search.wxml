@@ -1,6 +1,7 @@
+<import src="../templete/note.wxml" />
 <view class="search_bar">
   <icon class="search_icon" type="search" size="14"></icon>
-  <input type="text" value="{{inputValue}}" class="search_input" placeholder="请输入搜索内容" confirm-type="search" focus="true" bindinput="onInput"/>
+  <input type="text" value="{{inputValue}}" class="search_input" placeholder="请输入搜索内容" confirm-type="search" focus="true" bindinput="onInput" bindtap="tapSearchBar"/>
 </view>
 <view class="search-box" wx:if="{{!inputValue&&historySearch.length>0}}" hidden="{{hideHistory}}">
         <view class="border-title">历史搜索</view>
@@ -13,7 +14,7 @@
 <scroll-view scroll-y="true" class="search-res" hidden="{{hideScroll}}">
     <block wx:for="{{searchTip}}" wx:key="index">
       <view class="tip-item" bindtap="itemtap" data-info="{{item}}">
-        <view class="left">
+        <view class="tip">
           <view class="content">
             <view wx:for="{{item}}" wx:for-item="textItem" wx:key="index" class="{{textItem == inputValue ? 'searchHigh' : '' }}">
             {{textItem}}
