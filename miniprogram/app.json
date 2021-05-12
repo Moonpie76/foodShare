@@ -4,6 +4,7 @@
     "pages/sharepages/sharepage",
     "utils/util",
     "pages/search/search"
+    
   ],
 
   "permission": {
