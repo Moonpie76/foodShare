@@ -6,13 +6,15 @@ Page({
   data: {
     images: {},
     background: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: false,
-    interval: 100,
-    duration: 500,
-    flag: 0,
     note: {},
+    nostarnumber: 0,
+    id: '',
+    profile: {}
+  },
+  returnPage: function () {
+    wx.navigateBack({
+      changed: true
+    })
   },
   realImageLoad: function (e) {
     var $width = e.detail.width, //获取图片真实宽度
@@ -35,23 +37,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db = wx.cloud.database();
-    db.collection("note").where({
+    const db = wx.cloud.database() // 查询当前用户所有的 counters    
+    db.collection('note').where({
       _id: options.id
     }).get({
       success: res => {
-        console.log(options.id);
-        console.log(JSON.stringify(res.data, null, 2))
         this.setData({
-          note: res.data
+          note: res.data,
+          nostarnumber: 5 - res.data[0].level,
+          background: res.data[0].picture
         })
+        console.log(JSON.stringify(res.data, null, 2))
       },
       fail: err => {
         wx.showToast({
-          icon: "none",
-          title: '查询记录失败',
+          icon: 'none',
+          title: '查询记录失败'
         })
-      }
+      },
     })
   },
 

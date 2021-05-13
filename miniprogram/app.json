@@ -3,18 +3,15 @@
     "pages/index/index",
     "pages/sharepages/sharepage",
     "utils/util",
-    "pages/view/view",
-    "pages/search/search"
-    
+    "pages/search/search",
+    "pages/viewnote/viewnote"
   ],
-
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示",
       "value": true
     }
   },
-
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
@@ -47,5 +44,5 @@
         "text": "我的"
       }
     ]
-  } 
+  }
 }
