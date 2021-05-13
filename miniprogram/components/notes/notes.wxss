@@ -4,18 +4,6 @@ page {
     background: #F2F2F2;
 }
 
-.notes {
-    display: flex;
-    justify-content: center;
-    clear: both;
-    overflow: hidden;
-    width: 97%;
-    margin-top: 5rpx;
-    padding-top: 20rpx;
-    border-top: 1px;
-    background-color: rgba(255, 255, 255, 0.644);
-}
-
 .left,
 .right {
     display: inline-block;

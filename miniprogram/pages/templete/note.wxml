@@ -1,5 +1,5 @@
 <template name="msg">
-    <view class="item">
+    <view class="item" data-id="{{item_note._id}}" bindtap="checkNote">
         <image class="pic" src="{{item_note.picture[0]}}" mode="widthFix"></image>
         <view class="title-wrap">
             <navigator url="url" class="title">{{item_note.title}}</navigator>
