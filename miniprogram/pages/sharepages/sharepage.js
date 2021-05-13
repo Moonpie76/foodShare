@@ -15,11 +15,11 @@ Page({
     cityPickerIsShow: false,
    // fileIDs: {},
     //testa: [],
-<<<<<<< HEAD
+
     testb: [],
-=======
+
     //testb: [],
->>>>>>> 3b24eee2b50c515ac1681f3f05df8bea73c2a93f
+
     Astring: [],
     imageIDs:[],
     time: [],
@@ -187,16 +187,10 @@ uploaddata:async function(e){
   var n="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/"
   for(var i=0;i<that.data.images.length;i++){
     wx.cloud.uploadFile({
-<<<<<<< HEAD
       cloudPath: 'test1/'+ Math.floor(Math.random()*1000000),
       filePath:that.data.images[i],
       success(res){
         console.log(res.fileID)
-=======
-      cloudPath: 'test1/'+ m,
-      filePath:that.data.images[i],
-      success(res){
->>>>>>> 3b24eee2b50c515ac1681f3f05df8bea73c2a93f
         that.setData({
           Astring:that.data.Astring.concat(res.fileID), 
         });
