@@ -110,7 +110,7 @@ page{
     align-items: center;
     width: 100%;
     height: 85%;
-    background-color: whitesmoke;
+    background-color: rgb(255, 255, 255);
     border-radius: 18rpx;
 }
 
