@@ -17,6 +17,9 @@ Page({
     //testa: [],
 
     testb: [],
+
+    //testb: [],
+
     Astring: [],
     imageIDs:[],
     time: [],
@@ -187,6 +190,7 @@ uploaddata:async function(e){
       cloudPath: 'test1/'+ Math.floor(Math.random()*1000000),
       filePath:that.data.images[i],
       success(res){
+        console.log(res.fileID)
         that.setData({
           Astring:that.data.Astring.concat(res.fileID), 
       })
