@@ -13,16 +13,17 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    fileIDs: {},
-    testa: [],
+   // fileIDs: {},
+    //testa: [],
     testb: [],
     Astring: [],
+    imageIDs:[],
     time: [],
     one_1: '',
     two_1: '',
     one_2: 0,
     two_2: 5,
-    mypic:1
+    mypic:0
   },
 
 /**
@@ -40,9 +41,9 @@ fanhuiupload:function(e){
         console.log(e.currentTarget.id)
         console.log(res.fileID)
         that.setData({
-        Astring:that.data.Astring.concat(JSON.stringify(res.fileID)), 
+          Astring:that.data.Astring.concat(JSON.stringify(res.fileID)), 
         });
-        console.log(that.data.Astring[0])
+        console.log(that.data.testa)
       }
     })
     }
@@ -63,7 +64,7 @@ fanhuiupload:function(e){
               data: {
                 title: that.data.title,
                 discribe: that.data.content,
-                picture:that.data.images,             
+                picture:that.data.Astring,             
                 time:that.data.time,
                 level:that.data.one_2,
                 flag:0
@@ -81,10 +82,12 @@ fanhuiupload:function(e){
           that.setData({
             title: [],
             content: [],
-            images:[],             
+            images:[],
+            Astring:[],             
             time:[],
-            level:0,
-            
+            two_2:5,
+            one_2:0,
+            city:""
           })
           wx.switchTab({
             url: '/pages/index/index',
@@ -162,40 +165,42 @@ getTime:function(){
   console.log(that.data.time)
 
 },
-  
-
+  /**
+   睡眠保持先后顺序 
+   */
+ sleep(time){
+  return new Promise((resolve) => setTimeout(resolve, time));
+ },
 /**
   上传内容
 */
-uploaddata:function(e){
+uploaddata:async function(e){
+  wx.switchTab({
+    url: '/pages/index/index',
+  });
   var that=this;
   for(var i=0;i<that.data.images.length;i++){
     wx.cloud.uploadFile({
-      cloudPath:'test1/' + Math.floor(Math.random()*1000000),
+      cloudPath: 'test1/'+ Math.floor(Math.random()*1000000),
       filePath:that.data.images[i],
       success(res){
-        console.log(res)
-       
-        console.log(e.currentTarget.id)
-          console.log(res.fileID)
-          that.setData({
-         
-          //Astring:that.data.Astring.concat(JSON.stringify(res.fileID)),
-          
+        console.log(res.fileID)
+        that.setData({
+          Astring:that.data.Astring.concat(res.fileID), 
         });
-        console.log(that.data.Astring[0])
+        console.log(that.data.Astring)
+       
       }
     })
     } 
+    await this.sleep(3000);
     this.getTime()
-  db.collection('note').add({
-    // data 字段表示需新增的 JSON 数据
+   db.collection('note').add({
     data: {
       title: that.data.title,
       discribe: that.data.content,
-      picture:that.data.images,
       location:this.data.city,
-      picture:that.data.images,
+      picture:that.data.Astring,
       time:that.data.time,
       level:that.data.one_2,
       flag:1
@@ -204,20 +209,16 @@ uploaddata:function(e){
   .then(res => {
     console.log(res)
   })
-  that.data.title=[];
-  // console.log(that.data.title)
-  that.data.content=[];
-  that.data.images=[];
-  that.data.time=[];
-  that.data.one_2=0;
-  wx.switchTab({
-    url: '/pages/index/index',
-  });
-
- // console.log(that.data.testb)
-
- // console.log(picture)
-
+  that.setData({
+    title: [],
+    content: [],
+    images:[],
+    Astring:[],             
+    time:[],
+    two_2:5,
+    one_2:0,
+    city:""
+  })
 },
 /**
  获取当前位置
