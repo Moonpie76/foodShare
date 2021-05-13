@@ -6,18 +6,14 @@ Page({
   data: {
     images: {},
     background: [],
-    flag: 0,
     note: {},
-    starnumber: 0,
     nostarnumber: 0,
-    location: '',
     id: '',
     profile: {}
   },
   returnPage: function () {
-    console.log('dddddddd')
-    wx.navigateTo({
-      url: '/pages/index/index'
+    wx.navigateBack({
+      changed: true
     })
   },
   realImageLoad: function (e) {
@@ -43,27 +39,21 @@ Page({
   onLoad: function (options) {
     const db = wx.cloud.database() // 查询当前用户所有的 counters    
     db.collection('note').where({
-      _id: this.data.id
+      _id: options.id
     }).get({
       success: res => {
         this.setData({
-          note: res.data
+          note: res.data,
+          nostarnumber: 5 - res.data[0].level,
+          background: res.data[0].picture
         })
         console.log(JSON.stringify(res.data, null, 2))
-        var note = options.obj;
-        var title = '好好学习，天天向上';
-        var detail = '今天天气很好哦';
-        var starnumber = 3;
-        var nostarnumber = 5 - starnumber;
-        var location = '天津';
-        var time = '05-12';
       },
       fail: err => {
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
       },
     })
   },

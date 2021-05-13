@@ -20,7 +20,7 @@ Page({
     var id = e.currentTarget.dataset["id"];
     console.log(id);
     wx.navigateTo({
-      url: '../view/view?id=' + id,
+      url: '../viewnote/viewnote?id=' + id,
     })
   },
 
