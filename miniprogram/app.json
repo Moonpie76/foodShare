@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/viewnote/viewnote",
     "pages/sharepages/sharepage",
     "utils/util",
-    "pages/search/search",
-    "pages/viewnote/viewnote"
+    "pages/search/search"
   ],
   "permission": {
     "scope.userLocation": {
