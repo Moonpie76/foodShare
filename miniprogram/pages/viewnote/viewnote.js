@@ -32,6 +32,14 @@ Page({
       images: image
     })
   },
+  previewpic:function(e){
+    var that = this
+    var index = e.currentTarget.dataset.index;
+    wx.previewImage({
+      current: that.data.background[index],
+      urls: that.data.background,
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
