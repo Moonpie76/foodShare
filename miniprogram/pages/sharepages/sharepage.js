@@ -15,7 +15,11 @@ Page({
     cityPickerIsShow: false,
    // fileIDs: {},
     //testa: [],
+
+    testb: [],
+
     //testb: [],
+
     Astring: [],
     imageIDs:[],
     time: [],
@@ -179,22 +183,22 @@ uploaddata:async function(e){
     url: '/pages/index/index',
   });
   var that=this;
-  var m=Math.floor(Math.random()*1000000);
-  var n="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/"
+  //var m=Math.floor(Math.random()*1000000);
+  //var n="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/"
   for(var i=0;i<that.data.images.length;i++){
     wx.cloud.uploadFile({
-      cloudPath: 'test1/'+ m,
+      cloudPath: 'test1/'+ Math.floor(Math.random()*1000000),
       filePath:that.data.images[i],
       success(res){
+        console.log(res.fileID)
         that.setData({
           Astring:that.data.Astring.concat(res.fileID), 
-        });
-        console.log(that.data.Astring)
-       
-      }
-    })
+      })
+    }})
     } 
+    
     await this.sleep(3000);
+    console.log(that.data.Astring)
     this.getTime()
    db.collection('note').add({
     data: {
@@ -209,17 +213,20 @@ uploaddata:async function(e){
   })
   .then(res => {
     console.log(res)
+    that.setData({
+      title: [],
+      content: [],
+      images:[],
+      Astring:[],             
+      time:[],
+      two_2:5,
+      one_2:0,
+      city:""
+    })
   })
-  that.setData({
-    title: [],
-    content: [],
-    images:[],
-    Astring:[],             
-    time:[],
-    two_2:5,
-    one_2:0,
-    city:""
-  })
+  
+  console.log(that.data.Astring)
+  console.log(that.data.images)
 },
 /**
  获取当前位置
