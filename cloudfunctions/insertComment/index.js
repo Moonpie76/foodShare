@@ -12,6 +12,8 @@ exports.main = async (event, context) => {
     data: {       
       comment_pr_id: event.comment_pr_id, //评论所属的日记id，从入口得到       
       comment_user_id:event.comment_user_id,//发表评论人的id，
+      comment_user_name:event.comment_user_name,//发表评论人的姓名
+      comment_user_profile:event.comment_user_profile,//发表评论人的头像
       comment_text: event.comment_text, //评论内容        
       comment_time: event.comment_time, //评论时间       
       reply_if: event.reply_if, //如果不是回复，则默认为0，如果为回复，则为1       

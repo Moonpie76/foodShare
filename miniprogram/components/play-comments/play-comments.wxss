@@ -1,3 +1,4 @@
+
 .card_comment_block{
   display: flex;
   flex-direction: row;
@@ -7,13 +8,14 @@
   padding-top: 10px;
   padding-right: 10px;
 }
-#card_profile{
+.card_profiles{
   width: 35px;
   height: 35px;
   border-radius: 50%;
 }
 .card_line{
   border-top: 1px #eeeaea solid;
+  width: 100%;
 }
 .card_name_author{
   display: flex;

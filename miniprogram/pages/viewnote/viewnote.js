@@ -12,7 +12,30 @@ Page({
     id: '',
     profile: {},
     comment_number: 5,
-    comment_list:{},
+    comment_list:[
+      {
+        comment_pr_id: 12,
+        comment_user_id: 22,//发表评论人的id，
+        comment_user_name:'小李',//发表评论人的姓名
+        comment_user_profile:'cc',//发表评论人的头像
+        comment_text: "今天天气好",//评论内容        
+        comment_time: "05-4",//评论时间       
+        reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
+        parent_id: 0, //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+        reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
+      },
+      {
+        comment_pr_id: 12,
+        comment_user_id: 22,//发表评论人的id，
+        comment_user_name:'小李',//发表评论人的姓名
+        comment_user_profile:'cc',//发表评论人的头像
+        comment_text: '你好好幸运哦，已经马上十点了哎',//评论内容        
+        comment_time: "05-4",//评论时间       
+        reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
+        parent_id: 0, //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+        reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
+      }
+    ],
     content: '',
     comment_time:''
   },
@@ -36,10 +59,12 @@ Page({
       data: {     
         comment_pr_id: that.data.note[0]._id,//评论所属的日记id，从入口得到       
         comment_user_id: 22,//发表评论人的id，
+        comment_user_name:'小李',//发表评论人的姓名
+        comment_user_profile:'cc',//发表评论人的头像
         comment_text: res.detail.value,//评论内容        
         comment_time: that.data.comment_time,//评论时间       
         reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
-        parent_id: 0, //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+        parent_id: '', //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
         reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
       },
       success(res) {
@@ -51,23 +76,6 @@ Page({
       fail(res) {
         console.log("请求失败！", res)
       }
-    })
-       db.collection('comment').where({
-      comment_pr_id:that.data.note[0]._id
-    }).get({
-      success: get_comment => {
-        console.log(that.data.note[0]._id),
-        that.setData({
-          comment_list:get_comment.data,
-        })
-        console.log(that.data.comment_list)
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-      },
     })
   },
   returnPage: function () {
@@ -106,7 +114,7 @@ Page({
   onLoad: function (options) {
     var that = this
     const db = wx.cloud.database()
-     // 查询页面出评论外所有的值   
+     // 查询页面除了评论外所有的值   
     db.collection('note').where({
       _id: options.id
     }).get({
@@ -124,9 +132,10 @@ Page({
         })
       },
     })
-    //查询当前页面的所有评论
+    //查询当前页面的所有第一层评论
     db.collection('comment').where({
-      comment_pr_id:options.id
+      comment_pr_id:options.id,
+      reply_if: 0
     }).get({
       success: get_comment => {
         that.setData({

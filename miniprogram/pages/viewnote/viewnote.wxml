@@ -43,7 +43,7 @@
 <view class="handel">
   <view id="comment_block_input">
     <image id="pencil" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/xiezi.png" />
-    <input id="comment_input" type="text" bindconfirm="gain_content" value="{{content}}" placeholder="说一句吧~" confirm-type="send" />
+    <input id="comment_input" type="text" bindconfirm="gain_content" focus="true" value="{{content}}" placeholder="说一句吧~" confirm-type="send" />
   </view>
   <view class="like_comment_collect">
   <view class="handel_style">
@@ -61,6 +61,6 @@
   </view>
   </view>
 </view>
-<view class="comment_list" wx:for="{{comment_list}}" wx:key="index">
-  <play-comment my="我是父组件传入子组件的值"></play-comment>
+<view wx:for="{{comment_list}}" wx:key="index"  wx:for-item="item">
+  <play-comments comment_details="{{item}}"></play-comments>
 </view>

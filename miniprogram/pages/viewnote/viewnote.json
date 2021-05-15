@@ -1,6 +1,6 @@
 {
   "conponent": "true",
   "usingComponents": {
-    "play-comment":"/components/play-comment/play-comment"
+    "play-comments":"/components/play-comments/play-comments"
   }
 }
