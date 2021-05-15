@@ -1,0 +1,42 @@
+.comment_blocks{
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}
+.profile_blocks{
+  margin-top: 10px;
+}
+#profiles{
+  width: 24px;
+  height: 24px;
+  border-radius:50%;
+}
+.lines{
+  border-top: 1px #eeeaea solid;
+}
+.name_authors{
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.names{
+  color: darkgray;
+  margin-left: 15px;
+}
+.authors{
+  width: 45px;
+  height: 20px;
+  color: rgb(78, 80, 80);
+  text-align: center;
+  background-color: rgba(219, 217, 217, 0.295);
+  margin-left: 10px;
+  border-radius: 35rpx;
+}
+.comments{
+  margin-bottom: 10px;
+}
+.comment_time{
+  color: rgb(78, 80, 80);
+  font-size: smaller;
+}

@@ -2,9 +2,11 @@
   "pages": [
     "pages/index/index",
     "pages/viewnote/viewnote",
+    "components/play-comment/play-comment",
     "pages/sharepages/sharepage",
     "utils/util",
-    "pages/search/search"
+    "pages/search/search",
+    "components/comment-card/comment-card"
   ],
   "permission": {
     "scope.userLocation": {
