@@ -100,22 +100,26 @@
 
 .handel {
   margin: 15px;
-  width: 100%;
+  width: 93%;
   display: flex;
-  line-height: 30px;
+  justify-content: space-between;
 }
 
-#comment_block {
+#comment_block_input {
   width: 100px;
   background-color: rgba(219, 217, 217, 0.295);
   height: 30px;
   padding-left: 8px;
-  margin-right: 10px;
+  margin-right: 20px;
   border-radius: 35rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+.like_comment_collect{
+  display: flex;
+  flex-direction: row;
 }
 #pencil{
   width: 30px;

@@ -1,0 +1,21 @@
+<view class="card_comment_block" bindtap="call_comment">
+  <view class="card_profile_block">
+    <image class="card_profiles" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/壁纸.jpg" />
+  </view>
+  <view class="card_line">
+    <view class="card_name_author">
+      <view class="card_name">小李小李是条锦鲤{{comment_details.comment_user_name}}</view>
+      <view class="card_author">作者</view>
+    </view>
+    <view class="card_comment">{{comment_details.comment_text}}</view>
+    <text class="card_comment_time" bindtap="click">{{comment_details.comment_time}}</text>
+    <view wx:if="{{input_if!=false}}">
+      <input type="text" bindconfirm="gain_content_reply" focus="true" bindblur="set_input_if" value="{{content_reply}}" 
+      placeholder="回复"
+        confirm-type="send" />
+    </view>
+    <view wx:for="{{comment_list_reply}}" wx:key="index"  wx:for-item="item">
+      <comment-card></comment-card>
+    </view>
+  </view>
+</view>
