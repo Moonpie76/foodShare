@@ -4,7 +4,8 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    comment_details: null
+    comment_details: null,
+    comment_list_reply:null
   },
 
   /**
@@ -14,7 +15,6 @@ Component({
     input_if: false,
     content_reply: '',
     comment_time_reply: '',
-    comment_list_reply:{}
   },
 
   /**
