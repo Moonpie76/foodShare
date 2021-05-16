@@ -7,9 +7,6 @@
         url('//at.alicdn.com/t/font_2525554_c9e4z0ixhm4.woff?t=1620047771974') format('woff'),
         url('//at.alicdn.com/t/font_2525554_c9e4z0ixhm4.ttf?t=1620047771974') format('truetype');
 }
-page{
-    background-color: white;
-}
 
 .father {
     width: 100%;
@@ -24,7 +21,7 @@ page{
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -60,21 +57,8 @@ page{
 }
 
 .locate_icon {
-    display: flex;
-    width: 15%;
-    height: 100%;
-    margin-top: 5rpx;
-    font-family: "iconfont";
-    font-size: 60rpx;
-    font-style: normal;
-    justify-content: center;
-    color: rgb(255, 60, 0);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-locate:before {
-    content: '\e60d';
+    height: 20px;
+    width: 20px;
 }
 
 .locate_text {

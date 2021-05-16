@@ -24,7 +24,7 @@
 <viem class='timelocation'>
   <view class='time'>{{note[0].time}}</view>
   <view  class='location'>
-  <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.jpg"  class="locatepic" ></image>
+  <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.png"  class="locatepic" ></image>
   <view>{{note[0].location}}</view>
   </view>
 </viem>

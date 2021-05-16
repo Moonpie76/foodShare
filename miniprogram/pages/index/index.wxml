@@ -2,7 +2,9 @@
 <view class="{{noteList.length > 2?father:father_small}}">
     <view class="top_lead">
         <view class="locate" bindtap="showCityPicker">
-            <icon class="locate_icon .icon-locate"></icon>
+            <image class="locate_icon"
+                src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.png"
+                mode="aspectFill"></image>
             <view class="locate_text">
                 <text class="text">{{city}}</text>
             </view>
@@ -18,7 +20,9 @@
     <view class="notes">
         <view class="left">
             <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-                <template is="msg" data="{{item_note}}" wx:if="{{index%2==0}}"></template>
+                <template is="msg"
+                    data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}"
+                    wx:if="{{index%2==0}}"></template>
             </block>
         </view>
         <view class="right">
