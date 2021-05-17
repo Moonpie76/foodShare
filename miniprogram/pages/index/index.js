@@ -29,20 +29,150 @@ Page({
     }).then(res => {
       openid = res.result.openid
       wx.navigateTo({
-        url: '../viewnote/viewnote?id='+ id +'&openid=' + openid + ''
+        url: '../viewnote/viewnote?id=' + id + '&goodList=' + JSON.stringify(this.data.goodList) + '&length=' + this.data.goodList.length + '&collectionList=' + JSON.stringify(this.data.collectionList) + '&c_length=' + this.data.collectionList.length +' &openid=' + openid + ''
       })
     })
     
   },
 
-  //点赞事件
-  good() {
-
+  goodUp: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "upGoodNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        goodlist: that.data.goodList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("goodList:" + that.data.goodList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("goodUp")
   },
 
-  //收藏事件
-  collection() {
+  goodDown: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "downGoodNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        goodlist: that.data.goodList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("goodList:" + that.data.goodList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("goodDown")
+  },
 
+  collectionUp: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "upColNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        collectionlist: that.data.collectionList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("collectionlist:" + that.data.collectionList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("colUp")
+  },
+
+  collectionDown: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "downColNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        collectionlist: that.data.collectionList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("collectionlist:" + that.data.collectionList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("colDown")
   },
 
   handleInput: function () {

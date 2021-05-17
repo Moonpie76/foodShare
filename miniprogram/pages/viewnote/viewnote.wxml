@@ -1,3 +1,4 @@
+<wxs module="tools" src="../function.wxs" />
 <view class='host'>
   <view bindtap="returnPage"><text class="iconfont icon-fanhui"></text></view>
   <view class='profile'>
@@ -33,11 +34,12 @@
 <view class='grade'>
   <text class='foodfeel'>美食体验感</text>
   <view class='stars' wx:for="{{note[0].level}}" wx:key="index">
-    <image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'></image>
+    <image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'>
+    </image>
   </view>
   <view class='stars' wx:for="{{nostarnumber}}" wx:key="index">
-    <image id="star"
-      src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/star_gray.png'></image>
+    <image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/star_gray.png'>
+    </image>
   </view>
 </view>
 <view class="handel">
@@ -46,23 +48,34 @@
     <input id="comment_input" type="text" bindtap="login" bindconfirm="gain_content" focus="true" value="{{content}}" placeholder="说一句吧~" confirm-type="send" />
   </view>
   <view class="like_comment_collect">
-  <view class="handel_style">
-    <image id="like_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/不要生气.png" mode="aspectFit"/>
-    <text>223</text>
-  </view>
-  <view class="handel_style">
-    <image id="review_image"
-      src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png" mode="aspectFit"/>
+    <view class="handel_style">
+      <image id="like_image" wx:if="{{tools.checkGood(goodList,length,note[0]._id) == '0'}}" bindtap='good'
+        data-num='{{note[0].good_num}}'
+        src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/不要生气.png" mode="aspectFit" />
+      <image id="like_image" wx:if="{{tools.checkGood(goodList,length,note[0]._id) == '1'}}" bindtap='good'
+        data-num='{{note[0].good_num}}'
+        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/goods.png' />
+      <text>223</text>
+    </view>
+    <view class="handel_style">
+      <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
+        mode="aspectFit" />
       <text>332</text>
-  </view>
-  <view class="handel_style">
-    <image id="collect_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit"/>
-    <text>225</text>
-  </view>
+    </view>
+    <view class="handel_style">
+      <image class="collection_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '0'}}"
+        bindtap='collection' data-num='{{note[0].collection_num}}'
+        src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit" />
+      <image class="collections_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '1'}}"
+        bindtap='collection' data-num='{{note[0].collection_num}}'
+        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png' />
+      <text>225</text>
+    </view>
   </view>
 </view>
 <view wx:for="{{comment_list_number}}" wx:key="index">
-  <play-comments comment_details="{{comment_list[index]}}" comment_list_reply="{{comment_list_reply[index]}}"></play-comments>
+  <play-comments comment_details="{{comment_list[index]}}" comment_list_reply="{{comment_list_reply[index]}}">
+  </play-comments>
 </view>
 <view wx:for="{{comment_list_reply}}" wx:key="index" wx:item="item">
   今天
