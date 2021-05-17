@@ -1,1 +1,23 @@
 /* pages/me/me.wxss */
+.head-pic{
+  margin-top: 15px;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-right: 2px;
+  border: 1px solid #DDDDDD;
+  border-radius: 50px;
+}
+
+.firstview{
+  display: flex;
+}
+.nickname{
+  padding-top:70px;
+  padding-left: 20px;
+}
+
+.swiperv{
+  padding-top:40px;
+  padding-left: 60px;
+}
