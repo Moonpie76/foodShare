@@ -1,5 +1,6 @@
 // miniprogram/pages/sharepage.js
 var util = require("../../util/util")
+var app = getApp()
 const db = wx.cloud.database()
 Page({
 
@@ -13,6 +14,7 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
+    isLogin: app.globalData.isLogin,
    // fileIDs: {},
     //testa: [],
 
@@ -313,8 +315,31 @@ uploaddata:async function(e){
             content: content
           })
         }
-
       }
+    })
+  },
+
+  login: function(e) {
+    var that = this
+    console.log(e)
+
+    db.collection("user").add({
+      data: {
+        nickName: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl,
+        myCollections:[],
+        myLikes: []
+      }
+    }).then(res => {
+      console.log(res)
+      app.globalData.isLogin = true
+      that.setData({
+        isLogin: true
+      })
+      wx.setStorage({
+        data: true,
+        key: 'isLogin'
+      })
     })
   },
 

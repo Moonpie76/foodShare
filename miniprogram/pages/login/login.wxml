@@ -1,0 +1,7 @@
+<button open-type="getUserInfo" bindgetuserinfo="getUserInfo">点击授权</button>
+<button open-type="getUserInfo" bindgetuserinfo="login">点击登录</button>
+<view class="userInfo">
+  <view class="avatar"><image src="{{avatarUrl}}"></image></view>
+  <view class="nickname">{{nickName}}</view>
+</view>
+<view bindtap="getProfile">点击获取用户信息</view>
