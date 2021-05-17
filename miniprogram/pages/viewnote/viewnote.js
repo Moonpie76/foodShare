@@ -16,7 +16,9 @@ Page({
     comment_list_number:0,
     comment_list_reply: [],
     content: '',
-    comment_time: ''
+    comment_time: '',
+    avatar: '',
+    nickName: ''
   },
   click:function(){
     var that=this
@@ -188,6 +190,20 @@ Page({
           title: '查询记录失败'
         })
       },
+    })
+
+    console.log(options.openid)
+    wx.cloud.callFunction({
+      name: "getUserInfo",
+      data: {
+        openid: options.openid
+      }
+    }).then(res => {
+      console.log(res.result.data[0])
+      that.setData({
+        avatar: res.result.data[0].avatar,
+        nickName: res.result.data[0].nickName
+      })
     })
   },
 

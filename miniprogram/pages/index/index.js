@@ -13,14 +13,26 @@ Page({
     user_id: '',
     goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
     collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    avatar: "",
+    nickName: ""
   },
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
+    var openid;
     console.log(id);
-    wx.navigateTo({
-      url: '../viewnote/viewnote?id=' + id,
+    wx.cloud.callFunction({
+      name: "getOpenidInNote",
+      data: {
+        id: id
+      }
+    }).then(res => {
+      openid = res.result.openid
+      wx.navigateTo({
+        url: '../viewnote/viewnote?id='+ id +'&openid=' + openid + ''
+      })
     })
+    
   },
 
   //点赞事件
