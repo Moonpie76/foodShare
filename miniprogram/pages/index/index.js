@@ -9,12 +9,10 @@ Page({
     city: '',
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    noteList: []
-  },
-
-  decodeUnicode: function () {
-    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
-    console.log(str)
+    noteList: [],
+    user_id: '',
+    goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
   },
 
   checkNote: function (e) {
@@ -23,6 +21,16 @@ Page({
     wx.navigateTo({
       url: '../viewnote/viewnote?id=' + id,
     })
+  },
+
+  //点赞事件
+  good() {
+
+  },
+
+  //收藏事件
+  collection() {
+
   },
 
   handleInput: function () {

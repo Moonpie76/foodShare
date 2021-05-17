@@ -36,7 +36,7 @@
 }
 
 .title {
-  margin: 10px;
+  margin: 15px;
   font-size: 38rpx;
   margin-top: 20px;
   font-weight: 550;
@@ -44,7 +44,7 @@
 }
 
 .detail {
-  margin: 10px;
+  margin: 15px;
   font-family: 'Times New Roman', 'PingFang SC-Medium';
   letter-spacing: 3rpx;
   line-height: 20px;
@@ -58,7 +58,7 @@
   font-size: 30rpx;
   color: darkgray;
   margin-right: 20px;
-  margin-left: 10px;
+  margin-left: 15px;
   justify-content: space-between;
 }
 
@@ -70,17 +70,17 @@
 }
 
 .locatepic {
-  height: 20px;
-  width: 20px;
+  height: 12px;
+  width: 12px;
 }
 
 .line {
-  margin: 10px;
+  margin: 15px;
   border-top: 1px #eeeaea solid;
 }
 
 .grade {
-  margin: 10px;
+  margin: 15px;
   font-style: inherit;
   color: darkgrey;
   align-items: center;
@@ -99,37 +99,61 @@
 }
 
 .handel {
-  margin: 5px;
-  width: 100%;
+  margin: 15px;
+  width: 93%;
   display: flex;
-  line-height: 40px;
+  justify-content: space-between;
 }
 
-#comment {
+#comment_block_input {
   width: 100px;
-  background-color: lightsalmon;
+  background-color: rgba(219, 217, 217, 0.295);
+  height: 30px;
+  padding-left: 8px;
+  margin-right: 20px;
+  border-radius: 35rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.like_comment_collect{
+  display: flex;
+  flex-direction: row;
+}
+#pencil{
+  width: 30px;
+  height: 20px;
+  margin-right: 5px;
+}
+#comment_input{
+  color:rgb(107, 103, 103);
+}
+.handel_style {
+  width: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#like_image{
+  width: 20px;
+  height: 20px;
+}
+#review_image{
+  width: 25px;
+  height: 25px;
 }
 
-#like {
-  width: 40px;
-  background-color: lightseagreen;
-  margin-left: 50px;
-}
-
-#review {
-  width: 40px;
-  margin-left: 20px;
-  background-color: lightseagreen;
-}
-
-#collect {
-  width: 40px;
-  margin-left: 20px;
-  background-color: lightseagreen;
+#collect_image{
+  width: 20px;
+  height: 20px;
 }
 
 .comment {
-  margin: 5px;
+  height: 20px;
+  font-weight: 30px;
+  background-color: gold;
 }
 
 @font-face {

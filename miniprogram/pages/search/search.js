@@ -43,20 +43,20 @@ Page({
             'Content-Type': 'application/json'
           },
           success: function (res) {
-          // success 
+            // success 
             var tips = new Array()
-            const  rTips = res.data.data
-            for(var i=0;i < rTips.length; i++) {
+            const rTips = res.data.data
+            for (var i = 0; i < rTips.length; i++) {
               tips.push(rTips[i])
             }
-            if(tips.indexOf('[')!=-1) {
-              tips.splice(tips.indexOf('['),1)
+            if (tips.indexOf('[') != -1) {
+              tips.splice(tips.indexOf('['), 1)
             }
-            if(tips.indexOf(']')!=-1) {
-              tips.splice(tips.indexOf(']'),1)
+            if (tips.indexOf(']') != -1) {
+              tips.splice(tips.indexOf(']'), 1)
             }
-            if(tips.length != 0) {
-              if(tips.indexOf(inputValue)==-1) {
+            if (tips.length != 0) {
+              if (tips.indexOf(inputValue) == -1) {
                 tips.unshift(inputValue)
               }
             } else {
@@ -66,7 +66,7 @@ Page({
               const tip = item
               const newTip = that.getInf(tip, inputValue)
               return newTip
-          })
+            })
             that.setData({
               inputValue: inputValue,
               searchTip: newTips,
@@ -87,7 +87,7 @@ Page({
     that.data.timer = timer
   },
 
-  tapSearchBar:function() {
+  tapSearchBar: function () {
     var that = this
     var inputValue = that.data.inputValue
     if (inputValue) {
@@ -98,20 +98,20 @@ Page({
           'Content-Type': 'application/json'
         },
         success: function (res) {
-        // success 
+          // success 
           var tips = new Array()
-          const  rTips = res.data.data
-          for(var i=0;i < rTips.length; i++) {
+          const rTips = res.data.data
+          for (var i = 0; i < rTips.length; i++) {
             tips.push(rTips[i])
           }
-          if(tips.indexOf('[')!=-1) {
-            tips.splice(tips.indexOf('['),1)
+          if (tips.indexOf('[') != -1) {
+            tips.splice(tips.indexOf('['), 1)
           }
-          if(tips.indexOf(']')!=-1) {
-            tips.splice(tips.indexOf(']'),1)
+          if (tips.indexOf(']') != -1) {
+            tips.splice(tips.indexOf(']'), 1)
           }
-          if(tips.length != 0) {
-            if(tips.indexOf(inputValue)==-1) {
+          if (tips.length != 0) {
+            if (tips.indexOf(inputValue) == -1) {
               tips.unshift(inputValue)
             }
           } else {
@@ -121,12 +121,12 @@ Page({
             const tip = item
             const newTip = that.getInf(tip, inputValue)
             return newTip
-        })
-        that.setData({
-          noteList: [],
-          hideScroll: false,
-          searchTip: newTips
-        })
+          })
+          that.setData({
+            noteList: [],
+            hideScroll: false,
+            searchTip: newTips
+          })
           return
         }
       })
@@ -134,7 +134,9 @@ Page({
   },
 
   itemtap(e) {
-    const { info } = e.currentTarget.dataset
+    const {
+      info
+    } = e.currentTarget.dataset
     console.log(info.join(''))
     this.setData({
       // 将点击选择的值展示在input框中
@@ -144,10 +146,10 @@ Page({
     })
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
-    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
+    this.searchByKeyWord(this.data.inputValue, 4, 0, this.data.city)
     console.log(this.data.noteList)
   },
-  searchByKeyWord(info, num=4, page=0, city) {
+  searchByKeyWord(info, num = 4, page = 0, city) {
     wx.cloud.callFunction({
       name: "searchNotes",
       data: {
@@ -156,7 +158,7 @@ Page({
         page: page,
         city: city
       }
-    }).then(res=>{
+    }).then(res => {
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
@@ -170,7 +172,7 @@ Page({
     // 是否有重复的历史记录
     let has = false
     for (let history of historySearch) {
-      const content  = history
+      const content = history
       if (value === content) {
         has = true
         break
@@ -188,15 +190,25 @@ Page({
       key: 'historySearch',
       data: historySearch,
       success: () => {
-        this.setData({ historySearch: historySearch })
+        this.setData({
+          historySearch: historySearch
+        })
       }
     })
   },
 
-  search: function (e) {
-     
+  checkNote: function (e) {
+    var id = e.currentTarget.dataset["id"];
+    console.log(id);
+    wx.navigateTo({
+      url: '../viewnote/viewnote?id=' + id,
+    })
   },
-  searchHistory: function(e) {
+
+  search: function (e) {
+
+  },
+  searchHistory: function (e) {
     // this.setData({
     //   hideHistory: true
     // })
@@ -204,7 +216,7 @@ Page({
     this.setData({
       inputValue: info.info
     })
-    this.searchByKeyWord(this.data.inputValue, 4, 0,this.data.city)
+    this.searchByKeyWord(this.data.inputValue, 4, 0, this.data.city)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -255,7 +267,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if(this.data.hideHistory && this.data.hideScroll) {
+    if (this.data.hideHistory && this.data.hideScroll) {
       var page = this.data.noteList.length
       this.searchByKeyWord(this.data.inputValue, 4, page, this.data.city)
     }
