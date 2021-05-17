@@ -13,14 +13,18 @@ Page({
     id: '',
     profile: {},
     comment_list: [],
-    comment_list_number:0,
+    comment_list_number: 0,
     comment_list_reply: [],
     content: '',
-    comment_time: ''
+    comment_time: '',
+    goodList: [],
+    length: 0,
+    c_length: 0,
+    collectionList: []
   },
-  click:function(){
-    var that=this
-    for(var i=0;i<that.data.comment_list_number;i++){
+  click: function () {
+    var that = this
+    for (var i = 0; i < that.data.comment_list_number; i++) {
       console.log(that.data.comment_list_reply[i])
     }
   },
@@ -125,6 +129,16 @@ Page({
   onLoad: function (options) {
     var that = this
     const db = wx.cloud.database()
+    this.setData({
+      goodList: JSON.parse(options.goodList),
+      length: options.length,
+      c_length: options.c_length,
+      collectionList: JSON.parse(options.collectionList)
+    })
+    console.log(this.data.goodList)
+    console.log(this.data.collectionList)
+    console.log(this.data.length)
+    console.log(this.data.c_length)
     // 查询页面除了评论外所有的值   
     db.collection('note').where({
       _id: options.id
@@ -133,7 +147,7 @@ Page({
         this.setData({
           note: res.data,
           nostarnumber: 5 - res.data[0].level,
-          background: res.data[0].picture
+          background: res.data[0].picture,
         })
       },
       fail: err => {
@@ -151,9 +165,9 @@ Page({
       success: get_comment => {
         that.setData({
           comment_list: get_comment.data,
-          comment_list_number:get_comment.data.length
+          comment_list_number: get_comment.data.length
         })
-        var comment_list_replys=[]
+        var comment_list_replys = []
         //循环查询回复的评论
         for (var i = 0; i < that.data.comment_list.length; i++) {
           console.log("ljlljojoj")
@@ -177,7 +191,7 @@ Page({
         }
         console.log("set")
         that.setData({
-          comment_list_reply:comment_list_replys
+          comment_list_reply: comment_list_replys
         })
         console.log(that.data.comment_list_reply)
         console.log("jiazaishuju")

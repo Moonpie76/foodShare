@@ -1,13 +1,13 @@
 var checkGood = function (list, length, id) {
-    for (var i = 0; i <= length; i++) {
+    for (var i = 0; i < length; i=i+1) {
         if (list[i] == id) {
             return '1';
-        } 
+        }
     }
     return '0';
 }
 var checkCollection = function (list, length, id) {
-    for (var i = 0; i <= length; i++) {
+    for (var i = 0; i < length; i=i+1) {
         if (list[i] == id) {
             return '1';
         } 
