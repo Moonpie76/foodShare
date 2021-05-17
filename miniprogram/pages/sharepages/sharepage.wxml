@@ -1,5 +1,9 @@
-<!--miniprogram/pages/sharepage.wxml-->
-<view class="picture1">
+<view class="loginPage" wx:if="{{!isLogin}}">
+    <button type="primary" open-type="getUserInfo" bindgetuserinfo="login">微信一键登录</button>
+</view>
+
+<view wx:else>
+    <view class="picture1">
 <scroll-view   scroll-x="true" class="out3" enable-flex="true">
     <view class="B">
 <view class="A">
@@ -60,3 +64,4 @@
 <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/test1/138177"></image>
 <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/test1/986567"></image>
 
+</view>

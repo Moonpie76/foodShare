@@ -1,6 +1,8 @@
 //app.js
 App({
   onLaunch: function () {
+    var that = this
+
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -13,8 +15,40 @@ App({
         // env: 'my-env-id',
         traceUser: true,
       })
+
+      var openid = wx.getStorageSync('openid')
+      if(openid) {
+        console.log("已经登录过")
+        //直接请求登录业务逻辑
+        // wx.request({
+        //   url: '///login',
+        //   data: {
+        //     openid: result.data.openid
+        //   },
+        //   success: data => {
+        //     console.log(data)
+        //   }
+        // })
+      }
+
+      // wx.getSetting({
+      //   success (res) {
+      //     console.log(res.authSetting)
+      //     if(res.authSetting["scope.userInfo"]) {
+      //       wx.getUserInfo({
+      //         success: data => {
+      //           console.log(data)
+      //           that.globalData.userInfo = data.userInfo
+      //         }
+      //       })
+      //     } 
+      //   }
+      // })
     }
 
-    this.globalData = {}
+    this.globalData = {
+      userInfo: '',
+      isLogin: wx.getStorageSync('isLogin')
+    }
   }
 })

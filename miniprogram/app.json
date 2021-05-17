@@ -4,7 +4,9 @@
     "pages/sharepages/sharepage",
     "utils/util",
     "pages/search/search",
-    "pages/viewnote/viewnote"
+    "pages/viewnote/viewnote",
+    "pages/login/login",
+    "pages/me/me"
   ],
   "permission": {
     "scope.userLocation": {
@@ -40,7 +42,7 @@
       {
         "selectedIconPath": "./image/select_personal.png",
         "iconPath": "./image/personal.png",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/me/me",
         "text": "我的"
       }
     ]
