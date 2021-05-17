@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    x:'',
     images: {},
     background: [],
     note: {},
@@ -12,17 +13,29 @@ Page({
     id: '',
     profile: {},
     comment_list: [],
-    comment_list_number:0,
+    comment_list_number: 0,
     comment_list_reply: [],
+    comment_number: 0, //当前页面一共有几条评论
     content: '',
-    comment_time: ''
+    comment_time: '' //评论发表时间
   },
-  click:function(){
-    var that=this
-    for(var i=0;i<that.data.comment_list_number;i++){
-      console.log(that.data.comment_list_reply[i])
-    }
+  selectItem:function(){
+    console.log("这是传值函数")
   },
+  //删除数据
+  remove_data: function () {
+    const db = wx.cloud.database()
+    db.collection('comment').where({
+      reply_name: ''
+    }).remove()
+  },
+  //睡眠函数
+
+  sleep: function (n) {
+    var start = new Date().getTime();
+    while(true)  if(new Date().getTime()-start > n) break;
+  },
+  
   //获取时间
   gain_time: function () {
     var date = new Date()
@@ -33,13 +46,23 @@ Page({
       comment_time: comment_time
     })
   },
+
+  //获取时间
+  getTime: function () {
+    var that = this;
+    var TIME = util.formatTime(new Date());
+    console.log(TIME)
+    this.setData({
+      comment_time: TIME,
+    });
+  },
+
   //发表评论
   gain_content: function (res) {
     var that = this
     const db = wx.cloud.database()
-    that.gain_time()
-    wx.cloud.callFunction({
-      name: "insertComment",
+    that.getTime() //获取评论发表时间
+    db.collection('comment').add({
       data: {
         comment_pr_id: that.data.note[0]._id, //评论所属的日记id，从入口得到       
         comment_user_id: 22, //发表评论人的id，
@@ -56,35 +79,76 @@ Page({
           content: '',
           comment_time: ''
         })
-        db.collection('comment').where({
-          comment_pr_id: that.data.note[0]._id,
-          reply_if: 0
-        }).get({
-          success: get_comment => {
-            that.setData({
-              comment_list: get_comment.data,
-            })
-            console.log(that.data.comment_list)
-          },
-          fail: err => {
-            wx.showToast({
-              icon: 'none',
-              title: '查询记录失败'
-            })
-          },
-        })
+        that.refurbish(that.data.id) //插入成功的话，刷新界面
       },
       fail(res) {
         console.log("请求失败！", res)
       }
     })
-    console.log("comment_search")
   },
+  get_refurbish:function(){
+    console.log("这是刷新页面")
+    this.refurbish(this.data.id) 
+  },
+  //刷新页面
+  refurbish: function (id) {
+  console.log(id)
+    console.log("开始刷新")
+    var that = this
+    that.setData({
+      comment_list_reply:[],
+      comment_list:[]
+    })
+    const db = wx.cloud.database()
+    //查询当前页面有几条评论
+    //查询当前页面的所有第一层评论
+    wx.cloud.callFunction({
+      name: "searchComment",
+      data: {
+        comment_pr_id: id,
+        reply_if: 0
+      },
+      success: res => {
+        that.setData({
+          comment_list: res.result.data,
+          comment_list_number: res.result.data.length
+        })
+        var comment_list_replys = that.data.comment_list_reply
+        //循环查询回复的评论
+        for (var i = 0; i < that.data.comment_list.length; i++) {
+          db.collection('comment').where({
+            parent_id: that.data.comment_list[i]._id, //该条主评论的id
+          }).orderBy("comment_time", "desc").get({
+            success: get_comment_reply => {
+              comment_list_replys.push(get_comment_reply.data)
+              that.setData({
+                comment_list_reply: comment_list_replys
+              })
+            },
+            fail: err => {
+              wx.showToast({
+                icon: 'none',
+                title: '查询记录失败'
+              })
+            },
+          })
+          this.sleep(100)
+        }
+      },
+      fail: err => {
+        console.log("查询记录失败")
+      }
+    })
+  },
+
+  //返回上一页面
   returnPage: function () {
     wx.navigateBack({
       changed: true
     })
   },
+
+  //根据页面改变图片大小
   realImageLoad: function (e) {
     var $width = e.detail.width, //获取图片真实宽度
       $height = e.detail.height, //获取图片真实宽度
@@ -101,6 +165,8 @@ Page({
       images: image
     })
   },
+
+  //预览图片
   previewpic: function (e) {
     var that = this
     var index = e.currentTarget.dataset.index;
@@ -122,6 +188,7 @@ Page({
     }).get({
       success: res => {
         this.setData({
+          id: options.id,
           note: res.data,
           nostarnumber: 5 - res.data[0].level,
           background: res.data[0].picture
@@ -134,29 +201,39 @@ Page({
         })
       },
     })
-    //查询当前页面的所有第一层评论
-    db.collection('comment').where({
+    //查询当前页面有几条评论
+    db.collection('comment').orderBy('comment_time', 'desc').where({
       comment_pr_id: options.id,
-      reply_if: 0
-    }).get({
-      success: get_comment => {
+    }).count({
+      success: function (res) {
         that.setData({
-          comment_list: get_comment.data,
-          comment_list_number:get_comment.data.length
+          comment_number: res.total
         })
-        var comment_list_replys=[]
+      }
+    })
+    //查询当前页面的所有第一层评论
+    wx.cloud.callFunction({
+      name: "searchComment",
+      data: {
+        comment_pr_id: options.id,
+        reply_if: 0
+      },
+      success: res => {
+        that.setData({
+          comment_list: res.result.data,
+          comment_list_number: res.result.data.length
+        })
+        var comment_list_replys = that.data.comment_list_reply
         //循环查询回复的评论
         for (var i = 0; i < that.data.comment_list.length; i++) {
-          console.log("ljlljojoj")
-          var index = i
           db.collection('comment').where({
-            parent_id: that.data.comment_list[index]._id, //该条主评论的id
-            reply_if: 1
-          }).get({
+            parent_id: that.data.comment_list[i]._id, //该条主评论的id
+          }).orderBy("comment_time", "desc").get({
             success: get_comment_reply => {
-              console.log("chao")
               comment_list_replys.push(get_comment_reply.data)
-              console.log(comment_list_replys)
+              that.setData({
+                comment_list_reply: comment_list_replys
+              })
             },
             fail: err => {
               wx.showToast({
@@ -165,20 +242,12 @@ Page({
               })
             },
           })
+          this.sleep(100)
         }
-        console.log("set")
-        that.setData({
-          comment_list_reply:comment_list_replys
-        })
-        console.log(that.data.comment_list_reply)
-        console.log("jiazaishuju")
       },
       fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-      },
+        console.log("查询记录失败")
+      }
     })
   },
 
