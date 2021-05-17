@@ -3,21 +3,22 @@
 </view>
 
 <view wx:else>
-    <view class="picture1">
-<scroll-view   scroll-x="true" class="out3" enable-flex="true">
-    <view class="B">
-<view class="A">
-<view wx:if="{{mypic==0}}">
-<view wx:for="{{images}}"  wx:key="key" class="out" > 
-<image src="{{item}}"  class="share1" enable-flex="true"  bindtap="previewpic" bindlongpress="delpicaddtip" mode="aspectFill"></image>
-</view>
-</view>
-</view>
-<view>
-<image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/icon_plus.png"  bindtap="openalbum"  class="share1" mode="aspectFill" ></image>
-</view>
-</view>
-</scroll-view>
+
+<view class="picture1">
+    <scroll-view   scroll-x="true" class="out3" enable-flex="true">
+        <view class="B">
+            <view class="A">
+                    <view wx:if="{{mypic==0}}">
+                        <view wx:for="{{images}}"  wx:key="key" class="out" > 
+                            <image src="{{item}}"  class="share1" enable-flex="true"  bindtap="previewpic" bindlongpress="delpicaddtip" mode="aspectFill"></image>
+                        </view>
+                    </view>
+            </view>
+            <view>
+                <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/icon_plus.png"  bindtap="openalbum"  class="share1" mode="aspectFill" ></image>
+            </view>
+        </view>
+    </scroll-view>
 </view>
 
 
@@ -26,6 +27,8 @@
     <input class="input1" maxlength="20" bindinput="biaoti" auto-focus="true" value="{{title}}"
         placeholder="填写标题会让更多人搜到你的分享~" placeholder-class="myholder1" selection-start="100"></input>
 </view>
+
+
 <scroll-view class="scrolltext" scroll-y>
     <textarea class="input2" bindinput="zhengwen" value="{{content}}" placeholder="添加精美文案留下你的美食体验吧~"
         placeholder-class="myholder2"></textarea>
