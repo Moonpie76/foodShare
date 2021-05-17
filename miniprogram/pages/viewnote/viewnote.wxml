@@ -2,9 +2,9 @@
 <view class='host'>
   <view bindtap="returnPage"><text class="iconfont icon-fanhui"></text></view>
   <view class='profile'>
-    <image src='{{background[0]}}' class='avatar'></image>
+    <image src='{{avatar}}' class='avatar'></image>
   </view>
-  <view class='name'>小李小李是条锦鲤</view>
+  <view class='name'>{{nickName}}</view>
 </view>
 <view class='photo'>
   <swiper indicator-dots="true" style="height:350px">

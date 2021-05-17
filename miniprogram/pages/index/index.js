@@ -11,15 +11,28 @@ Page({
     cityPickerIsShow: false,
     noteList: [],
     user_id: '',
-    goodList: ['b00064a760a254ca18346b536e436917'],
-    collectionList: ['b00064a760a254ca18346b536e436917', '28ee4e3e60a23463198689164aa84a03'],
+    goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    avatar: "",
+    nickName: ""
   },
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
-    wx.navigateTo({
-      url: '../viewnote/viewnote?id=' + id + '&goodList=' + JSON.stringify(this.data.goodList) + '&length=' + this.data.goodList.length + '&collectionList=' + JSON.stringify(this.data.collectionList) + '&c_length=' + this.data.collectionList.length,
+    var openid;
+    console.log(id);
+    wx.cloud.callFunction({
+      name: "getOpenidInNote",
+      data: {
+        id: id
+      }
+    }).then(res => {
+      openid = res.result.openid
+      wx.navigateTo({
+        url: '../viewnote/viewnote?id=' + id + '&goodList=' + JSON.stringify(this.data.goodList) + '&length=' + this.data.goodList.length + '&collectionList=' + JSON.stringify(this.data.collectionList) + '&c_length=' + this.data.collectionList.length +' &openid=' + openid + ''
+      })
     })
+    
   },
 
   goodUp: function (e) {

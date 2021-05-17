@@ -17,6 +17,8 @@ Page({
     comment_list_reply: [],
     content: '',
     comment_time: '',
+    avatar: '',
+    nickName: '',
     goodList: [],
     length: 0,
     c_length: 0,
@@ -202,6 +204,20 @@ Page({
           title: '查询记录失败'
         })
       },
+    })
+
+    console.log(options.openid)
+    wx.cloud.callFunction({
+      name: "getUserInfo",
+      data: {
+        openid: options.openid
+      }
+    }).then(res => {
+      console.log(res.result.data[0])
+      that.setData({
+        avatar: res.result.data[0].avatar,
+        nickName: res.result.data[0].nickName
+      })
     })
   },
 
