@@ -58,7 +58,6 @@
     bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 
 <view class="button">
-
     <view class="btn1">
         <button class="button1" size="mini" id="fanhui" bindtap="fanhuiupload">返回</button></view>
     <view class="btn2">
@@ -67,4 +66,3 @@
 </view>
 
 </view>
-

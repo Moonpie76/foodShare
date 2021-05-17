@@ -1,4 +1,5 @@
 // pages/testLogin/testLogin.js
+const db = wx.cloud.database()
 var app = getApp()
 Page({
 
@@ -7,75 +8,65 @@ Page({
    */
   data: {
     nickName: '',
-    avatarUrl: ''
+    avatar: ''
   },
 
-  getProfile: function(e) {
-    wx.getUserProfile({
-      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          nickName: res.userInfo.nickName,
-          avatarUrl: res.userInfo.avatarUrl
-        })
-      }
-    })
-  },
+ 
+  // up: function(e) {
+  //   var that = this
+  //   wx.cloud.callFunction({
+  //     name: "getOpenid"
+  //   }).then(res => {
+  //     console.log(res)
+  //     db.collection("user").where({
+  //       _openid: res.result.openid
+  //     })
+  //     .get()
+  //     .then(result => {
+  //       console.log(result.data[0])
+  //       that.setData({
+  //         nickName: result.data[0].nickName,
+  //         avatarUrl: result.data[0].avatar
+  //       })
+  //     })
+  //   })
+  // },
 
-  getUserInfo: function(e) {
-    console.log(e.detail.userInfo)
-    this.setData({
-      nickName: e.detail.userInfo.nickName,
-      avatarUrl: e.detail.userInfo.avatarUrl
-    })
-
-  },
 
   login: function(e) {
-    this.setData({
-      nickName: e.detail.userInfo.nickName,
-      avatarUrl: e.detail.userInfo.avatarUrl
-    })
+    var that = this
+    console.log(e)
 
-    // wx.login({
-    //   success: res => {
-    //     console.log(res)
-    //     wx.request({
-    //       url: '后台网址',
-    //       data: {
-    //         code: res.data
-    //       },
-    //       success: result => {
-    //         console.log(result)
-    //         wx.setStorage({
-    //           data: res.openid,
-    //           key: 'openid',
-    //         })
-    //         // wx.request({
-    //         //   url: '///login',
-    //         //   data: {
-    //         //     openid: result.data.openid
-    //         //   },
-    //         //   success: data => {
-    //         //     console.log(data)
-    //         //   }
-    //         // })
-    //       }
-    //     })
-    //   }
-    // })
+    db.collection("user").add({
+      data: {
+        nickName: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl,
+        myCollections:[],
+        myLikes: []
+      }
+    }).then(res => {
+      app.globalData.isLogin = true
+      that.setData({
+        nickName: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl
+      })
+      wx.setStorage({
+        data: true,
+        key: 'isLogin'
+      })
+
+      wx.navigateBack({
+        delta: 0,
+      })
+    })
+    
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if(app.globalData.userInfo) {
-      this.setData({
-        nickName: app.globalData.userInfo.nickName,
-        avatarUrl: app.globalData.userInfo.avatarUrl
-      })
-    }
+  
   },
 
   /**

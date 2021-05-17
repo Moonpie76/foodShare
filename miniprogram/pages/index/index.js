@@ -15,11 +15,6 @@ Page({
     collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
   },
 
-  decodeUnicode: function () {
-    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
-    console.log(str)
-  },
-
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
     console.log(id);

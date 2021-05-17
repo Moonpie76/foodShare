@@ -14,7 +14,7 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    isLogin: app.globalData.isLogin,
+    isLogin: wx.getStorageSync('isLogin'),
    // fileIDs: {},
     //testa: [],
 
@@ -321,7 +321,6 @@ uploaddata:async function(e){
 
   login: function(e) {
     var that = this
-    console.log(e)
 
     db.collection("user").add({
       data: {
@@ -339,6 +338,10 @@ uploaddata:async function(e){
       wx.setStorage({
         data: true,
         key: 'isLogin'
+      })
+
+      wx.navigateBack({
+        delta: 0,
       })
     })
   },
@@ -364,6 +367,9 @@ uploaddata:async function(e){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({
+      isLogin: wx.getStorageSync('isLogin')
+    })
 
   },
 
