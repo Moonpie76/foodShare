@@ -1,4 +1,5 @@
 var util = require("../../util/util.js")
+var app = getApp()
 Page({
 
   /**
@@ -112,6 +113,14 @@ Page({
       current: that.data.background[index],
       urls: that.data.background,
     })
+  },
+
+  login: function(e) {
+    if(!app.globalData.isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
   },
 
   /**

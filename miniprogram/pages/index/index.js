@@ -1,4 +1,5 @@
 const db = wx.cloud.database()
+var app = getApp()
 Page({
 
   /**
@@ -12,11 +13,6 @@ Page({
     user_id: '',
     goodList: ['b00064a760a254ca18346b536e436917'],
     collectionList: ['b00064a760a254ca18346b536e436917', '28ee4e3e60a23463198689164aa84a03'],
-  },
-
-  decodeUnicode: function () {
-    var str = "\u5496\u5561\u621a\u98ce\u86cb\u7cd5"
-    console.log(str)
   },
 
   checkNote: function (e) {
@@ -199,6 +195,11 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    wx.cloud.callFunction({
+      name: "login"
+    }).then(res => {
+      console.log(res.result.openid)
+    })
 
   },
 

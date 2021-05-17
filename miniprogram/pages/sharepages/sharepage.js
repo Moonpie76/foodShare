@@ -1,5 +1,6 @@
 // miniprogram/pages/sharepage.js
 var util = require("../../util/util")
+var app = getApp()
 const db = wx.cloud.database()
 Page({
 
@@ -13,7 +14,8 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    // fileIDs: {},
+    isLogin: wx.getStorageSync('isLogin'),
+   // fileIDs: {},
     //testa: [],
 
     testb: [],
@@ -317,8 +319,34 @@ Page({
             content: content
           })
         }
-
       }
+    })
+  },
+
+  login: function(e) {
+    var that = this
+
+    db.collection("user").add({
+      data: {
+        nickName: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl,
+        myCollections:[],
+        myLikes: []
+      }
+    }).then(res => {
+      console.log(res)
+      app.globalData.isLogin = true
+      that.setData({
+        isLogin: true
+      })
+      wx.setStorage({
+        data: true,
+        key: 'isLogin'
+      })
+
+      wx.navigateBack({
+        delta: 0,
+      })
     })
   },
 
@@ -343,6 +371,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({
+      isLogin: wx.getStorageSync('isLogin')
+    })
 
   },
 

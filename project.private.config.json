@@ -39,6 +39,18 @@
         {
           "name": "pages/view/view",
           "pathName": "pages/view/view",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/testLogin/testLogin",
+          "pathName": "pages/testLogin/testLogin",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
           "scene": null
         }
       ]
