@@ -9,7 +9,10 @@ Page({
     city: '',
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    noteList: []
+    noteList: [],
+    user_id: '',
+    goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
   },
 
   decodeUnicode: function () {
@@ -23,6 +26,16 @@ Page({
     wx.navigateTo({
       url: '../viewnote/viewnote?id=' + id,
     })
+  },
+
+  //点赞事件
+  good() {
+
+  },
+
+  //收藏事件
+  collection() {
+
   },
 
   handleInput: function () {

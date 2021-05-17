@@ -1,112 +1,173 @@
 /* miniprogram/pages/sharepage.wxss */
-.button1{ background-color: rgb(226, 211, 211); color: rgb(129, 38, 38); border-radius: 98rpx
+.button1 {
+  background-color: rgb(226, 211, 211);
+  color: rgb(129, 38, 38);
+  border-radius: 98rpx
 }
-.button2{
-  width: 50%;  background-color:  rgb(238, 55, 55); color: white; border-radius: 98rpx;
+
+.button2 {
+  width: 50%;
+  background-color: rgb(238, 55, 55);
+  color: white;
+  border-radius: 98rpx;
 }
-.button{
+
+.button {
   display: flex;
   margin-top: 140px;
 }
-.picture1{
-  margin-left:8px;
+
+.picture1 {
+  margin-left: 8px;
 }
-.citytext{
-  padding-top:7px;
-  font-size:10px;
-  margin-left:4px;
+
+.citytext {
+  padding-top: 7px;
+  font-size: 10px;
+  margin-left: 4px;
 }
-.btn1{
-  padding-left:20px;
-  padding-top:7px;
+
+.btn1 {
+  padding-left: 20px;
+  padding-top: 7px;
 }
-.btn2{
- margin-top:4px;
- margin-left: 90px;
-  
+
+.btn2 {
+  margin-top: 4px;
+  margin-left: 90px;
+
 }
-.share1{
-  margin-top:10px;
+
+.share1 {
+  margin-top: 10px;
   width: 100px;
   height: 100px;
   margin-left: 2px;
-  margin-right: 2px;  
-  border:1px solid #DDDDDD;
-  border-radius :10px;
-  
-}
-.out3{display: flex;  flex-direction: column;}
-.out2{
-border:1px solid  gray ;display: flex;flex:0 0 100px;
-}
-scroll-view view{display:flex}
-.out{display: flex;}
-.input1{height:80rpx ;margin-left:13px; }
-.input2{height:200px ; }
-.scrolltext{height: 120px; margin-top:15px; flex-direction: row;margin-left:13px;}
+  margin-right: 2px;
+  border: 1px solid #DDDDDD;
+  border-radius: 10px;
 
-.A{display:flex}
-.B{display:flex}
+}
+
+.out3 {
+  display: flex;
+  flex-direction: column;
+}
+
+.out2 {
+  border: 1px solid gray;
+  display: flex;
+  flex: 0 0 100px;
+}
+
+scroll-view view {
+  display: flex
+}
+
+.out {
+  display: flex;
+}
+
+.input1 {
+  height: 80rpx;
+  margin-left: 13px;
+}
+
+.input2 {
+  height: 200px;
+}
+
+.scrolltext {
+  height: 120px;
+  margin-top: 15px;
+  flex-direction: row;
+  margin-left: 13px;
+}
+
+.A {
+  display: flex
+}
+
+.B {
+  display: flex
+}
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
 }
-.myholder1{
-  font-size: 13px ;
-  margin-bottom:1px;
+
+.myholder1 {
+  font-size: 13px;
+  margin-bottom: 1px;
   line-height: 20px;
 }
-.new2{
-  margin-top:12px;
+
+.new2 {
+  margin-top: 12px;
 }
-.titleline{
-  border-bottom:1rpx solid #DDDDDD ;
+
+.titleline {
+  border-bottom: 1rpx solid #DDDDDD;
 }
-.myholder2{
-  font-size: 13px ;
+
+.myholder2 {
+  font-size: 13px;
   padding-left: 13px;
 }
-.stars1{
-  font-size:10px;
+
+.stars1 {
+  font-size: 10px;
   border: 1rpx solid #DDDDDD;
   height: 40px;
   display: flex;
 }
-.locate{
-  font-size:10px;
+
+.locate {
+  font-size: 10px;
   border-bottom: 1rpx solid #DDDDDD;
   height: 27px;
 }
-.starpic{
-  padding:4px;
+
+.starpic {
+  padding: 4px;
 }
-.startext{
+
+.startext {
   color: #a5a1a1;
   padding-top: 18px;
   line-height: 2px;
-  font-size:13px;
-  margin-left:13px;
+  font-size: 13px;
+  margin-left: 13px;
 }
 
-.locatetext{
+.locatetext {
   color: #a5a1a1;
   margin-left: 13px;
   line-height: 2px;
   padding-top: 13px;
-  font-size:13px;
+  font-size: 13px;
 }
 
-.locate{display:flex;}
-.locatepic{height: 20px; width:20px; margin-top: 3px;margin-left:8px;}
+.locate {
+  display: flex;
+}
 
+.locatepic {
+  height: 20px;
+  width: 20px;
+  margin-top: 3px;
+  margin-left: 8px;
+}
 
-
-image{
+image {
   height: 60rpx;
   width: 60rpx;
+  margin-right: 2rpx;
   display: inline-block
 }
+
 
 .loginPage {
   height: 100%;
@@ -114,6 +175,7 @@ image{
   align-items: center;
   background-color: turquoise;
 }
+
 
 
 

@@ -1,0 +1,13 @@
+<view class="comment_blocks">
+  <view class="profile_blocks"> 
+    <image id="profiles" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/壁纸.jpg"/>
+  </view>
+  <view>
+    <view class="name_authors">
+    <view class="names">小李小李是条锦鲤</view>
+    <view class="authors">作者</view>
+  </view>
+    <view class="comments">今天真是幸运的一天,这个目前无解，你只能通过data的标识动态控制预先布局好的视图元素,这个目前无解，你只能通过data的标识动态控制预先布局好的视图元素</view>
+    <text class="comment_time">05-15</text>
+  </view>
+</view>

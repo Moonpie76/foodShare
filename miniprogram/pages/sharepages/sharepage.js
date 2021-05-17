@@ -169,7 +169,6 @@ getTime:function(){
   time: TIME,
   });
   console.log(that.data.time)
-
 },
   /**
    睡眠保持先后顺序 

@@ -9,7 +9,7 @@
   <swiper indicator-dots="true" style="height:350px">
     <block wx:for="{{background}}" wx:key="*this">
       <swiper-item id='photo'>
-        <image src="{{item}}" bindload="realImageLoad" data-index="{{ index }}"
+        <image src="{{item}}" bindload="realImageLoad" data-index="{{ index }}" bindtap="previewpic"
           style="width:{{ images[index].width }}rpx; height:{{ images[index].height }}rpx;" />
       </swiper-item>
     </block>
@@ -23,19 +23,48 @@
 </view>
 <viem class='timelocation'>
   <view class='time'>{{note[0].time}}</view>
-  <view  class='location'>
-  <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.jpg"  class="locatepic" ></image>
-  <view>{{note[0].location}}</view>
+  <view class='location'>
+    <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.png" class="locatepic">
+    </image>
+    <view>{{note[0].location}}</view>
   </view>
 </viem>
 <view class='line'></view>
 <view class='grade'>
   <text class='foodfeel'>美食体验感</text>
   <view class='stars' wx:for="{{note[0].level}}" wx:key="index">
-    <image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars.jpg'></image>
+    <image id="star" src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'></image>
   </view>
   <view class='stars' wx:for="{{nostarnumber}}" wx:key="index">
     <image id="star"
-      src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/微信图片_20210510220229 (2).jpg'></image>
+      src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/star_gray.png'></image>
   </view>
 </view>
+<view class="handel">
+  <view id="comment_block_input">
+    <image id="pencil" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/xiezi.png" />
+    <input id="comment_input" type="text" bindconfirm="gain_content" focus="true" value="{{content}}" placeholder="说一句吧~" confirm-type="send" />
+  </view>
+  <view class="like_comment_collect">
+  <view class="handel_style">
+    <image id="like_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/不要生气.png" mode="aspectFit"/>
+    <text>223</text>
+  </view>
+  <view class="handel_style">
+    <image id="review_image"
+      src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png" mode="aspectFit"/>
+      <text>332</text>
+  </view>
+  <view class="handel_style">
+    <image id="collect_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit"/>
+    <text>225</text>
+  </view>
+  </view>
+</view>
+<view wx:for="{{comment_list_number}}" wx:key="index">
+  <play-comments comment_details="{{comment_list[index]}}" comment_list_reply="{{comment_list_reply[index]}}"></play-comments>
+</view>
+<view wx:for="{{comment_list_reply}}" wx:key="index" wx:item="item">
+  今天
+</view>
+<view bindtap="click">dian</view>
