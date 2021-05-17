@@ -10,8 +10,8 @@ Page({
     cityPickerIsShow: false,
     noteList: [],
     user_id: '',
-    goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
-    collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
+    goodList: ['b00064a760a254ca18346b536e436917'],
+    collectionList: ['b00064a760a254ca18346b536e436917', '28ee4e3e60a23463198689164aa84a03'],
   },
 
   decodeUnicode: function () {
@@ -21,20 +21,149 @@ Page({
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
-    console.log(id);
     wx.navigateTo({
-      url: '../viewnote/viewnote?id=' + id,
+      url: '../viewnote/viewnote?id=' + id + '&goodList=' + JSON.stringify(this.data.goodList) + '&length=' + this.data.goodList.length + '&collectionList=' + JSON.stringify(this.data.collectionList) + '&c_length=' + this.data.collectionList.length,
     })
   },
 
-  //点赞事件
-  good() {
-
+  goodUp: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "upGoodNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        goodlist: that.data.goodList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("goodList:" + that.data.goodList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("goodUp")
   },
 
-  //收藏事件
-  collection() {
+  goodDown: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "downGoodNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        goodlist: that.data.goodList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("goodList:" + that.data.goodList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("goodDown")
+  },
 
+  collectionUp: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "upColNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        collectionlist: that.data.collectionList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("collectionlist:" + that.data.collectionList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("colUp")
+  },
+
+  collectionDown: function (e) {
+    var id = e.currentTarget.dataset['id']
+    var that = this
+    const db = wx.cloud.database()
+    var userId = ''
+    console.log(that.data.user_id)
+    db.collection('user').where({
+        _openid: that.data.user_id
+      })
+      .get({
+        success: res => {
+          userId = res.data[0]._id
+        }
+      })
+    console.log("userId:" + userId)
+    wx.cloud.callFunction({
+      name: "downColNum",
+      data: {
+        note_id: id,
+        user_id: userId,
+        collectionlist: that.data.collectionList
+      },
+      success(res) {
+        console.log("note_id:" + id)
+        console.log("user_id:" + userId)
+        console.log("collectionlist:" + that.data.collectionList)
+        console.log("更改成功！", res)
+      },
+      fail(res) {
+        console.log("更改失败！", res)
+      }
+    })
+    console.log("colDown")
   },
 
   handleInput: function () {
