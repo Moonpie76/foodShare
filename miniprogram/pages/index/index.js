@@ -13,8 +13,6 @@ Page({
     user_id: '',
     goodList: ['28ee4e3e609e8dec18a8f799233a217b'],
     collectionList: ['28ee4e3e609e8dec18a8f799233a217b'],
-    avatar: "",
-    nickName: ""
   },
 
   checkNote: function (e) {
@@ -40,34 +38,50 @@ Page({
     var that = this
     const db = wx.cloud.database()
     var userId = ''
-    console.log(that.data.user_id)
-    db.collection('user').where({
-        _openid: that.data.user_id
+
+    if(wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        console.log(res.result.openid)
+        that.setData({
+          user_id: res.result.openid
+        })
       })
-      .get({
-        success: res => {
-          userId = res.data[0]._id
+      console.log(that.data.user_id)
+      db.collection('user').where({
+          openid: that.data.user_id
+        })
+        .get({
+          success: res => {
+            userId = res.data[0]._id
+          }
+        })
+      console.log("userId:" + userId)
+      wx.cloud.callFunction({
+        name: "upGoodNum",
+        data: {
+          note_id: id,
+          user_id: userId,
+          goodlist: that.data.goodList
+        },
+        success(res) {
+          console.log("note_id:" + id)
+          console.log("user_id:" + userId)
+          console.log("goodList:" + that.data.goodList)
+          console.log("更改成功！", res)
+        },
+        fail(res) {
+          console.log("更改失败！", res)
         }
       })
-    console.log("userId:" + userId)
-    wx.cloud.callFunction({
-      name: "upGoodNum",
-      data: {
-        note_id: id,
-        user_id: userId,
-        goodlist: that.data.goodList
-      },
-      success(res) {
-        console.log("note_id:" + id)
-        console.log("user_id:" + userId)
-        console.log("goodList:" + that.data.goodList)
-        console.log("更改成功！", res)
-      },
-      fail(res) {
-        console.log("更改失败！", res)
-      }
-    })
-    console.log("goodUp")
+      console.log("goodUp")
+
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
   },
 
   goodDown: function (e) {
@@ -75,9 +89,11 @@ Page({
     var that = this
     const db = wx.cloud.database()
     var userId = ''
-    console.log(that.data.user_id)
+
+    if(wx.getStorageSync('isLogin')) {
+      console.log(that.data.user_id)
     db.collection('user').where({
-        _openid: that.data.user_id
+        openid: that.data.user_id
       })
       .get({
         success: res => {
@@ -103,6 +119,12 @@ Page({
       }
     })
     console.log("goodDown")
+
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
   },
 
   collectionUp: function (e) {
@@ -110,34 +132,48 @@ Page({
     var that = this
     const db = wx.cloud.database()
     var userId = ''
-    console.log(that.data.user_id)
-    db.collection('user').where({
-        _openid: that.data.user_id
+    if(wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        console.log(res.result.openid)
+        that.setData({
+          user_id: res.result.openid
+        })
       })
-      .get({
-        success: res => {
-          userId = res.data[0]._id
+      console.log(that.data.user_id)
+      db.collection('user').where({
+          openid: that.data.user_id
+        })
+        .get({
+          success: res => {
+            userId = res.data[0]._id
+          }
+        })
+      console.log("userId:" + userId)
+      wx.cloud.callFunction({
+        name: "upColNum",
+        data: {
+          note_id: id,
+          user_id: userId,
+          collectionlist: that.data.collectionList
+        },
+        success(res) {
+          console.log("note_id:" + id)
+          console.log("user_id:" + userId)
+          console.log("collectionlist:" + that.data.collectionList)
+          console.log("更改成功！", res)
+        },
+        fail(res) {
+          console.log("更改失败！", res)
         }
       })
-    console.log("userId:" + userId)
-    wx.cloud.callFunction({
-      name: "upColNum",
-      data: {
-        note_id: id,
-        user_id: userId,
-        collectionlist: that.data.collectionList
-      },
-      success(res) {
-        console.log("note_id:" + id)
-        console.log("user_id:" + userId)
-        console.log("collectionlist:" + that.data.collectionList)
-        console.log("更改成功！", res)
-      },
-      fail(res) {
-        console.log("更改失败！", res)
-      }
-    })
-    console.log("colUp")
+      console.log("colUp")
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
   },
 
   collectionDown: function (e) {
@@ -145,9 +181,11 @@ Page({
     var that = this
     const db = wx.cloud.database()
     var userId = ''
-    console.log(that.data.user_id)
+
+    if(wx.getStorageSync('isLogin')) {
+      console.log(that.data.user_id)
     db.collection('user').where({
-        _openid: that.data.user_id
+        openid: that.data.user_id
       })
       .get({
         success: res => {
@@ -173,6 +211,12 @@ Page({
       }
     })
     console.log("colDown")
+
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login'
+      })
+    }
   },
 
   handleInput: function () {

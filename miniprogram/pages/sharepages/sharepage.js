@@ -203,32 +203,55 @@ Page({
     await this.sleep(3000);
     console.log(that.data.Astring)
     this.getTime()
-    db.collection('note').add({
-        data: {
-          title: that.data.title,
-          discribe: that.data.content,
-          location: this.data.city,
-          picture: that.data.Astring,
-          time: that.data.time,
-          level: that.data.one_2,
-          flag: 1,
-          good_num: 0,
-          collection_num: 0
+
+    var avatar = ''
+    var nickName = ''
+
+    wx.cloud.callFunction({
+      name: "getOpenid"
+    }).then(res => {
+      console.log(res.result.openid)
+      wx.cloud.callFunction({
+        name: "getUserInfo",
+        data :{
+          openid: res.result.openid
         }
+      }).then(userInfo => {
+        console.log(userInfo.result.data[0])
+        avatar = userInfo.result.data[0].avatar
+        nickName = userInfo.result.data[0].nickName
+
+    db.collection('note').add({
+      data: {
+        title: that.data.title,
+        discribe: that.data.content,
+        location: this.data.city,
+        picture: that.data.Astring,
+        time: that.data.time,
+        level: that.data.one_2,
+        flag: 1,
+        good_num: 0,
+        collection_num: 0,
+        avatar: avatar,
+        nickName: nickName
+      }
+    })
+    .then(res => {
+      console.log(res)
+      that.setData({
+        title: [],
+        content: [],
+        images: [],
+        Astring: [],
+        time: [],
+        two_2: 5,
+        one_2: 0,
+        city: ""
       })
-      .then(res => {
-        console.log(res)
-        that.setData({
-          title: [],
-          content: [],
-          images: [],
-          Astring: [],
-          time: [],
-          two_2: 5,
-          one_2: 0,
-          city: ""
-        })
+    })
       })
+
+    })
 
     console.log(that.data.Astring)
     console.log(that.data.images)
