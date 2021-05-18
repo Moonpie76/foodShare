@@ -1,11 +1,11 @@
 var util = require("../../util/util.js")
+var app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    x:'',
     images: {},
     background: [],
     note: {},
@@ -17,9 +17,15 @@ Page({
     comment_list_reply: [],
     comment_number: 0, //当前页面一共有几条评论
     content: '',
-    comment_time: '' //评论发表时间
+    comment_time: '', //评论发表时间
+    avatar: '',
+    nickName: '',
+    goodList: [],
+    length: 0,
+    c_length: 0,
+    collectionList: []
   },
-  selectItem:function(){
+  selectItem: function () {
     console.log("这是传值函数")
   },
   //删除数据
@@ -33,9 +39,10 @@ Page({
 
   sleep: function (n) {
     var start = new Date().getTime();
-    while(true)  if(new Date().getTime()-start > n) break;
+    while (true)
+      if (new Date().getTime() - start > n) break;
   },
-  
+
   //获取时间
   gain_time: function () {
     var date = new Date()
@@ -62,42 +69,55 @@ Page({
     var that = this
     const db = wx.cloud.database()
     that.getTime() //获取评论发表时间
-    db.collection('comment').add({
-      data: {
-        comment_pr_id: that.data.note[0]._id, //评论所属的日记id，从入口得到       
-        comment_user_id: 22, //发表评论人的id，
-        comment_user_name: '小李', //发表评论人的姓名
-        comment_user_profile: 'cc', //发表评论人的头像
-        comment_text: res.detail.value, //评论内容        
-        comment_time: that.data.comment_time, //评论时间       
-        reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
-        parent_id: '', //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
-        reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
-      },
-      success(res) {
-        that.setData({
-          content: '',
-          comment_time: ''
+    wx.cloud.callFunction({
+      name: "getOpenid"
+    }).then(open => {
+      wx.cloud.callFunction({
+        name: "getUserInfo",
+        data: {
+          openid: open.result.openid
+        }
+      }).then(userInfo => {
+        var avatar = userInfo.result.data[0].avatar
+        var nickName = userInfo.result.data[0].nickName
+        db.collection('comment').add({
+          data: {
+            comment_pr_id: that.data.note[0]._id, //评论所属的日记id，从入口得到       
+            comment_user_id: 22, //发表评论人的id，
+            comment_user_name: nickName, //发表评论人的姓名
+            comment_user_profile: avatar, //发表评论人的头像
+            comment_text: res.detail.value, //评论内容        
+            comment_time: that.data.comment_time, //评论时间       
+            reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
+            parent_id: '', //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+            reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
+          },
+          success(res) {
+            that.setData({
+              content: '',
+              comment_time: ''
+            })
+            that.refurbish(that.data.id) //插入成功的话，刷新界面
+          },
+          fail(res) {
+            console.log("请求失败！", res)
+          }
         })
-        that.refurbish(that.data.id) //插入成功的话，刷新界面
-      },
-      fail(res) {
-        console.log("请求失败！", res)
-      }
+      })
     })
   },
-  get_refurbish:function(){
+  get_refurbish: function () {
     console.log("这是刷新页面")
-    this.refurbish(this.data.id) 
+    this.refurbish(this.data.id)
   },
   //刷新页面
   refurbish: function (id) {
-  console.log(id)
+    console.log(id)
     console.log("开始刷新")
     var that = this
     that.setData({
-      comment_list_reply:[],
-      comment_list:[]
+      comment_list_reply: [],
+      comment_list: []
     })
     const db = wx.cloud.database()
     //查询当前页面有几条评论
@@ -176,12 +196,47 @@ Page({
     })
   },
 
+  login: function (e) {
+    if (!wx.getStorageSync('isLogin')) {
+      if (!wx.getStorageSync('isLogin')) {
+        wx.showModal({
+          title: '评论笔记',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true, //是否显示取消按钮
+          confirmText: "去登录", //默认是“确定”
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+            }
+          },
+          fail: function (res) {}, //接口调用失败的回调函数
+          complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+      }
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this
     const db = wx.cloud.database()
+    this.setData({
+      goodList: JSON.parse(options.goodList),
+      length: options.length,
+      c_length: options.c_length,
+      collectionList: JSON.parse(options.collectionList)
+    })
+    console.log(this.data.goodList)
+    console.log(this.data.collectionList)
+    console.log(this.data.length)
+    console.log(this.data.c_length)
     // 查询页面除了评论外所有的值   
     db.collection('note').where({
       _id: options.id
@@ -191,7 +246,7 @@ Page({
           id: options.id,
           note: res.data,
           nostarnumber: 5 - res.data[0].level,
-          background: res.data[0].picture
+          background: res.data[0].picture,
         })
       },
       fail: err => {
@@ -249,6 +304,20 @@ Page({
         console.log("查询记录失败")
       }
     })
+
+
+
+    db.collection("note").where({
+        _id: options.id
+      })
+      .get()
+      .then(res => {
+        console.log(res.data[0])
+        that.setData({
+          avatar: res.data[0].avatar,
+          nickName: res.data[0].nickName
+        })
+      })
   },
 
   /**

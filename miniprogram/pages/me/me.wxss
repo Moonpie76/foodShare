@@ -1,0 +1,36 @@
+/* pages/me/me.wxss */
+.head-pic{
+  width: 120rpx;
+  height: 120rpx;
+  border: 1px solid #DDDDDD;
+  border-radius: 50px;
+}
+.avatar {
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+.avatarBtn {
+  width: 130rpx !important;
+  height: 135rpx;
+  padding: 0px;
+  background-color: white;
+  border-radius: 0px;
+}
+
+.avatarBtn::after {
+  border: 0; 
+}
+
+.firstview{
+  display: flex;
+  width: 100%;
+  height: 180rpx;
+  flex-direction: row;
+  align-items: center;
+}
+
+.swiperv{
+  padding-top:40px;
+  padding-left: 60px;
+}

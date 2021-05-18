@@ -79,6 +79,47 @@ page {
 .face-name {
   display: flex;
   align-items: center;
+  width: 100%;
+  height: 100%;
   margin: 20rpx 0rpx;
   padding: 10rpx 0 10rpx 10rpx;
+}
+
+.interact {
+  display: flex;
+  align-items: center;
+}
+
+.good,
+.collection {
+  display: flex;
+  align-items: center;
+}
+
+.good_icon,
+.goods_icon,
+.collection_icon,
+.collections_icon {
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 5rpx;
+}
+
+.goods_icon {
+  width: 37rpx;
+  height: 37rpx;
+}
+
+.collections_icon{
+  width: 43rpx;
+  height: 43rpx;
+}
+
+.good_num,
+.collection_num {
+  font-size: 13px;
+  font-family: 'PingFang SC-Medium';
+  color: rgb(58, 57, 57);
+  display: block;
+  margin-right: 13rpx;
 }

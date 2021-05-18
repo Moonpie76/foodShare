@@ -1,0 +1,14 @@
+<view  class="firstview">
+<view class="avatar">
+  <button class="avatarBtn" style="width:unset" open-type="getUserInfo" 
+  bindgetuserinfo="login">
+  <image mode='scaleToFill' class="head-pic" src="{{avatar}}" bindtap="login"></image>
+</button>
+</view>
+<view class="nickname" bindtap="login">{{nickName}}</view>
+</view>
+
+<swiper display-multiple-items="2"  class="swiperv">
+  <swiper-item>我的发布</swiper-item>
+  <swiper-item>我的收藏</swiper-item>
+</swiper>
