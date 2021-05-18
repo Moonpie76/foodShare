@@ -1,20 +1,33 @@
 /* pages/me/me.wxss */
 .head-pic{
-  margin-top: 15px;
-  width: 100px;
-  height: 100px;
-  margin-left: 15px;
-  margin-right: 2px;
+  width: 120rpx;
+  height: 120rpx;
   border: 1px solid #DDDDDD;
   border-radius: 50px;
+}
+.avatar {
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+.avatarBtn {
+  width: 130rpx !important;
+  height: 135rpx;
+  padding: 0px;
+  background-color: white;
+  border-radius: 0px;
+}
+
+.avatarBtn::after {
+  border: 0; 
 }
 
 .firstview{
   display: flex;
-}
-.nickname{
-  padding-top:70px;
-  padding-left: 20px;
+  width: 100%;
+  height: 180rpx;
+  flex-direction: row;
+  align-items: center;
 }
 
 .swiperv{

@@ -22,10 +22,25 @@ Component({
    */
   methods: {
     call_comment: function () {
-      if (!wx.getStorageSync('isLogin')) {
-        wx.navigateTo({
-          url: '/pages/login/login'
-        })
+      if(!wx.getStorageSync('isLogin')){
+        wx.showModal({
+          title: '回复评论',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true,//是否显示取消按钮
+          confirmText:"去登录",//默认是“确定”
+          success: function (res) {
+             if (res.cancel) {
+                //点击取消,默认隐藏弹框
+             } else {
+                //点击确定
+                wx.switchTab({
+                  url: '/pages/me/me'
+                })
+             }
+          },
+          fail: function (res) { },//接口调用失败的回调函数
+          complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+       })
       }
 
       this.setData({
