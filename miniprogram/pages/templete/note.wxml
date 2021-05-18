@@ -10,8 +10,8 @@
         <view class="bottom">
             <view data-id="{{item_note._id}}" data-length="{{length}}" data-c_length="{{c_length}}" bindtap="checkNote"
                 class="face-name">
-                <image class="face" src="{{item_note.face}}"></image>
-                <text class="name">{{item_note.name}}</text>
+                <image class="face" src="{{item_note.avatar}}"></image>
+                <text class="name">{{item_note.nickName}}</text>
             </view>
             <view class="interact">
                 <view class="good">

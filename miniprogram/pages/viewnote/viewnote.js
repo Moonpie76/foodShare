@@ -118,7 +118,7 @@ Page({
   },
 
   login: function(e) {
-    if(!app.globalData.isLogin) {
+    if(!wx.getStorageSync('isLogin')) {
       wx.navigateTo({
         url: '/pages/login/login'
       })
@@ -206,17 +206,28 @@ Page({
       },
     })
 
-    console.log(options.openid)
-    wx.cloud.callFunction({
-      name: "getUserInfo",
-      data: {
-        openid: options.openid
-      }
-    }).then(res => {
-      console.log(res.result.data[0])
+    // wx.cloud.callFunction({
+    //   name: "getUserInfo",
+    //   data: {
+    //     openid: options.openid
+    //   }
+    // }).then(res => {
+    //   console.log(res.result.data[0])
+    //   that.setData({
+    //     avatar: res.result.data[0].avatar,
+    //     nickName: res.result.data[0].nickName
+    //   })
+    // })
+
+    db.collection("note").where({
+      _id: options.id
+    })
+    .get()
+    .then(res => {
+      console.log(res.data[0])
       that.setData({
-        avatar: res.result.data[0].avatar,
-        nickName: res.result.data[0].nickName
+        avatar: res.data[0].avatar,
+        nickName: res.data[0].nickName
       })
     })
   },
