@@ -22,6 +22,12 @@ Component({
    */
   methods: {
     call_comment: function () {
+      if (!wx.getStorageSync('isLogin')) {
+        wx.navigateTo({
+          url: '/pages/login/login'
+        })
+      }
+
       this.setData({
         input_if: true,
         comment_time_reply: ''
@@ -45,36 +51,52 @@ Component({
         comment_time_reply: comment_time_reply
       })
     },
+   
     //回复评论
     gain_content_reply: function (res) {
       console.log("confirm")
       var that = this
       that.gain_time()
       console.log(that.data.comment_time_reply)
+
       wx.cloud.callFunction({
-        name: "insertComment",
-        data: {
-          comment_pr_id: that.properties.comment_details.comment_pr_id, //评论所属的日记id，从入口得到       
-          comment_user_id: 22, //发表评论人的id，
-          comment_user_name: '小李', //发表评论人的姓名
-          comment_user_profile: 'cc', //发表评论人的头像
-          comment_text: res.detail.value, //评论内容        
-          comment_time: that.data.comment_time, //评论时间       
-          reply_if: 1, //如果不是回复，则默认为0，如果为回复，则为1       
-          parent_id: that.properties.comment_details._id, //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
-          reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
-        },
-        success(res) {
-          that.setData({
-            content_reply: '',
-            comment_time: '',
-            input_if: false
+        name: "getOpenid"
+      }).then(open => {
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: open.result.openid
+          }
+        }).then(userInfo => {
+          var avatar = userInfo.result.data[0].avatar
+          var nickName = userInfo.result.data[0].nickName
+
+          wx.cloud.callFunction({
+            name: "insertComment",
+            data: {
+              comment_pr_id: that.properties.comment_details.comment_pr_id, //评论所属的日记id，从入口得到       
+              comment_user_name: nickName, //发表评论人的姓名
+              comment_user_profile: avatar, //发表评论人的头像
+              comment_text: res.detail.value, //评论内容        
+              comment_time: that.data.comment_time, //评论时间       
+              reply_if: 1, //如果不是回复，则默认为0，如果为回复，则为1       
+              parent_id: that.properties.comment_details._id, //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+              reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
+            },
+            success(res) {
+              that.setData({
+                content_reply: '',
+                comment_time: '',
+                input_if: false
+              })
+            },
+            fail(res) {
+              console.log("请求失败！", res)
+            }
           })
-        },
-        fail(res) {
-          console.log("请求失败！", res)
-        }
+        })  
       })
+      
     },
     //查找该评论下的评论
     search_reply_comment: function (res) {

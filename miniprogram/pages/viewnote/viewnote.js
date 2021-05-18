@@ -46,46 +46,59 @@ Page({
     const db = wx.cloud.database()
     that.gain_time()
     wx.cloud.callFunction({
-      name: "insertComment",
-      data: {
-        comment_pr_id: that.data.note[0]._id, //评论所属的日记id，从入口得到       
-        comment_user_id: 22, //发表评论人的id，
-        comment_user_name: '小李', //发表评论人的姓名
-        comment_user_profile: 'cc', //发表评论人的头像
-        comment_text: res.detail.value, //评论内容        
-        comment_time: that.data.comment_time, //评论时间       
-        reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
-        parent_id: '', //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
-        reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
-      },
-      success(res) {
-        that.setData({
-          content: '',
-          comment_time: ''
-        })
-        db.collection('comment').where({
-          comment_pr_id: that.data.note[0]._id,
-          reply_if: 0
-        }).get({
-          success: get_comment => {
+      name: "getOpenid"
+    }).then(open => {
+      wx.cloud.callFunction({
+        name: "getUserInfo",
+        data: {
+          openid: open.result.openid
+        }
+      }).then(userInfo => {
+        var avatar = userInfo.result.data[0].avatar
+        var nickName = userInfo.result.data[0].nickName
+
+        wx.cloud.callFunction({
+          name: "insertComment",
+          data: {
+            comment_pr_id: that.data.note[0]._id, //评论所属的日记id，从入口得到       
+            comment_user_name: nickName, //发表评论人的姓名
+            comment_user_profile: avatar, //发表评论人的头像
+            comment_text: res.detail.value, //评论内容        
+            comment_time: that.data.comment_time, //评论时间       
+            reply_if: 0, //如果不是回复，则默认为0，如果为回复，则为1       
+            parent_id: '', //默认为0，如果是楼中楼，则为所处楼层的id,即所在评论的ID
+            reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
+          },
+          success(res) {
             that.setData({
-              comment_list: get_comment.data,
+              content: '',
+              comment_time: ''
             })
-            console.log(that.data.comment_list)
-          },
-          fail: err => {
-            wx.showToast({
-              icon: 'none',
-              title: '查询记录失败'
+            db.collection('comment').where({
+              comment_pr_id: that.data.note[0]._id,
+              reply_if: 0
+            }).get({
+              success: get_comment => {
+                that.setData({
+                  comment_list: get_comment.data,
+                })
+                console.log(that.data.comment_list)
+              },
+              fail: err => {
+                wx.showToast({
+                  icon: 'none',
+                  title: '查询记录失败'
+                })
+              },
             })
           },
+          fail(res) {
+            console.log("请求失败！", res)
+          }
         })
-      },
-      fail(res) {
-        console.log("请求失败！", res)
-      }
+        console.log("comment_search")
+      })
     })
-    console.log("comment_search")
   },
   returnPage: function () {
     wx.navigateBack({
@@ -117,8 +130,8 @@ Page({
     })
   },
 
-  login: function(e) {
-    if(!wx.getStorageSync('isLogin')) {
+  login: function (e) {
+    if (!wx.getStorageSync('isLogin')) {
       wx.navigateTo({
         url: '/pages/login/login'
       })
@@ -222,14 +235,14 @@ Page({
     db.collection("note").where({
       _id: options.id
     })
-    .get()
-    .then(res => {
-      console.log(res.data[0])
-      that.setData({
-        avatar: res.data[0].avatar,
-        nickName: res.data[0].nickName
+      .get()
+      .then(res => {
+        console.log(res.data[0])
+        that.setData({
+          avatar: res.data[0].avatar,
+          nickName: res.data[0].nickName
+        })
       })
-    })
   },
 
   /**
