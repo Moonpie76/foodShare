@@ -132,9 +132,26 @@ Page({
 
   login: function (e) {
     if (!wx.getStorageSync('isLogin')) {
-      wx.navigateTo({
-        url: '/pages/login/login'
-      })
+      if(!wx.getStorageSync('isLogin')){
+        wx.showModal({
+          title: '评论笔记',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true,//是否显示取消按钮
+          confirmText:"去登录",//默认是“确定”
+          success: function (res) {
+             if (res.cancel) {
+                //点击取消,默认隐藏弹框
+             } else {
+                //点击确定
+                wx.switchTab({
+                  url: '/pages/me/me'
+                })
+             }
+          },
+          fail: function (res) { },//接口调用失败的回调函数
+          complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+       })
+      }
     }
   },
 
@@ -219,18 +236,7 @@ Page({
       },
     })
 
-    // wx.cloud.callFunction({
-    //   name: "getUserInfo",
-    //   data: {
-    //     openid: options.openid
-    //   }
-    // }).then(res => {
-    //   console.log(res.result.data[0])
-    //   that.setData({
-    //     avatar: res.result.data[0].avatar,
-    //     nickName: res.result.data[0].nickName
-    //   })
-    // })
+  
 
     db.collection("note").where({
       _id: options.id
