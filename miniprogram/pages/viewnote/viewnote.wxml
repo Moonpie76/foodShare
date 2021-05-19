@@ -75,10 +75,6 @@
   </view>
 </view>
 <view wx:for="{{comment_list_number}}" wx:key="index">
-  <play-comments comment_details="{{comment_list[index]}}" comment_list_reply="{{comment_list_reply[index]}}">
-  </play-comments>
+  <play-comments bind:updataSelect="get_refurbish" comment_details="{{comment_list[index]}}"
+    comment_list_reply="{{comment_list_reply[index]}}"></play-comments>
 </view>
-<view wx:for="{{comment_list_reply}}" wx:key="index" wx:item="item">
-  今天
-</view>
-<view bindtap="click">dian</view>

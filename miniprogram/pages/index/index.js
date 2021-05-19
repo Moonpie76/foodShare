@@ -14,6 +14,7 @@ Page({
     uid: '',
     goodList: [],
     collectionList: [],
+    reFresh: false
   },
 
   checkNote: function (e) {
@@ -392,29 +393,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this
     this.autoLocate()
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
-        wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
-        }).then(res => {
-          that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
-          })
-        })
-      })
-    }
   },
 
   /**
@@ -433,39 +412,46 @@ Page({
    */
   onShow: function () {
     var that = this
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
+    var a = setInterval(function () {
+      if (wx.getStorageSync('isLogin')) {
         wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
+          name: "getOpenid"
         }).then(res => {
           that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
+            user_id: res.result.openid
           })
           wx.cloud.callFunction({
-            name: "updateNote",
+            name: "getUserInfo",
             data: {
-              num: that.data.noteList.length,
-              city: that.data.city
+              openid: res.result.openid
             }
           }).then(res => {
             that.setData({
-              noteList: res.result.data
+              uid: res.result.data[0]._id,
+              goodList: res.result.data[0].myLikes,
+              collectionList: res.result.data[0].myCollections
             })
-            console.log(that.data.noteList)
+            wx.cloud.callFunction({
+              name: "updateNote",
+              data: {
+                num: that.data.noteList.length,
+                city: that.data.city
+              }
+            }).then(res => {
+              that.setData({
+                noteList: res.result.data
+              })
+            })
           })
         })
-      })
-    }
+        that.setData({
+          reFresh: false
+        })
+        if (!that.data.reFresh) {
+          clearInterval(a)
+        }
+      }
+    }, 100)
   },
 
   /**
@@ -577,6 +563,9 @@ Page({
               city: city
             })
             that.getNotes(4, 0, that.data.city)
+            that.setData({
+              reFresh: true
+            })
           }
         })
       }

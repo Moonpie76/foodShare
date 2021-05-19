@@ -9,21 +9,25 @@ Page({
   },
 
   click:function(){
+    var list_c = this.data.list_c
     for(var i =0;i<4;i++){
-      console.log(this.data.list_c[i])
+      list_c.push('')
     }
+    this.setData({
+      list_c:list_c
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var test=[]
+    var list_c = this.data.list_c
     for(var i =0;i<4;i++){
-     test.push([])
+      list_c.push([])
     }
     this.setData({
-      list_c:test
+      list_c:list_c
     })
   },
 

@@ -562,7 +562,23 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function (options) {},
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    this.setData({
+      historySearch: wx.getStorageSync('historySearch'),
+      city: wx.getStorageSync('city')
+    })
     var that = this
     if (wx.getStorageSync('isLogin')) {
       wx.cloud.callFunction({
@@ -582,26 +598,26 @@ Page({
             goodList: res.result.data[0].myLikes,
             collectionList: res.result.data[0].myCollections
           })
+          console.log(that.data.inputValue)
+          console.log(that.data.noteList.length)
+          if (that.data.inputValue) {
+            wx.cloud.callFunction({
+              name: "updateSearchNote",
+              data: {
+                keyword: that.data.inputValue,
+                num: that.data.noteList.length,
+                city: that.data.city
+              }
+            }).then(res => {
+              that.setData({
+                noteList: res.result.data
+              })
+              console.log(that.data.noteList)
+            })
+          }
         })
       })
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.setData({
-      historySearch: wx.getStorageSync('historySearch'),
-      city: wx.getStorageSync('city')
-    })
   },
 
   /**
