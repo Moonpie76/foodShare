@@ -10,7 +10,6 @@ Page({
     background: [],
     note: {},
     nostarnumber: 0,
-    id: '',
     profile: {},
     comment_list: [],
     comment_list_number: 0,
@@ -21,19 +20,347 @@ Page({
     avatar: '',
     nickName: '',
     goodList: [],
-    length: 0,
-    c_length: 0,
-    collectionList: []
+    collectionList: [],
+    user_id: '',
+    uid: ''
   },
-  selectItem: function () {
-    console.log("这是传值函数")
-  },
-  //删除数据
-  remove_data: function () {
+
+
+  goodUp: function (e) {
+    var noteid = e.currentTarget.dataset['noteid']
+    var that = this
     const db = wx.cloud.database()
-    db.collection('comment').where({
-      reply_name: ''
-    }).remove()
+
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+          console.log("goodList_before:" + that.data.goodList)
+          wx.cloud.callFunction({
+            name: "upGoodNum",
+            data: {
+              note_id: noteid,
+              user_id: that.data.uid,
+              goodlist: that.data.goodList
+            },
+            success(res) {
+              var temp = that.data.goodList
+              temp.push(noteid)
+              that.setData({
+                goodList: temp
+              })
+              console.log("更改成功！", res)
+              db.collection('note').where({
+                _id: noteid
+              }).get({
+                success: res => {
+                  that.setData({
+                    note: res.data,
+                    nostarnumber: 5 - res.data[0].level,
+                    background: res.data[0].picture,
+                  })
+                }
+              })
+            },
+            fail(res) {
+              console.log("更改失败！", res)
+            }
+          })
+        })
+      })
+    } else {
+      wx.showModal({
+        title: '点赞',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+            wx.cloud.callFunction({
+              name: "getUserInfo",
+              data: {
+                openid: res.result.openid
+              }
+            }).then(res => {
+              that.setData({
+                goodList: res.result.data[0].myLikes,
+                collectionList: res.result.data[0].myCollections
+              })
+            })
+          }
+        },
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
+    }
+  },
+
+  goodDown: function (e) {
+    var noteid = e.currentTarget.dataset['noteid']
+    var that = this
+    const db = wx.cloud.database()
+
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+          console.log("goodList_before:" + that.data.goodList)
+          wx.cloud.callFunction({
+            name: "downGoodNum",
+            data: {
+              note_id: noteid,
+              user_id: that.data.uid,
+              goodlist: that.data.goodList,
+            },
+            success(res) {
+              var temp = that.data.goodList
+              console.log(temp)
+              console.log(noteid)
+              temp.splice(temp.findIndex(function (d) {
+                return d == noteid;
+              }), 1)
+              console.log(temp)
+              that.setData({
+                goodList: temp
+              })
+              console.log("更改成功！", res)
+              db.collection('note').where({
+                _id: noteid
+              }).get({
+                success: res => {
+                  that.setData({
+                    note: res.data,
+                    nostarnumber: 5 - res.data[0].level,
+                    background: res.data[0].picture,
+                  })
+                }
+              })
+            }
+          })
+        })
+      })
+    } else {
+      wx.showModal({
+        title: '取消点赞',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+          }
+        },
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
+    }
+  },
+
+  collectionUp: function (e) {
+    var noteid = e.currentTarget.dataset['noteid']
+    var that = this
+    const db = wx.cloud.database()
+
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+          console.log("colList_before:" + that.data.collectionList)
+          wx.cloud.callFunction({
+            name: "upColNum",
+            data: {
+              note_id: noteid,
+              user_id: that.data.uid,
+              collist: that.data.collectionList
+            },
+            success(res) {
+              var temp = that.data.collectionList
+              temp.push(noteid)
+              that.setData({
+                collectionList: temp
+              })
+              console.log("更改成功！", res)
+              db.collection('note').where({
+                _id: noteid
+              }).get({
+                success: res => {
+                  that.setData({
+                    note: res.data,
+                    nostarnumber: 5 - res.data[0].level,
+                    background: res.data[0].picture,
+                  })
+                }
+              })
+            },
+            fail(res) {
+              console.log("更改失败！", res)
+            }
+          })
+        })
+      })
+    } else {
+      wx.showModal({
+        title: '收藏',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+          }
+        },
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
+    }
+  },
+
+  collectionDown: function (e) {
+    var noteid = e.currentTarget.dataset['noteid']
+    var that = this
+    const db = wx.cloud.database()
+
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+          console.log("colList_before:" + that.data.collectionList)
+          wx.cloud.callFunction({
+            name: "downColNum",
+            data: {
+              note_id: noteid,
+              user_id: that.data.uid,
+              collectionList: that.data.collectionList,
+            },
+            success(res) {
+              var temp = that.data.collectionList
+              console.log(temp)
+              console.log(noteid)
+              temp.splice(temp.findIndex(function (d) {
+                return d == noteid;
+              }), 1)
+              console.log(temp)
+              that.setData({
+                collectionList: temp
+              })
+              console.log("更改成功！", res)
+              db.collection('note').where({
+                _id: noteid
+              }).get({
+                success: res => {
+                  that.setData({
+                    note: res.data,
+                    nostarnumber: 5 - res.data[0].level,
+                    background: res.data[0].picture,
+                  })
+                }
+              })
+            },
+            fail(res) {
+              console.log("更改失败！", res)
+            }
+          })
+        })
+      })
+    } else {
+      wx.showModal({
+        title: '取消收藏',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+          }
+        },
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
+    }
+  },
+
+  click: function () {
+    var that = this
+    for (var i = 0; i < that.data.comment_list_number; i++) {
+      console.log(that.data.comment_list_reply[i])
+    }
   },
   //睡眠函数
 
@@ -227,16 +554,27 @@ Page({
   onLoad: function (options) {
     var that = this
     const db = wx.cloud.database()
-    this.setData({
-      goodList: JSON.parse(options.goodList),
-      length: options.length,
-      c_length: options.c_length,
-      collectionList: JSON.parse(options.collectionList)
-    })
-    console.log(this.data.goodList)
-    console.log(this.data.collectionList)
-    console.log(this.data.length)
-    console.log(this.data.c_length)
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+        })
+      })
+    }
     // 查询页面除了评论外所有的值   
     db.collection('note').where({
       _id: options.id
@@ -304,9 +642,6 @@ Page({
         console.log("查询记录失败")
       }
     })
-
-
-
     db.collection("note").where({
         _id: options.id
       })
@@ -330,9 +665,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏

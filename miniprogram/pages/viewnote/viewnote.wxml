@@ -50,27 +50,27 @@
   </view>
   <view class="like_comment_collect">
     <view class="handel_style">
-      <image id="like_image" wx:if="{{tools.checkGood(goodList,length,note[0]._id) == '0'}}" bindtap='good'
-        data-num='{{note[0].good_num}}'
+      <image id="like_image" wx:if="{{tools.checkGood(goodList,goodList.length,note[0]._id) == '0'}}" bindtap='goodUp'
+        data-noteid='{{note[0]._id}}'
         src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/不要生气.png" mode="aspectFit" />
-      <image id="like_image" wx:if="{{tools.checkGood(goodList,length,note[0]._id) == '1'}}" bindtap='good'
-        data-num='{{note[0].good_num}}'
-        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/goods.png' />
-      <text>223</text>
+      <image id="like_image" wx:if="{{tools.checkGood(goodList,goodList.length,note[0]._id) == '1'}}" bindtap='goodDown'
+        data-noteid='{{note[0]._id}}'
+        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/goods.png' mode="aspectFit" />
+      <text>{{note[0].good_num}}</text>
     </view>
     <view class="handel_style">
       <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
         mode="aspectFit" />
-      <text>332</text>
+      <text>123</text>
     </view>
     <view class="handel_style">
-      <image class="collection_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '0'}}"
-        bindtap='collection' data-num='{{note[0].collection_num}}'
+      <image class="collection_icon" wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '0'}}"
+        bindtap='collectionUp' data-noteid='{{note[0]._id}}'
         src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit" />
-      <image class="collections_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '1'}}"
-        bindtap='collection' data-num='{{note[0].collection_num}}'
+      <image class="collections_icon" wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '1'}}"
+        bindtap='collectionDown' data-noteid='{{note[0]._id}}'
         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png' />
-      <text>225</text>
+      <text>{{note[0].collection_num}}</text>
     </view>
   </view>
 </view>
