@@ -28,12 +28,12 @@
 <view class="notes">
     <view class="left">
         <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-            <template is="msg" data="{{item_note}}" wx:if="{{index%2==0}}"></template>
+            <template is="msg" data="{{item_note:item_note, goodList:goodList, length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}" wx:if="{{index%2==0}}"></template>
         </block>
     </view>
     <view class="right">
         <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
-            <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}"></template>
+            <template is="msg" data="{{item_note:item_note, goodList:goodList, length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}" wx:if="{{index%2==1}}"></template>
         </block>
     </view>
 </view>

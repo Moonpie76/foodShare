@@ -14,7 +14,6 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    isLogin: wx.getStorageSync('isLogin'),
    // fileIDs: {},
     //testa: [],
 
@@ -203,32 +202,55 @@ Page({
     await this.sleep(3000);
     console.log(that.data.Astring)
     this.getTime()
-    db.collection('note').add({
-        data: {
-          title: that.data.title,
-          discribe: that.data.content,
-          location: this.data.city,
-          picture: that.data.Astring,
-          time: that.data.time,
-          level: that.data.one_2,
-          flag: 1,
-          good_num: 0,
-          collection_num: 0
+
+    var avatar = ''
+    var nickName = ''
+
+    wx.cloud.callFunction({
+      name: "getOpenid"
+    }).then(res => {
+      console.log(res.result.openid)
+      wx.cloud.callFunction({
+        name: "getUserInfo",
+        data :{
+          openid: res.result.openid
         }
+      }).then(userInfo => {
+        console.log(userInfo.result.data[0])
+        avatar = userInfo.result.data[0].avatar
+        nickName = userInfo.result.data[0].nickName
+
+    db.collection('note').add({
+      data: {
+        title: that.data.title,
+        discribe: that.data.content,
+        location: this.data.city,
+        picture: that.data.Astring,
+        time: that.data.time,
+        level: that.data.one_2,
+        flag: 1,
+        good_num: 0,
+        collection_num: 0,
+        avatar: avatar,
+        nickName: nickName
+      }
+    })
+    .then(res => {
+      console.log(res)
+      that.setData({
+        title: [],
+        content: [],
+        images: [],
+        Astring: [],
+        time: [],
+        two_2: 5,
+        one_2: 0,
+        city: ""
       })
-      .then(res => {
-        console.log(res)
-        that.setData({
-          title: [],
-          content: [],
-          images: [],
-          Astring: [],
-          time: [],
-          two_2: 5,
-          one_2: 0,
-          city: ""
-        })
+    })
       })
+
+    })
 
     console.log(that.data.Astring)
     console.log(that.data.images)
@@ -357,6 +379,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
 
   },
 
@@ -371,9 +394,29 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      isLogin: wx.getStorageSync('isLogin')
-    })
+    if(!wx.getStorageSync('isLogin')){
+      wx.showModal({
+        title: '发布笔记',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true,//是否显示取消按钮
+        confirmText:"去登录",//默认是“确定”
+        success: function (res) {
+           if (res.cancel) {
+              //点击取消,默认隐藏弹框
+              wx.switchTab({
+                url: '/pages/index/index'
+              })
+           } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+           }
+        },
+        fail: function (res) { },//接口调用失败的回调函数
+        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+     })
+    }
 
   },
 

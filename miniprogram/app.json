@@ -2,12 +2,12 @@
   "pages": [
     "pages/index/index",
     "pages/login/login",
+    "pages/me/me",
     "pages/test/test",
     "pages/sharepages/sharepage",
     "utils/util",
     "pages/search/search",
-    "pages/viewnote/viewnote",
-    "pages/me/me"
+    "pages/viewnote/viewnote"
   ],
   "permission": {
     "scope.userLocation": {

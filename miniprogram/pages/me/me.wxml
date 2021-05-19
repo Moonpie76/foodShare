@@ -1,6 +1,11 @@
 <view  class="firstview">
-<image class="head-pic" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/test/112815" ></image>
-<view class="nickname">点击登录</view>
+<view class="avatar">
+  <button class="avatarBtn" style="width:unset" open-type="getUserInfo" 
+  bindgetuserinfo="login">
+  <image mode='scaleToFill' class="head-pic" src="{{avatar}}" bindtap="login"></image>
+</button>
+</view>
+<view class="nickname" bindtap="login">{{nickName}}</view>
 </view>
 
 <swiper display-multiple-items="2"  class="swiperv">
