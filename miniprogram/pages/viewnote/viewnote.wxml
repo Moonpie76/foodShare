@@ -59,11 +59,6 @@
       <text>223</text>
     </view>
     <view class="handel_style">
-      <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
-        mode="aspectFit" />
-      <text>332</text>
-    </view>
-    <view class="handel_style">
       <image class="collection_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '0'}}"
         bindtap='collection' data-num='{{note[0].collection_num}}'
         src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit" />
@@ -72,9 +67,14 @@
         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png' />
       <text>225</text>
     </view>
+    <view class="handel_style">
+      <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
+        mode="aspectFit" />
+      <text>{{comment_number}}</text>
+    </view>
   </view>
 </view>
 <view wx:for="{{comment_list_number}}" wx:key="index">
   <play-comments bind:updataSelect="get_refurbish" comment_details="{{comment_list[index]}}"
-    comment_list_reply="{{comment_list_reply[index]}}"></play-comments>
+    comment_list_reply="{{comment_list_reply[index]}}" note_open_id="{{note[0]._openid}}"></play-comments>
 </view>

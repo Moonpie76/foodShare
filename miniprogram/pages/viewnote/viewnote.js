@@ -121,6 +121,15 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前页面有几条评论
+    db.collection('comment').orderBy('comment_time', 'desc').where({
+      comment_pr_id: id,
+    }).count({
+      success: function (res) {
+        that.setData({
+          comment_number: res.total
+        })
+      }
+    })
     //查询当前页面的所有第一层评论
     wx.cloud.callFunction({
       name: "searchComment",

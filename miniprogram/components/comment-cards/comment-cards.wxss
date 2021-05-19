@@ -28,6 +28,7 @@
   width: 45px;
   height: 20px;
   color: rgb(78, 80, 80);
+  font-size: smaller;
   text-align: center;
   background-color: rgba(219, 217, 217, 0.295);
   margin-left: 10px;
@@ -35,6 +36,13 @@
 }
 .comments{
   margin-bottom: 10px;
+  line-height: 20px;
+}
+.reply_author{
+  display: inline;
+}
+.reply_name_style{
+  color: darkgray;
 }
 .comment_time{
   color: rgb(78, 80, 80);

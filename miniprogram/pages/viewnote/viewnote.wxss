@@ -6,17 +6,7 @@
   display: flex;
 }
 
-.collections_icon{
-  width: 53rpx;
-  height: 53rpx;
-  margin-right: 4rpx;
-}
 
-.collection_icon{
-  width: 47rpx;
-  height: 47rpx;
-  margin-right: 4rpx;
-}
 
 .profile {
   width: 40px;
@@ -151,10 +141,24 @@
 #like_image{
   width: 20px;
   height: 20px;
+  margin-right: 2px;
 }
 #review_image{
   width: 25px;
   height: 25px;
+  margin-right: 2px;
+}
+
+.collections_icon{
+  width: 53rpx;
+  height: 53rpx;
+  margin-right: 4rpx;
+}
+
+.collection_icon{
+  width: 47rpx;
+  height: 47rpx;
+  margin-right: 4rpx;
 }
 
 .comment {

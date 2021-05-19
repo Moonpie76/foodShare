@@ -29,7 +29,9 @@
 }
 .card_author{
   width: 45px;
+  height: 20px;
   color: rgb(78, 80, 80);
+  font-size: smaller;
   text-align: center;
   background-color: rgba(219, 217, 217, 0.295);
   margin-left: 10px;
