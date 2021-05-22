@@ -523,7 +523,7 @@ Page({
     })
   },
 
-  login: function (e) {
+  loginComment: function (e) {
     if (!wx.getStorageSync('isLogin')) {
       if (!wx.getStorageSync('isLogin')) {
         wx.showModal({

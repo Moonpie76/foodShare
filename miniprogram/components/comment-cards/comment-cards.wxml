@@ -1,10 +1,10 @@
 <view class="comment_blocks">
   <view class="profile_blocks"> 
-    <image class="profiles" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/壁纸.jpg"/>
+    <image class="profiles" src="{{reply_details.comment_user_profile}}"/>
   </view>
   <view>
     <view class="name_authors">
-    <view class="names">小李小李是条锦鲤</view>
+    <view class="names">{{reply_details.comment_user_name}}</view>
     <view class="authors">作者</view>
   </view>
     <view class="comments">{{reply_details.comment_text}}</view>
