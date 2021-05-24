@@ -6,22 +6,27 @@ Component({
    */
   properties: {
     comment_details: null,
-    comment_list_reply: null
+    comment_list_reply: null,
+    note_open_id:null
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    input_if: false,
     content_reply: '',
-    comment_time_reply: ''
+    comment_time_reply: '',
+    input_if: false,
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+    //子组件调用刷新
+    get_refurbish_reply:function(){
+      this.triggerEvent('updataSelect')
+    },
     //召唤输入键盘
     call_comment: function () {
       if (!wx.getStorageSync('isLogin')) {
@@ -44,7 +49,6 @@ Component({
           complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
         })
       }
-
       this.setData({
         input_if: true,
         comment_time_reply: ''
@@ -53,6 +57,7 @@ Component({
 
     //键盘失去焦点
     set_input_if: function () {
+      console.log("键盘失去焦点")
       this.setData({
         input_if: false
       })
@@ -98,8 +103,8 @@ Component({
             data: {
               comment_pr_id: that.properties.comment_details.comment_pr_id, //评论所属的日记id，从入口得到       
               comment_user_id: 22, //发表评论人的id，
-              comment_user_name: nickName, //发表评论人的姓名
-              comment_user_profile: avatar, //发表评论人的头像
+              comment_user_name:nickName, //发表评论人的姓名
+              comment_user_profile:avatar, //发表评论人的头像
               comment_text: res.detail.value, //评论内容        
               comment_time: that.data.comment_time_reply, //评论时间       
               reply_if: 1, //如果不是回复，则默认为0，如果为回复，则为1       
@@ -107,7 +112,6 @@ Component({
               reply_name: '', //默认为'',如果为楼中楼，则为被回复的姓名
             },
             success() { //插入成功，调用父组件的onload函数刷新界面
-              console.log("这是子组件")
               that.triggerEvent('updataSelect')
               that.setData({
                 content_reply: '',
