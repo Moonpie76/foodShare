@@ -22,10 +22,18 @@ Page({
     goodList: [],
     collectionList: [],
     user_id: '',
-    uid: ''
+    uid: '',
+    review_image_if:false//评论图标点获取焦点
   },
 
-
+changeReviewIf:function(){
+  console.log("这是改变")
+  var that=this
+  that.setData({
+    review_image_if:true
+  })
+  console.log(that.data.review_image_if)
+},
   goodUp: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
@@ -525,7 +533,7 @@ Page({
     })
   },
 
-  login: function (e) {
+  loginComment: function (e) {
     if (!wx.getStorageSync('isLogin')) {
       if (!wx.getStorageSync('isLogin')) {
         wx.showModal({
