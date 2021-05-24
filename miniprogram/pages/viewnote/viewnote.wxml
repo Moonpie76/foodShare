@@ -1,6 +1,5 @@
 <wxs module="tools" src="../function.wxs" />
 <view class='host'>
-  <view bindtap="returnPage"><text class="iconfont icon-fanhui"></text></view>
   <view class='profile'>
     <image src='{{avatar}}' class='avatar'></image>
   </view>

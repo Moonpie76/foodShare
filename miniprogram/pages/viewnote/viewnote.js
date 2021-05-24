@@ -497,13 +497,6 @@ Page({
     })
   },
 
-  //返回上一页面
-  returnPage: function () {
-    wx.navigateBack({
-      changed: true
-    })
-  },
-
   //根据页面改变图片大小
   realImageLoad: function (e) {
     var $width = e.detail.width, //获取图片真实宽度
