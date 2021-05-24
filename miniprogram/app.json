@@ -1,6 +1,5 @@
 {
   "pages": [
-   
     "pages/login/login",
     "pages/index/index",
     "pages/test/test",
@@ -8,7 +7,8 @@
     "utils/util",
     "pages/search/search",
     "pages/viewnote/viewnote",
-    "pages/me/me"
+    "pages/me/me",
+    "utils/tabbar/tabbar"
   ],
   "permission": {
     "scope.userLocation": {

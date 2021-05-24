@@ -17,7 +17,7 @@ Page({
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
-    console.log(id);
+    console.log(this.data.noteList);
     wx.navigateTo({
       url: '../viewnote/viewnote?id=' + id,
     })
@@ -48,6 +48,7 @@ Page({
         city: city
       }
     }).then(res => {
+      
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({

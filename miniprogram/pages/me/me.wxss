@@ -1,4 +1,5 @@
 /* pages/me/me.wxss */
+@import "../templete/note.wxss";
 .head-pic{
   margin-top: 15px;
   width: 100px;
@@ -17,7 +18,22 @@
   padding-left: 20px;
 }
 
-.swiperv{
-  padding-top:40px;
-  padding-left: 60px;
+
+
+.mptabs{
+  margin-left:80px;
+ 
 }
+
+
+.tabbar{
+  height: 400px;
+}
+
+.scrollview{
+  height:400px;
+ 
+}
+
+
+
