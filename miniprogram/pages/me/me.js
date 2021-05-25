@@ -9,21 +9,24 @@ Page({
   data: {
     tabs: [],
     activeTab: 0,
-    goodList:['28ee4e3e60a3cdf619e51fd15667f9f3'],
-    collectionList:['28ee4e3e60a3cdf619e51fd15667f9f3'],
     datalist:[],
+    datalist1:[],
     openid:'',
     alist:[],
-    height:600,
+    height1:'',
+    height2:'',
     nickName:'',
-    avatar: ''
+    avatar: '',
+    height:''
   },
 
-  login: function(e) {
+  login: async function(e) {
     var that = this
     console.log(e)
 
     if(e.detail.errMsg=="getUserInfo:ok") {
+      
+      //await this.sleep(1500);
       db.collection("user").add({
         data: {
           nickName: e.detail.userInfo.nickName,
@@ -32,7 +35,7 @@ Page({
           myLikes: []
         }
       }).then(res => {
-  
+        //this.handleClick()
         app.globalData.isLogin = true
         that.setData({
           nickName: e.detail.userInfo.nickName,
@@ -44,6 +47,9 @@ Page({
         })
   
       })
+      this.handleClick()
+      await this.sleep(1500)
+      this.onLoad()
     } else {
      console.log("授权失败")
     }
@@ -57,16 +63,17 @@ Page({
    */
   onLoad: async function (options) {
    
-    this.handleClick()
-    await this.sleep(1500);
+   // this.handleClick()
+    //await this.sleep(1500);
     console.log(this.data.datalist)
     const tabs=[{
       title: '我的发布'+' '+this.data.datalist.length,
-        
+      
       dataList:this.data.datalist  
     },{
-      title: '我的收藏'+' '+this.data.alist.length,
-      dataList:this.data.a
+      title: '我的收藏'+' '+this.data.datalist1.length,
+      dataList:this.data.datalist1,
+      
     }
     ]
     this.setData({ tabs })
@@ -104,7 +111,7 @@ Page({
       var newData = this.data.datalist.concat(res.result.data)
       this.setData({
         datalist: newData,
-        height:newData.length*150
+        height1:newData.length*140
       })
       console.log(this.data.datalist.length)
       console.log(this.data.height)
@@ -112,6 +119,7 @@ Page({
   },
 
   getaList:function(){
+    
     console.log(this.data.openid)
     wx.cloud.callFunction({
       name: "getalist",
@@ -120,16 +128,59 @@ Page({
       }
     }).then(res => {
       //var oldData = this.data.noteList
-      console.log(res.result.data)
-      var newData = this.data.alist.concat(res.result.data)
+     console.log(res)
+      //var newData = this.data.alist.concat(res.result.data)
+      var newData = []
+      for(var i=0;i<res.result.data.length;i++){
+        newData[i]=res.result.data[i].myCollections
+      }
+      
       this.setData({
         alist: newData,
-        height:newData.length*150
+        
       })
-      console.log(this.data.alist.length)
+
+      
+
+      console.log(this.data.alist)
       console.log(this.data.height)
+      this.getbyid()
     })
   },
+
+getbyid: async function(){
+  for(var i=0;i<this.data.alist.length;i++){
+    for(var j=0;j<this.data.alist[i].length;j++){
+  var Id=this.data.alist[i][j]
+  console.log(typeof(Id) )
+  wx.cloud.callFunction({
+    name: "getbyid",
+    data: {
+      id:Id
+    }
+  }).then(res=>{
+    console.log(res.result.data)
+    this.setData({
+      datalist1: this.data.datalist1.concat(res.result.data)
+
+    })
+    
+    
+  })
+}}
+await this.sleep(2000);
+console.log(this.data.datalist1)
+if(this.data.height1>this.data.datalist1.length*140){
+  this.setData({
+    height:this.data.height1
+  })
+}else{
+  this.setData({
+    height:this.data.datalist1.length*100
+  })
+}
+console.log(this.data.height)
+},
 
   onChange(e) {
     const index = e.detail.index
