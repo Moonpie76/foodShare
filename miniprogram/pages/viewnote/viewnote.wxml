@@ -71,7 +71,7 @@
     <view class="handel_style">
       <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
         mode="aspectFit" />
-      <text>7</text>
+      <text>{{comment_number}}</text>
     </view>
   </view>
 </view>
