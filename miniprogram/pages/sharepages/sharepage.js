@@ -12,8 +12,6 @@ Page({
     title: [],
     content: [],
     city: "",
-    cityPickerValue: [0, 0],
-    cityPickerIsShow: false,
     // fileIDs: {},
     //testa: [],
 
@@ -279,26 +277,7 @@ Page({
     })
 
   },
-  /**
-   * 城市选择取消
-   */
-  // cityPickerOnCancelClick: function (event) {
-  //   console.log('cityPickerOnCancelClick');
-  //   console.log(event);
-  //   this.setData({
-  //     cityPickerIsShow: false,
-  //   });
-  // },
-
-
-  // showCityPicker() {
-  //   // this.data.cityPicker.show()
-  //   console.log("show city-picker")
-  //   this.setData({
-  //     cityPickerIsShow: true,
-  //   });
-  // },
-
+  
 
   /**
    获取标题内容

@@ -1,7 +1,6 @@
 {
   "conponent": "true",
   "usingComponents": {
-    "city-picker": "../../components/city-picker/city-picker",
     "notes": "../../components/notes/notes"
   },
   "enablePullDownRefresh": true,

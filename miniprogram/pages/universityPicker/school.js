@@ -1,4 +1,6 @@
 
+import pinyin from "wl-pinyin"
+
   var schools= [
     {
       "province_name": "北京市",
@@ -4448,14 +4450,47 @@
     }
   ]
 
-  var array = ['武汉', '北京', '上海', '天津', '', 'am', 'pam', '1213', '123'];
-  var resultArray = array.sort(
-    function compareFunction(param1, param2) {
-      return param1.localeCompare(param2, "zh");
-    }
-  );
-console.log(resultArray);
+
+var city = {"City": [{}]}
+
+var diccity = city.City[0]
+diccity["A"] = []
+diccity["B"] = []
+diccity["C"] = []
+diccity["D"] = []
+diccity["E"] = []
+diccity["F"] = []
+diccity["G"] = []
+diccity["H"] = []
+diccity["J"] = []
+diccity["K"] = []
+diccity["L"] = []
+diccity["M"] = []
+diccity["N"] = []
+diccity["P"] = []
+diccity["Q"] = []
+diccity["R"] = []
+diccity["S"] = []
+diccity["T"] = []
+diccity["W"] = []
+diccity["X"] = []
+diccity["Y"] = []
+diccity["Z"] = []
+
+
 
 schools.forEach((province) => {
-  console.log(province)
+  var cites = province.cities
+  cites.forEach((city) => {
+    var universities = city.universities
+    universities.forEach((university) => {
+      var firstLetter = pinyin.getFirstLetter(university).substr(0,1)
+      var dicUniversity = {}
+      dicUniversity["name"] = university
+      dicUniversity["key"] = firstLetter
+      diccity[firstLetter].push(dicUniversity)
+    })
+  })
 })
+
+module.exports = city;

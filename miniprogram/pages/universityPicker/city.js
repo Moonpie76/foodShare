@@ -1638,4 +1638,10 @@ var city = {
     }
   ]
 }
+
+var cities = city.City[0]
+console.log(cities)
+
+
+
 module.exports = city;

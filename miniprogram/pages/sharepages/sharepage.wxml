@@ -51,8 +51,6 @@
     <view class="citytext">{{city}}</view>
 </view>
 
-<city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
-    bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 
 <view class="button">
     <view class="btn1">

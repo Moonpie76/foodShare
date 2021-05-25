@@ -6,7 +6,7 @@
     <block wx:for="{{city}}" wx:for-index="idx" wx:for-item="cityName">
         <text id="{{idx}}" class="list_tit">{{idx}}</text>
         <block wx:for="{{cityName}}">
-            <view class="list_con" data-city="{{item.name}}" bindtap="bindCity">{{item.name}}</view>
+            <view class="list_con" data-city="{{item.name}}" bindtap="bindcity">{{item.name}}</view>
         </block>
     </block>
 </scroll-view>

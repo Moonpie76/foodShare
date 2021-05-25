@@ -1,12 +1,11 @@
-//先引用城市数据文件
-var city = require('city.js')
+var city = require('school.js')
 var lineHeight = 0;
 var endWords = "";
 var isNum;
 Page({
   data: {
     "hidden": true,
-    cityName: "", //获取选中的城市名
+    cityName: "", //获取选中的学校名
  
   },
   onLoad: function (options) {
@@ -73,7 +72,7 @@ Page({
     })
   },
  
-  // 滑动选择城市
+  // 滑动选择学校
   chMove: function (e) {
     var y = e.touches[0].clientY;
     var offsettop = e.currentTarget.offsetTop;
@@ -107,8 +106,8 @@ Page({
       })
     }
   },
-  //选择城市，并让选中的值显示在文本框里
-  bindCity: function (e) {
+  //选择学校，并让选中的值显示在文本框里
+  bindcity: function (e) {
     var cityName = e.currentTarget.dataset.city;
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2]; //上一个页面
