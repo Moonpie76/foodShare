@@ -18,7 +18,7 @@
 
 
 <view class="titleline">
-    <input class="input1" maxlength="20" bindinput="biaoti" auto-focus="true" value="{{title}}"
+    <input class="input1" maxlength="20" bindinput="biaoti"  value="{{title}}"
         placeholder="填写标题会让更多人搜到你的分享~" placeholder-class="myholder1" selection-start="100"></input>
 </view>
 
@@ -47,12 +47,10 @@
 <view class="locate">
     <view class="locatetext">添加地点</view>
     <image src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.png"
-        bindtap="showCityPicker" class="locatepic" mode="aspectFill"></image>
+        bindtap="addLocation" class="locatepic" mode="aspectFill"></image>
     <view class="citytext">{{city}}</view>
 </view>
 
-<city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
-    bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
 
 <view class="button">
     <view class="btn1">

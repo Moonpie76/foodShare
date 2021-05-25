@@ -22,10 +22,18 @@ Page({
     goodList: [],
     collectionList: [],
     user_id: '',
-    uid: ''
+    uid: '',
+    review_image_if:false//评论图标点获取焦点
   },
 
-
+changeReviewIf:function(){
+  console.log("这是改变")
+  var that=this
+  that.setData({
+    review_image_if:true
+  })
+  console.log(that.data.review_image_if)
+},
   goodUp: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
@@ -448,6 +456,15 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前页面有几条评论
+    db.collection('comment').orderBy('comment_time', 'desc').where({
+      comment_pr_id: id,
+    }).count({
+      success: function (res) {
+        that.setData({
+          comment_number: res.total
+        })
+      }
+    })
     //查询当前页面的所有第一层评论
     wx.cloud.callFunction({
       name: "searchComment",
@@ -488,13 +505,6 @@ Page({
     })
   },
 
-  //返回上一页面
-  returnPage: function () {
-    wx.navigateBack({
-      changed: true
-    })
-  },
-
   //根据页面改变图片大小
   realImageLoad: function (e) {
     var $width = e.detail.width, //获取图片真实宽度
@@ -523,7 +533,7 @@ Page({
     })
   },
 
-  login: function (e) {
+  loginComment: function (e) {
     if (!wx.getStorageSync('isLogin')) {
       if (!wx.getStorageSync('isLogin')) {
         wx.showModal({
