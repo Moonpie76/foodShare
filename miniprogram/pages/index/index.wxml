@@ -33,4 +33,4 @@
     </view>
     <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
         bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
-</view>
+    </view>

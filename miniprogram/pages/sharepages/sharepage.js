@@ -14,13 +14,9 @@ Page({
     city: "",
     cityPickerValue: [0, 0],
     cityPickerIsShow: false,
-    // fileIDs: {},
-    //testa: [],
+    
 
     testb: [],
-
-    //testb: [],
-
     Astring: [],
     imageIDs: [],
     time: [],
@@ -29,13 +25,35 @@ Page({
     one_2: 0,
     two_2: 5,
     mypic: 0
+   
   },
 
   /**
    返回函数
    */
   fanhuiupload: function (e) {
+    var flag=0;
     var that = this;
+    if(that.data.title.length==0&&that.data.content.length==0&&that.data.images.length==0&&that.data.time.length==0&&that.data.city==''&&that.data.two_2==5&&that.data.one_2==0){
+     flag=1
+    }
+    console.log(flag)
+    if(flag==1){
+      wx.switchTab({
+        url: '/pages/index/index',
+      });
+      that.setData({
+        title: [],
+        content: [],
+        images: [],
+        Astring: [],
+        time: [],
+        two_2: 5,
+        one_2: 0,
+        city: ""
+      })
+      return 0
+    }
     var title1 = that.data.title
     for (var i = 0; i < that.data.images.length; i++) {
       wx.cloud.uploadFile({
