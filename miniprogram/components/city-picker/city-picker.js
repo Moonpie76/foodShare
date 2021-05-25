@@ -16,9 +16,374 @@ Component({
     provinces: [{
       "province_code": "110000",
       "city_list": [{
-        "city_name": "北京市",
-        "city_code": "110100"
-      }],
+          "city_name": "北京大学",
+          "city_code": "110010"
+        },
+        {
+          "city_name": "中国人民大学",
+          "city_code": "110020"
+        },
+        {
+          "city_name": "清华大学",
+          "city_code": "110030"
+        },
+        {
+          "city_name": "北京交通大学",
+          "city_code": "110040"
+        },
+        {
+          "city_name": "北京工业大学",
+          "city_code": "110020"
+        },
+        {
+          "city_name": "北京航空航天大学",
+          "city_code": "110050"
+        },
+        {
+          "city_name": "北京理工大学",
+          "city_code": "110060"
+        },
+        {
+          "city_name": "北京科技大学",
+          "city_code": "110070"
+        },
+        {
+          "city_name": "北方工业大学",
+          "city_code": "110080"
+        },
+        {
+          "city_name": "北京化工大学",
+          "city_code": "110090"
+        },
+        {
+          "city_name": "北京工商大学",
+          "city_code": "110100"
+        },
+        {
+          "city_name": "北京服装学院",
+          "city_code": "110110"
+        },
+        {
+          "city_name": "北京邮电大学",
+          "city_code": "110120"
+        },
+        {
+          "city_name": "北京印刷学院",
+          "city_code": "110130"
+        },
+        {
+          "city_name": "北京建筑大学",
+          "city_code": "110140"
+        },
+        {
+          "city_name": "北京石油化工学院",
+          "city_code": "110150"
+        },
+        {
+          "city_name": "北京电子科技学院",
+          "city_code": "110160"
+        },
+        {
+          "city_name": "中国农业大学",
+          "city_code": "110170"
+        },
+        {
+          "city_name": "北京农学院",
+          "city_code": "110180"
+        },
+        {
+          "city_name": "北京林业大学",
+          "city_code": "110190"
+        },
+        {
+          "city_name": "北京协和医学院",
+          "city_code": "110200"
+        },
+        {
+          "city_name": "首都医科大学",
+          "city_code": "110210"
+        },
+        {
+          "city_name": "北京中医药大学",
+          "city_code": "110220"
+        },
+        {
+          "city_name": "北京师范大学",
+          "city_code": "110230"
+        },
+        {
+          "city_name": "首都师范大学",
+          "city_code": "110240"
+        },
+        {
+          "city_name": "首都体育学院",
+          "city_code": "110250"
+        },
+        {
+          "city_name": "北京外国语大学",
+          "city_code": "110260"
+        },
+        {
+          "city_name": "北京第二外国语学院",
+          "city_code": "110270"
+        },
+        {
+          "city_name": "北京语言大学",
+          "city_code": "110280"
+        },
+        {
+          "city_name": "中国传媒大学",
+          "city_code": "110290"
+        },
+        {
+          "city_name": "中央财经大学",
+          "city_code": "110300"
+        },
+        {
+          "city_name": "对外经济贸易大学",
+          "city_code": "110310"
+        },
+        {
+          "city_name": "北京物资学院",
+          "city_code": "110320"
+        },
+        {
+          "city_name": "首都经济贸易大学",
+          "city_code": "110330"
+        },
+        {
+          "city_name": "外交学院",
+          "city_code": "110340"
+        },
+        {
+          "city_name": "中国人民公安大学",
+          "city_code": "110350"
+        },
+        {
+          "city_name": "国际关系学院",
+          "city_code": "110360"
+        },
+        {
+          "city_name": "北京体育大学",
+          "city_code": "110370"
+        },
+        {
+          "city_name": "中央音乐学院",
+          "city_code": "110380"
+        },
+        {
+          "city_name": "中国音乐学院",
+          "city_code": "110390"
+        },
+        {
+          "city_name": "中央美术学院",
+          "city_code": "110400"
+        },
+        {
+          "city_name": "中央戏剧学院",
+          "city_code": "110410"
+        },
+        {
+          "city_name": "中国戏曲学院",
+          "city_code": "110420"
+        },
+        {
+          "city_name": "北京电影学院",
+          "city_code": "110430"
+        },
+        {
+          "city_name": "北京舞蹈学院",
+          "city_code": "110440"
+        },
+        {
+          "city_name": "中央民族大学",
+          "city_code": "110450"
+        },
+        {
+          "city_name": "中国政法大学",
+          "city_code": "110460"
+        },
+        {
+          "city_name": "华北电力大学",
+          "city_code": "110470"
+        },
+        {
+          "city_name": "中华女子学院",
+          "city_code": "110480"
+        },
+        {
+          "city_name": "北京信息科技大学",
+          "city_code": "110490"
+        },
+        {
+          "city_name": "北京信息职业技术学院",
+          "city_code": "110500"
+        },
+        {
+          "city_name": "北京工业职业技术学院",
+          "city_code": "110510"
+        },
+        {
+          "city_name": "中国社会科学院大学",
+          "city_code": "110520"
+        },
+        {
+          "city_name": "中国科学院大学",
+          "city_code": "110530"
+        },
+        {
+          "city_name": "北京第二外国语学院中瑞酒店管理学院",
+          "city_code": "110540"
+        },
+        {
+          "city_name": "北京警察学院",
+          "city_code": "110550"
+        },
+        {
+          "city_name": "北京工业大学耿丹学院",
+          "city_code": "110560"
+        },
+        {
+          "city_name": "北京邮电大学世纪学院",
+          "city_code": "110570"
+        },
+        {
+          "city_name": "北京工商大学嘉华学院",
+          "city_code": "110580"
+        },
+        {
+          "city_name": "首都师范大学科德学院",
+          "city_code": "110590"
+        },
+        {
+          "city_name": "北京吉利学院",
+          "city_code": "110600"
+        },
+        {
+          "city_name": "中国劳动关系学院",
+          "city_code": "110610"
+        },
+        {
+          "city_name": "首钢工学院",
+          "city_code": "110620"
+        },
+        {
+          "city_name": "中国青年政治学院",
+          "city_code": "110630"
+        },
+        {
+          "city_name": "北京城市学院",
+          "city_code": "110640"
+        },
+        {
+          "city_name": "北京联合大学",
+          "city_code": "110650"
+        },
+        {
+          "city_name": "中国地质大学（北京）",
+          "city_code": "110660"
+        },
+        {
+          "city_name": "中国石油大学（北京）",
+          "city_code": "110670"
+        },
+        {
+          "city_name": "中国矿业大学（北京）",
+          "city_code": "110680"
+        },
+        {
+          "city_name": "北京经贸职业学院",
+          "city_code": "110690"
+        },
+        {
+          "city_name": "北京北大方正软件职业技术学院",
+          "city_code": "110700"
+        },
+        {
+          "city_name": "北京财贸职业学院",
+          "city_code": "110710"
+        },
+        {
+          "city_name": "北京政法职业学院",
+          "city_code": "110720"
+        },
+        {
+          "city_name": "北京农业职业学院",
+          "city_code": "110730"
+        },
+        {
+          "city_name": "北京青年政治学院",
+          "city_code": "110740"
+        },
+        {
+          "city_name": "北京交通职业技术学院",
+          "city_code": "110750"
+        },
+        {
+          "city_name": "北京京北职业技术学院",
+          "city_code": "110760"
+        },
+        {
+          "city_name": "北京电子科技职业学院",
+          "city_code": "110770"
+        },
+        {
+          "city_name": "北京网络职业学院",
+          "city_code": "110780"
+        },
+        {
+          "city_name": "北京卫生职业学院",
+          "city_code": "110790"
+        },
+        {
+          "city_name": "北京交通运输职业学院",
+          "city_code": "110800"
+        },
+        {
+          "city_name": "北京体育职业学院",
+          "city_code": "110810"
+        },
+        {
+          "city_name": "北京艺术传媒职业学院",
+          "city_code": "110820"
+        },
+        {
+          "city_name": "北京社会管理职业学院",
+          "city_code": "110830"
+        },
+        {
+          "city_name": "北京劳动保障职业学院",
+          "city_code": "110840"
+        },
+        {
+          "city_name": "北京经济管理职业学院",
+          "city_code": "110850"
+        },
+        {
+          "city_name": "北京培黎职业学院",
+          "city_code": "110860"
+        },
+        {
+          "city_name": "北京科技职业学院",
+          "city_code": "110870"
+        },
+        {
+          "city_name": "北京科技经营管理学院",
+          "city_code": "110880"
+        },
+        {
+          "city_name": "北京汇佳职业学院",
+          "city_code": "110890"
+        },
+        {
+          "city_name": "北京戏曲艺术职业学院",
+          "city_code": "110900"
+        },
+        {
+          "city_name": "北京经济技术职业学院",
+          "city_code": "110910"
+        }
+      ],
       "province_name": "北京市"
     }, {
       "province_code": "120000",
@@ -1197,12 +1562,11 @@ Component({
   },
 
   attached: function () {
-  
+
   },
 
   methods: {
-    onTouchmask: function (event) {
-    },
+    onTouchmask: function (event) {},
     onCacnelClick(e) {
       this.triggerEvent('cancelclick', {});
     },

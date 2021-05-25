@@ -48,7 +48,7 @@ Page({
   
       })
       this.handleClick()
-      await this.sleep(1500)
+      await this.sleep(2000)
       this.onLoad()
     } else {
      console.log("授权失败")
@@ -98,7 +98,7 @@ Page({
     })
   },
 
-  getdataList:function(openid){
+  getdataList:function(){
     console.log(this.data.openid)
     wx.cloud.callFunction({
       name: "getdatalist",
@@ -229,7 +229,6 @@ console.log(this.data.height)
             avatar: res.userInfo.avatarUrl,
             nickName: "请点击头像进行登录"
           })
-
         }
       })
     } else {

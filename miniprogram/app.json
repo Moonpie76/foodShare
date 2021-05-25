@@ -7,7 +7,8 @@
     "pages/sharepages/sharepage",
     "utils/util",
     "pages/search/search",
-    "pages/viewnote/viewnote"
+    "pages/viewnote/viewnote",
+    "pages/universityPicker/universityPicker"
   ],
   "permission": {
     "scope.userLocation": {

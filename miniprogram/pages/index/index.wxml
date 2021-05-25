@@ -1,7 +1,7 @@
 <import src="../templete/note.wxml" />
 <view class="{{noteList.length > 2?father:father_small}}">
     <view class="top_lead">
-        <view class="locate" bindtap="showCityPicker">
+        <view class="locate" bindtap="showcityPicker">
             <image class="locate_icon"
                 src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/locate.png"
                 mode="aspectFill"></image>
@@ -31,6 +31,4 @@
             </block>
         </view>
     </view>
-    <city-picker id="city-picker" value="{{cityPickerValue}}" isShow="{{cityPickerIsShow}}"
-        bindsureclick="cityPickerOnSureClick" bindcancelclick="cityPickerOnCancelClick" />
-    </view>
+</view>

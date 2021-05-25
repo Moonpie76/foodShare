@@ -12,9 +12,8 @@ Page({
     title: [],
     content: [],
     city: "",
-    cityPickerValue: [0, 0],
-    cityPickerIsShow: false,
-    
+    // fileIDs: {},
+    //testa: [],
 
     testb: [],
     Astring: [],
@@ -291,26 +290,13 @@ Page({
     });
 
   },
-  /**
-   * 城市选择取消
-   */
-  cityPickerOnCancelClick: function (event) {
-    console.log('cityPickerOnCancelClick');
-    console.log(event);
-    this.setData({
-      cityPickerIsShow: false,
-    });
+  addLocation: function(e) {
+    wx.navigateTo({
+      url: '/pages/universityPicker/universityPicker',
+    })
+
   },
-
-
-  showCityPicker() {
-    // this.data.cityPicker.show()
-    console.log("show city-picker")
-    this.setData({
-      cityPickerIsShow: true,
-    });
-  },
-
+  
 
   /**
    获取标题内容
