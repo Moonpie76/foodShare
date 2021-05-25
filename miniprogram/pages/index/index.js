@@ -381,6 +381,7 @@ Page({
         city: city
       }
     }).then(res => {
+      
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
