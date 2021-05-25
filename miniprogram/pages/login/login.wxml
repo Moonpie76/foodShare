@@ -1,5 +1,0 @@
-<button open-type="getUserInfo" bindgetuserinfo="login">点击登录</button>
-<view class="userInfo">
-  <view class="avatar"><image src="{{avatar}}"></image></view>
-  <view class="nickname">{{nickName}}</view>
-</view>

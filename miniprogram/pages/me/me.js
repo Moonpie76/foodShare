@@ -23,35 +23,98 @@ Page({
   login: async function(e) {
     var that = this
     console.log(e)
-
-    if(e.detail.errMsg=="getUserInfo:ok") {
+    
+    //如果没有登录，点击头像登录
+    if(!wx.getStorageSync('isLogin')) {
+      // if(e.type == "getuserinfo") {
+      //   if(e.detail.errMsg=="getUserInfo:ok") {
+        
+      //     //await this.sleep(1500);
+      //     db.collection("user").add({
+      //       data: {
+      //         nickName: e.detail.userInfo.nickName,
+      //         avatar: e.detail.userInfo.avatarUrl,
+      //         myCollections:[],
+      //         myLikes: []
+      //       }
+      //     }).then(res => {
+      //       //this.handleClick()
+      //       app.globalData.isLogin = true
+      //       that.setData({
+      //         nickName: e.detail.userInfo.nickName,
+      //         avatar: e.detail.userInfo.avatarUrl
+      //       })
+      //       wx.setStorage({
+      //         data: true,
+      //         key: 'isLogin'
+      //       })
       
-      //await this.sleep(1500);
-      db.collection("user").add({
-        data: {
-          nickName: e.detail.userInfo.nickName,
-          avatar: e.detail.userInfo.avatarUrl,
-          myCollections:[],
-          myLikes: []
+      //     })
+      //     this.handleClick()
+      //     await this.sleep(2000)
+      //     this.onLoad()
+      //   } else {
+      //    console.log("授权失败")
+      //   }
+      // }
+      wx.getUserProfile({
+        desc: "获取你的昵称、头像、地区及性别",
+        complete: (res) => {
+          let errMsg = res.errMsg
+          if(errMsg == "getUserProfile:ok") {
+            let userInfo = res.userInfo
+            db.collection("user").add({
+              data: {
+                nickName: userInfo.nickName,
+                avatar: userInfo.avatarUrl,
+                myCollections:[],
+                myLikes: []
+              }
+            }).then(res => {
+              //this.handleClick()
+              app.globalData.isLogin = true
+              that.setData({
+                nickName: userInfo.nickName,
+                avatar: userInfo.avatarUrl
+              })
+              wx.setStorage({
+                data: true,
+                key: 'isLogin'
+              })
+        
+            })
+            this.handleClick()
+            // await this.sleep(2000)
+            // this.onLoad()
+          } else {
+            console.log("授权失败！")
+          }
         }
-      }).then(res => {
-        //this.handleClick()
-        app.globalData.isLogin = true
-        that.setData({
-          nickName: e.detail.userInfo.nickName,
-          avatar: e.detail.userInfo.avatarUrl
-        })
-        wx.setStorage({
-          data: true,
-          key: 'isLogin'
-        })
-  
       })
-      this.handleClick()
-      await this.sleep(2000)
-      this.onLoad()
     } else {
-     console.log("授权失败")
+      // 如果已经是登录状态，点击头像退出登录
+      wx.showActionSheet({
+        itemList: ['退出登录'],//显示的列表项
+        itemColor:'#007aff',
+        success: function (res) {//res.tapIndex点击的列表项
+           if(res.tapIndex == 0) {
+             wx.setStorage({
+               data: false,
+               key: 'isLogin',
+             })
+             wx.getUserInfo({
+              success: res => {
+                that.setData({
+                  avatar: res.userInfo.avatarUrl,
+                  nickName: "请点击头像进行登录"
+                })
+              }
+            })
+           }
+        },
+        fail: function (res) { },
+        complete:function(res){ }
+     })
     }
     
   },
@@ -63,6 +126,7 @@ Page({
    */
   onLoad: async function (options) {
    
+    console.log("onload")
    // this.handleClick()
     //await this.sleep(1500);
     console.log(this.data.datalist)
@@ -140,8 +204,7 @@ Page({
         
       })
 
-      
-
+    
       console.log(this.data.alist)
       console.log(this.data.height)
       this.getbyid()
@@ -168,7 +231,7 @@ getbyid: async function(){
     
   })
 }}
-await this.sleep(2000);
+//await this.sleep(2000);
 console.log(this.data.datalist1)
 if(this.data.height1>this.data.datalist1.length*140){
   this.setData({
@@ -191,7 +254,7 @@ console.log(this.data.height)
 
 
 
-  handleClick(e) {
+  handleClick:async function(e) {
     wx.cloud.callFunction({
       name:'getOpenid'
     }).then(res=>{
@@ -204,6 +267,8 @@ console.log(this.data.height)
       this.getaList()
       
     })
+    await this.sleep(3000);
+      this.onLoad()
    wx.navigateTo({
       url: './webview',
     })

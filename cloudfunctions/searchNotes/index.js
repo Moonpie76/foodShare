@@ -10,11 +10,20 @@ exports.main = async (event, context) => {
   var num = event.num
   var page = event.page
   var city = event.city
-  return await db.collection('note').where({
-    title: db.RegExp({
-    regexp: keyword,
-    options: 'i',
-    }),
-    location: city
-  }).orderBy("time", "desc").limit(num).skip(page).get()
+  if(city == "") {
+    return await db.collection('note').where({
+      title: db.RegExp({
+      regexp: keyword,
+      options: 'i',
+      })
+    }).orderBy("time", "desc").limit(num).skip(page).get()
+  } else {
+    return await db.collection('note').where({
+      title: db.RegExp({
+      regexp: keyword,
+      options: 'i',
+      }),
+      location: city
+    }).orderBy("time", "desc").limit(num).skip(page).get()
+  }
 }

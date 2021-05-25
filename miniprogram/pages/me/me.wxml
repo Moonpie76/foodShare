@@ -1,8 +1,7 @@
 <import src="../templete/note.wxml" />
 <view  class="firstview">
 <view class="avatar">
-  <button class="avatarBtn" style="width:unset" open-type="getUserInfo" 
-  bindgetuserinfo="login">
+  <button class="avatarBtn" style="width:unset" >
   <image mode='scaleToFill' class="head-pic" src="{{avatar}}" bindtap="login"></image>
 </button>
 </view>

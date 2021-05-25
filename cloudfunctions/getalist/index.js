@@ -11,6 +11,6 @@ const db = cloud.database()
 exports.main = async (event, context) => {
  
   return await db.collection("user").where({
-    _openid:event.openid
+    openid:event.openid
   }).get()
  }
