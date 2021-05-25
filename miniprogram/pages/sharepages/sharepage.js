@@ -273,25 +273,31 @@ Page({
     });
 
   },
+  addLocation: function(e) {
+    wx.navigateTo({
+      url: '/pages/universityPicker/universityPicker',
+    })
+
+  },
   /**
    * 城市选择取消
    */
-  cityPickerOnCancelClick: function (event) {
-    console.log('cityPickerOnCancelClick');
-    console.log(event);
-    this.setData({
-      cityPickerIsShow: false,
-    });
-  },
+  // cityPickerOnCancelClick: function (event) {
+  //   console.log('cityPickerOnCancelClick');
+  //   console.log(event);
+  //   this.setData({
+  //     cityPickerIsShow: false,
+  //   });
+  // },
 
 
-  showCityPicker() {
-    // this.data.cityPicker.show()
-    console.log("show city-picker")
-    this.setData({
-      cityPickerIsShow: true,
-    });
-  },
+  // showCityPicker() {
+  //   // this.data.cityPicker.show()
+  //   console.log("show city-picker")
+  //   this.setData({
+  //     cityPickerIsShow: true,
+  //   });
+  // },
 
 
   /**

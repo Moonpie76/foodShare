@@ -15,7 +15,19 @@ Page({
     var that = this
     console.log(e)
 
-    if(e.detail.errMsg=="getUserInfo:ok") {
+    if(e.detail.errMsg==="getUserInfo:ok") {
+      console.log("授权成功")
+      app.globalData.isLogin = true
+      that.setData({
+        nickName: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl
+      })
+      console.log(that.data.nickName)
+      console.log(that.data.avatar)
+      wx.setStorage({
+        data: true,
+        key: 'isLogin'
+      })
       db.collection("user").add({
         data: {
           nickName: e.detail.userInfo.nickName,
@@ -24,16 +36,6 @@ Page({
           myLikes: []
         }
       }).then(res => {
-  
-        app.globalData.isLogin = true
-        that.setData({
-          nickName: e.detail.userInfo.nickName,
-          avatar: e.detail.userInfo.avatarUrl
-        })
-        wx.setStorage({
-          data: true,
-          key: 'isLogin'
-        })
   
       })
     } else {
@@ -70,7 +72,6 @@ Page({
             avatar: res.userInfo.avatarUrl,
             nickName: "请点击头像进行登录"
           })
-
         }
       })
     } else {

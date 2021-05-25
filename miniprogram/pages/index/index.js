@@ -7,8 +7,8 @@ Page({
    */
   data: {
     city: '',
-    cityPickerValue: [0, 0],
-    cityPickerIsShow: false,
+    // cityPickerValue: [0, 0],
+    // cityPickerIsShow: false,
     noteList: [],
     user_id: '',
     uid: '',
@@ -373,7 +373,8 @@ Page({
     })
   },
 
-  getNotes: function (num = 4, page = 0, city) {
+  //根据定位显示所有笔记（每次触底显示六条）
+  getNotes: function (num = 6, page = 0, city) {
     wx.cloud.callFunction({
       name: "showNotes",
       data: {
@@ -389,22 +390,112 @@ Page({
       })
     })
   },
+  //根据定位只显示最新的六条笔记
+  firstGetNotes: function (num = 6, page = 0, city) {
+    wx.cloud.callFunction({
+      name: "showNotes",
+      data: {
+        num: num,
+        page: page,
+        city: city
+      }
+    }).then(res => {
+      this.setData({
+        noteList: res.result.data
+      })
+    })
+  },
+  //没有定位显示所有笔记（每次触底显示六条）
+  initializeNotes: function (num = 6, page = 0) {
+    wx.cloud.callFunction({
+      name: "initializeNotes",
+      data: {
+        num: num,
+        page: page
+      }
+    }).then(res => {
+      var oldData = this.data.noteList
+      var newData = oldData.concat(res.result.data)
+      this.setData({
+        noteList: newData
+      })
+      console.log(this.data.noteList)
+    })
+  },
+  //没有定位只显示最新的六条笔记
+  firstShowNotes: function (num = 6, page = 0) {
+    wx.cloud.callFunction({
+      name: "initializeNotes",
+      data: {
+        num: num,
+        page: page
+      }
+    }).then(res => {
+      this.setData({
+        noteList: res.result.data
+      })
+      console.log(this.data.noteList)
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.autoLocate()
+    var array = ['武汉', '北京', '上海', '天津', '', 'am', 'pam', '1213', '123'];
+    var resultArray = array.sort(
+      function compareFunction(param1, param2) {
+        return param1.localeCompare(param2, "zh");
+      }
+    );
+    console.log(resultArray);
+
+    var that = this
+    that.setData({
+      city: wx.getStorageSync('city')
+    })
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+          //判断有没有定位
+          if(that.data.city!="") {
+            that.firstGetNotes(6, 0, that.data.city)
+          } else {
+            that.firstShowNotes(6, 0)
+          }
+        })
+      })
+    } else {
+      //判断有没有定位
+      if(that.data.city!="") {
+        that.firstGetNotes(6, 0, that.data.city)
+      } else {
+        that.firstShowNotes(6, 0)
+      }
+    }
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    wx.cloud.callFunction({
-      name: "login"
-    }).then(res => {
-      console.log(res.result.openid)
-    })
+
+
   },
 
   /**
@@ -412,46 +503,47 @@ Page({
    */
   onShow: function () {
     var that = this
-    var a = setInterval(function () {
-      if (wx.getStorageSync('isLogin')) {
-        wx.cloud.callFunction({
-          name: "getOpenid"
-        }).then(res => {
-          that.setData({
-            user_id: res.result.openid
-          })
-          wx.cloud.callFunction({
-            name: "getUserInfo",
-            data: {
-              openid: res.result.openid
-            }
-          }).then(res => {
-            that.setData({
-              uid: res.result.data[0]._id,
-              goodList: res.result.data[0].myLikes,
-              collectionList: res.result.data[0].myCollections
-            })
-            wx.cloud.callFunction({
-              name: "updateNote",
-              data: {
-                num: that.data.noteList.length,
-                city: that.data.city
-              }
-            }).then(res => {
-              that.setData({
-                noteList: res.result.data
-              })
-            })
-          })
-        })
-        that.setData({
-          reFresh: false
-        })
-        if (!that.data.reFresh) {
-          clearInterval(a)
-        }
-      }
-    }, 100)
+    // var a = setInterval(function () {
+    //   if (wx.getStorageSync('isLogin')) {
+    //     wx.cloud.callFunction({
+    //       name: "getOpenid"
+    //     }).then(res => {
+    //       that.setData({
+    //         user_id: res.result.openid
+    //       })
+    //       wx.cloud.callFunction({
+    //         name: "getUserInfo",
+    //         data: {
+    //           openid: res.result.openid
+    //         }
+    //       }).then(res => {
+    //         that.setData({
+    //           uid: res.result.data[0]._id,
+    //           goodList: res.result.data[0].myLikes,
+    //           collectionList: res.result.data[0].myCollections
+    //         })
+    //         wx.cloud.callFunction({
+    //           name: "updateNote",
+    //           data: {
+    //             num: that.data.noteList.length,
+    //             city: that.data.city
+    //           }
+    //         }).then(res => {
+    //           that.setData({
+    //             noteList: res.result.data
+    //           })
+    //         })
+    //       })
+    //     })
+    //     that.setData({
+    //       reFresh: false
+    //     })
+    //     if (!that.data.reFresh) {
+    //       clearInterval(a)
+    //     }
+    //   }
+    // }, 100)
+
   },
 
   /**
@@ -475,7 +567,12 @@ Page({
     this.setData({
       noteList: []
     })
-    this.getNotes(4, 0, this.data.city)
+    if(this.data.city!="") {
+      this.firstGetNotes(6, 0, this.data.city)
+    } else {
+      this.firstShowNotes(6, 0)
+    }
+    wx.stopPullDownRefresh();  
   },
 
   /**
@@ -483,7 +580,11 @@ Page({
    */
   onReachBottom: function () {
     var page = this.data.noteList.length
-    this.getNotes(4, page, this.data.city)
+    if(this.data.city!="") {
+      this.getNotes(4, page, this.data.city)
+    } else {
+      this.initializeNotes(6,page)
+    }
   },
 
   /**
@@ -501,74 +602,77 @@ Page({
   /**
    * 城市选择确认
    */
-  cityPickerOnSureClick: function (e) {
-    var city = e.detail.valueName[1];
-    city = city.substr(0, city.length - 1);
-    wx.setStorage({
-      key: 'city',
-      data: city,
-      success: () => {
-        this.setData({
-          city: city,
-          cityPickerValue: e.detail.valueCode,
-          cityPickerIsShow: false,
-        });
-      }
-    })
+  // cityPickerOnSureClick: function (e) {
+  //   var city = e.detail.valueName[1];
+  //   city = city.substr(0, city.length - 1);
+  //   wx.setStorage({
+  //     key: 'city',
+  //     data: city,
+  //     success: () => {
+  //       this.setData({
+  //         city: city,
+  //         cityPickerValue: e.detail.valueCode,
+  //         cityPickerIsShow: false,
+  //       });
+  //     }
+  //   })
 
-  },
+  // },
   /**
    * 城市选择取消
    */
-  cityPickerOnCancelClick: function (event) {
-    this.setData({
-      cityPickerIsShow: false,
-    });
-  },
+  // cityPickerOnCancelClick: function (event) {
+  //   this.setData({
+  //     cityPickerIsShow: false,
+  //   });
+  // },
 
 
   showCityPicker() {
-    this.setData({
-      cityPickerIsShow: true,
-    });
-  },
-
-  autoLocate: function () {
-    wx.getLocation({
-      type: 'wgs84',
-    }).then(res => {
-      var longitude = res.longitude
-      var latitude = res.latitude
-      this.loadCity(longitude, latitude)
+    // this.setData({
+    //   cityPickerIsShow: true,
+    // });
+    wx.navigateTo({
+      url: '/pages/universityPicker/universityPicker',
     })
   },
 
-  loadCity: function (longitude, latitude) {
-    var that = this
-    wx.request({
-      url: 'https://api.map.baidu.com/reverse_geocoding/v3/?ak=zFlHvfuzeORso0OveUQDCElE118kdlbz&output=json&coordtype=wgs84ll&location=' + latitude + ',' + longitude + '',
-      data: {},
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: function (res) {
-        // success 
-        var city = res.data.result.addressComponent.city;
-        city = city.substr(0, city.length - 1)
-        wx.setStorage({
-          key: 'city',
-          data: city,
-          success: () => {
-            that.setData({
-              city: city
-            })
-            that.getNotes(4, 0, that.data.city)
-            that.setData({
-              reFresh: true
-            })
-          }
-        })
-      }
-    })
-  }
+  // autoLocate: function () {
+  //   wx.getLocation({
+  //     type: 'wgs84',
+  //   }).then(res => {
+  //     var longitude = res.longitude
+  //     var latitude = res.latitude
+  //     this.loadCity(longitude, latitude)
+  //   })
+  // },
+
+  // loadCity: function (longitude, latitude) {
+  //   var that = this
+  //   wx.request({
+  //     url: 'https://api.map.baidu.com/reverse_geocoding/v3/?ak=zFlHvfuzeORso0OveUQDCElE118kdlbz&output=json&coordtype=wgs84ll&location=' + latitude + ',' + longitude + '',
+  //     data: {},
+  //     header: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     success: function (res) {
+  //       // success 
+  //       var city = res.data.result.addressComponent.city;
+  //       city = city.substr(0, city.length - 1)
+  //       wx.setStorage({
+  //         key: 'city',
+  //         data: city,
+  //         success: () => {
+  //           that.setData({
+  //             city: city
+  //           })
+  //           that.getNotes(4, 0, that.data.city)
+  //           that.setData({
+  //             reFresh: true
+  //           })
+  //         }
+  //       })
+  //     }
+  //   })
+  // }
 })
