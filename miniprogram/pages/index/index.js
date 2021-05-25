@@ -12,7 +12,8 @@ Page({
     uid: '',
     goodList: [],
     collectionList: [],
-    reFresh: false
+    reFresh: false,
+    lock: true
   },
 
   checkNote: function (e) {
@@ -33,7 +34,11 @@ Page({
 
   },
 
-  goodUp: function (e) {
+  sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  },
+
+  goodUp: async function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
 
@@ -55,7 +60,6 @@ Page({
             goodList: res.result.data[0].myLikes,
             collectionList: res.result.data[0].myCollections
           })
-          console.log("goodList_before:" + that.data.goodList)
           wx.cloud.callFunction({
             name: "upGoodNum",
             data: {
@@ -69,23 +73,7 @@ Page({
               that.setData({
                 goodList: temp
               })
-              console.log("更改成功！", res)
-              wx.cloud.callFunction({
-                name: "updateNote",
-                data: {
-                  num: that.data.noteList.length,
-                  city: that.data.city
-                }
-              }).then(res => {
-                that.setData({
-                  noteList: res.result.data
-                })
-                console.log(that.data.noteList)
-              })
             },
-            fail(res) {
-              console.log("更改失败！", res)
-            }
           })
         })
       })
@@ -120,6 +108,7 @@ Page({
         complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
       })
     }
+    await this.sleep(5000)
   },
 
   goodDown: function (e) {
@@ -153,29 +142,18 @@ Page({
               goodlist: that.data.goodList,
             },
             success(res) {
-              var temp = that.data.goodList
-              console.log(temp)
-              console.log(noteid)
-              temp.splice(temp.findIndex(function (d) {
-                return d == noteid;
-              }), 1)
-              console.log(temp)
-              that.setData({
-                goodList: temp
-              })
-              console.log("更改成功！", res)
-              wx.cloud.callFunction({
-                name: "updateNote",
-                data: {
-                  num: that.data.noteList.length,
-                  city: that.data.city
-                }
-              }).then(res => {
+              if (that.data.goodList.findIndex(function (d) {
+                  return d == noteid;
+                }) != -1) {
+                var temp = that.data.goodList
+                temp.splice(temp.findIndex(function (d) {
+                  return d == noteid;
+                }), 1)
                 that.setData({
-                  noteList: res.result.data
+                  goodList: temp
                 })
-                console.log(that.data.noteList)
-              })
+                console.log("更改成功！", res)
+              }
             },
             fail(res) {
               console.log("更改失败！", res)
@@ -235,24 +213,16 @@ Page({
               collist: that.data.collectionList
             },
             success(res) {
-              var temp = that.data.collectionList
-              temp.push(noteid)
-              that.setData({
-                collectionList: temp
-              })
-              console.log("更改成功！", res)
-              wx.cloud.callFunction({
-                name: "updateNote",
-                data: {
-                  num: that.data.noteList.length,
-                  city: that.data.city
-                }
-              }).then(res => {
+              if (that.data.collectionList.findIndex(function (d) {
+                  return d == noteid;
+                }) == -1) {
+                var temp = that.data.collectionList
+                temp.push(noteid)
                 that.setData({
-                  noteList: res.result.data
+                  collectionList: temp
                 })
-                console.log(that.data.noteList)
-              })
+                console.log("更改成功！", res)
+              }
             },
             fail(res) {
               console.log("更改失败！", res)
@@ -304,7 +274,6 @@ Page({
             goodList: res.result.data[0].myLikes,
             collectionList: res.result.data[0].myCollections
           })
-          console.log("colList_before:" + that.data.collectionList)
           wx.cloud.callFunction({
             name: "downColNum",
             data: {
@@ -313,29 +282,18 @@ Page({
               collectionList: that.data.collectionList,
             },
             success(res) {
-              var temp = that.data.collectionList
-              console.log(temp)
-              console.log(noteid)
-              temp.splice(temp.findIndex(function (d) {
-                return d == noteid;
-              }), 1)
-              console.log(temp)
-              that.setData({
-                collectionList: temp
-              })
-              console.log("更改成功！", res)
-              wx.cloud.callFunction({
-                name: "updateNote",
-                data: {
-                  num: that.data.noteList.length,
-                  city: that.data.city
-                }
-              }).then(res => {
+              if (that.data.collectionList.findIndex(function (d) {
+                  return d == noteid;
+                }) != -1) {
+                var temp = that.data.collectionList
+                temp.splice(temp.findIndex(function (d) {
+                  return d == noteid;
+                }), 1)
                 that.setData({
-                  noteList: res.result.data
+                  collectionList: temp
                 })
-                console.log(that.data.noteList)
-              })
+                console.log("更改成功！", res)
+              }
             },
             fail(res) {
               console.log("更改失败！", res)
@@ -381,7 +339,7 @@ Page({
         city: city
       }
     }).then(res => {
-      
+
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
@@ -464,7 +422,7 @@ Page({
             collectionList: res.result.data[0].myCollections
           })
           //判断有没有定位
-          if(that.data.city!="") {
+          if (that.data.city != "") {
             that.firstGetNotes(6, 0, that.data.city)
           } else {
             that.firstShowNotes(6, 0)
@@ -473,7 +431,7 @@ Page({
       })
     } else {
       //判断有没有定位
-      if(that.data.city!="") {
+      if (that.data.city != "") {
         that.firstGetNotes(6, 0, that.data.city)
       } else {
         that.firstShowNotes(6, 0)
@@ -494,48 +452,28 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // var that = this
-    // var a = setInterval(function () {
-    //   if (wx.getStorageSync('isLogin')) {
-    //     wx.cloud.callFunction({
-    //       name: "getOpenid"
-    //     }).then(res => {
-    //       that.setData({
-    //         user_id: res.result.openid
-    //       })
-    //       wx.cloud.callFunction({
-    //         name: "getUserInfo",
-    //         data: {
-    //           openid: res.result.openid
-    //         }
-    //       }).then(res => {
-    //         that.setData({
-    //           uid: res.result.data[0]._id,
-    //           goodList: res.result.data[0].myLikes,
-    //           collectionList: res.result.data[0].myCollections
-    //         })
-    //         wx.cloud.callFunction({
-    //           name: "updateNote",
-    //           data: {
-    //             num: that.data.noteList.length,
-    //             city: that.data.city
-    //           }
-    //         }).then(res => {
-    //           that.setData({
-    //             noteList: res.result.data
-    //           })
-    //         })
-    //       })
-    //     })
-    //     that.setData({
-    //       reFresh: false
-    //     })
-    //     if (!that.data.reFresh) {
-    //       clearInterval(a)
-    //     }
-    //   }
-    // }, 100)
-
+    var that = this
+    if (wx.getStorageSync('isLogin')) {
+      wx.cloud.callFunction({
+        name: "getOpenid"
+      }).then(res => {
+        that.setData({
+          user_id: res.result.openid
+        })
+        wx.cloud.callFunction({
+          name: "getUserInfo",
+          data: {
+            openid: res.result.openid
+          }
+        }).then(res => {
+          that.setData({
+            uid: res.result.data[0]._id,
+            goodList: res.result.data[0].myLikes,
+            collectionList: res.result.data[0].myCollections
+          })
+        })
+      })
+    }
   },
 
   /**
@@ -559,12 +497,12 @@ Page({
     this.setData({
       noteList: []
     })
-    if(this.data.city!="") {
+    if (this.data.city != "") {
       this.firstGetNotes(6, 0, this.data.city)
     } else {
       this.firstShowNotes(6, 0)
     }
-    wx.stopPullDownRefresh();  
+    wx.stopPullDownRefresh();
   },
 
   /**
@@ -572,10 +510,10 @@ Page({
    */
   onReachBottom: function () {
     var page = this.data.noteList.length
-    if(this.data.city!="") {
+    if (this.data.city != "") {
       this.getNotes(4, page, this.data.city)
     } else {
-      this.initializeNotes(6,page)
+      this.initializeNotes(6, page)
     }
   },
 
@@ -591,7 +529,7 @@ Page({
 
   },
 
-  
+
 
   showcityPicker() {
     wx.navigateTo({
