@@ -12,8 +12,7 @@ Page({
     uid: '',
     goodList: [],
     collectionList: [],
-    reFresh: false,
-    lock: true
+    lock: false
   },
 
   checkNote: function (e) {
@@ -42,284 +41,305 @@ Page({
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
 
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
+    if (that.data.lock == false) {
+      that.setData({
+        lock: true
+      })
+      if (wx.getStorageSync('isLogin')) {
         wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
+          name: "getOpenid"
         }).then(res => {
           that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
+            user_id: res.result.openid
           })
           wx.cloud.callFunction({
-            name: "upGoodNum",
+            name: "getUserInfo",
             data: {
-              note_id: noteid,
-              user_id: that.data.uid,
-              goodlist: that.data.goodList
-            },
-            success(res) {
-              var temp = that.data.goodList
-              temp.push(noteid)
-              that.setData({
-                goodList: temp
-              })
-            },
-          })
-        })
-      })
-    } else {
-      wx.showModal({
-        title: '点赞',
-        content: '请到个人中心登录，登录后方可进行操作',
-        showCancel: true, //是否显示取消按钮
-        confirmText: "去登录", //默认是“确定”
-        success: function (res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            wx.switchTab({
-              url: '/pages/me/me'
+              openid: res.result.openid
+            }
+          }).then(res => {
+            that.setData({
+              uid: res.result.data[0]._id,
+              goodList: res.result.data[0].myLikes,
+              collectionList: res.result.data[0].myCollections
+            })
+            var temp = that.data.goodList
+            temp.push(noteid)
+            that.setData({
+              goodList: temp
             })
             wx.cloud.callFunction({
-              name: "getUserInfo",
+              name: "upGoodNum",
               data: {
-                openid: res.result.openid
+                note_id: noteid,
+                user_id: that.data.uid,
+                goodlist: that.data.goodList
+              },
+              success: function (res) {
+                that.setData({
+                  lock: false
+                })
               }
-            }).then(res => {
-              that.setData({
-                goodList: res.result.data[0].myLikes,
-                collectionList: res.result.data[0].myCollections
-              })
             })
-          }
-        },
-        fail: function (res) {}, //接口调用失败的回调函数
-        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+          })
+        })
+      } else {
+        wx.showModal({
+          title: '点赞',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true, //是否显示取消按钮
+          confirmText: "去登录", //默认是“确定”
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+              wx.cloud.callFunction({
+                name: "getUserInfo",
+                data: {
+                  openid: res.result.openid
+                }
+              }).then(res => {
+                that.setData({
+                  goodList: res.result.data[0].myLikes,
+                  collectionList: res.result.data[0].myCollections
+                })
+              })
+            }
+          },
+          fail: function (res) {}, //接口调用失败的回调函数
+          complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+      }
     }
-    await this.sleep(5000)
   },
 
   goodDown: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
-
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
+    if (that.data.lock == false) {
+      that.setData({
+        lock: true
+      })
+      if (wx.getStorageSync('isLogin')) {
         wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
+          name: "getOpenid"
         }).then(res => {
           that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
+            user_id: res.result.openid
           })
-          console.log("goodList_before:" + that.data.goodList)
           wx.cloud.callFunction({
-            name: "downGoodNum",
+            name: "getUserInfo",
             data: {
-              note_id: noteid,
-              user_id: that.data.uid,
-              goodlist: that.data.goodList,
-            },
-            success(res) {
-              if (that.data.goodList.findIndex(function (d) {
-                  return d == noteid;
-                }) != -1) {
-                var temp = that.data.goodList
-                temp.splice(temp.findIndex(function (d) {
-                  return d == noteid;
-                }), 1)
-                that.setData({
-                  goodList: temp
-                })
-                console.log("更改成功！", res)
-              }
-            },
-            fail(res) {
-              console.log("更改失败！", res)
+              openid: res.result.openid
             }
+          }).then(res => {
+            that.setData({
+              uid: res.result.data[0]._id,
+              goodList: res.result.data[0].myLikes,
+              collectionList: res.result.data[0].myCollections
+            })
+            if (that.data.goodList.findIndex(function (d) {
+                return d == noteid;
+              }) != -1) {
+              var temp = that.data.goodList
+              temp.splice(temp.findIndex(function (d) {
+                return d == noteid;
+              }), 1)
+              that.setData({
+                goodList: temp
+              })
+            }
+            wx.cloud.callFunction({
+              name: "downGoodNum",
+              data: {
+                note_id: noteid,
+                user_id: that.data.uid,
+                goodlist: that.data.goodList,
+              },
+              success: function (res) {
+                that.setData({
+                  lock: false
+                })
+              },
+              fail(res) {
+                console.log("更改失败！", res)
+              }
+            })
           })
         })
-      })
-    } else {
-      wx.showModal({
-        title: '取消点赞',
-        content: '请到个人中心登录，登录后方可进行操作',
-        showCancel: true, //是否显示取消按钮
-        confirmText: "去登录", //默认是“确定”
-        success: function (res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            wx.switchTab({
-              url: '/pages/me/me'
-            })
-          }
-        },
-        fail: function (res) {}, //接口调用失败的回调函数
-        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+      } else {
+        wx.showModal({
+          title: '取消点赞',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true, //是否显示取消按钮
+          confirmText: "去登录", //默认是“确定”
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+            }
+          },
+          fail: function (res) {}, //接口调用失败的回调函数
+          complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+      }
     }
   },
 
   collectionUp: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
+
+    if (that.data.lock == false) {
+      that.setData({
+        lock: true
+      })
+      if (wx.getStorageSync('isLogin')) {
         wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
+          name: "getOpenid"
         }).then(res => {
           that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
+            user_id: res.result.openid
           })
-          console.log("colList_before:" + that.data.collectionList)
           wx.cloud.callFunction({
-            name: "upColNum",
+            name: "getUserInfo",
             data: {
-              note_id: noteid,
-              user_id: that.data.uid,
-              collist: that.data.collectionList
-            },
-            success(res) {
-              if (that.data.collectionList.findIndex(function (d) {
-                  return d == noteid;
-                }) == -1) {
-                var temp = that.data.collectionList
-                temp.push(noteid)
-                that.setData({
-                  collectionList: temp
-                })
-                console.log("更改成功！", res)
-              }
-            },
-            fail(res) {
-              console.log("更改失败！", res)
+              openid: res.result.openid
             }
+          }).then(res => {
+            that.setData({
+              uid: res.result.data[0]._id,
+              goodList: res.result.data[0].myLikes,
+              collectionList: res.result.data[0].myCollections
+            })
+            if (that.data.collectionList.findIndex(function (d) {
+                return d == noteid;
+              }) == -1) {
+              var temp = that.data.collectionList
+              temp.push(noteid)
+              that.setData({
+                collectionList: temp
+              })
+              console.log("更改成功！", res)
+            }
+            wx.cloud.callFunction({
+              name: "upColNum",
+              data: {
+                note_id: noteid,
+                user_id: that.data.uid,
+                collist: that.data.collectionList
+              },
+              success: function (res) {
+                that.setData({
+                  lock: false
+                })
+              }
+            })
           })
         })
-      })
-    } else {
-      wx.showModal({
-        title: '收藏',
-        content: '请到个人中心登录，登录后方可进行操作',
-        showCancel: true, //是否显示取消按钮
-        confirmText: "去登录", //默认是“确定”
-        success: function (res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            wx.switchTab({
-              url: '/pages/me/me'
-            })
-          }
-        },
-        fail: function (res) {}, //接口调用失败的回调函数
-        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+      } else {
+        wx.showModal({
+          title: '收藏',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true, //是否显示取消按钮
+          confirmText: "去登录", //默认是“确定”
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+            }
+          },
+          fail: function (res) {}, //接口调用失败的回调函数
+          complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+      }
     }
   },
 
   collectionDown: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
-
-    if (wx.getStorageSync('isLogin')) {
-      wx.cloud.callFunction({
-        name: "getOpenid"
-      }).then(res => {
-        that.setData({
-          user_id: res.result.openid
-        })
+    if (that.data.lock == false) {
+      that.setData({
+        lock: true
+      })
+      if (wx.getStorageSync('isLogin')) {
         wx.cloud.callFunction({
-          name: "getUserInfo",
-          data: {
-            openid: res.result.openid
-          }
+          name: "getOpenid"
         }).then(res => {
           that.setData({
-            uid: res.result.data[0]._id,
-            goodList: res.result.data[0].myLikes,
-            collectionList: res.result.data[0].myCollections
+            user_id: res.result.openid
           })
           wx.cloud.callFunction({
-            name: "downColNum",
+            name: "getUserInfo",
             data: {
-              note_id: noteid,
-              user_id: that.data.uid,
-              collectionList: that.data.collectionList,
-            },
-            success(res) {
-              if (that.data.collectionList.findIndex(function (d) {
-                  return d == noteid;
-                }) != -1) {
-                var temp = that.data.collectionList
-                temp.splice(temp.findIndex(function (d) {
-                  return d == noteid;
-                }), 1)
-                that.setData({
-                  collectionList: temp
-                })
-                console.log("更改成功！", res)
-              }
-            },
-            fail(res) {
-              console.log("更改失败！", res)
+              openid: res.result.openid
             }
+          }).then(res => {
+            that.setData({
+              uid: res.result.data[0]._id,
+              goodList: res.result.data[0].myLikes,
+              collectionList: res.result.data[0].myCollections
+            })
+            if (that.data.collectionList.findIndex(function (d) {
+                return d == noteid;
+              }) != -1) {
+              var temp = that.data.collectionList
+              temp.splice(temp.findIndex(function (d) {
+                return d == noteid;
+              }), 1)
+              that.setData({
+                collectionList: temp
+              })
+              console.log("更改成功！", res)
+            }
+            wx.cloud.callFunction({
+              name: "downColNum",
+              data: {
+                note_id: noteid,
+                user_id: that.data.uid,
+                collectionList: that.data.collectionList,
+              },
+              success: function (res) {
+                that.setData({
+                  lock: false
+                })
+              }
+            })
           })
         })
-      })
-    } else {
-      wx.showModal({
-        title: '取消收藏',
-        content: '请到个人中心登录，登录后方可进行操作',
-        showCancel: true, //是否显示取消按钮
-        confirmText: "去登录", //默认是“确定”
-        success: function (res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            wx.switchTab({
-              url: '/pages/me/me'
-            })
-          }
-        },
-        fail: function (res) {}, //接口调用失败的回调函数
-        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+      } else {
+        wx.showModal({
+          title: '取消收藏',
+          content: '请到个人中心登录，登录后方可进行操作',
+          showCancel: true, //是否显示取消按钮
+          confirmText: "去登录", //默认是“确定”
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+            }
+          },
+          fail: function (res) {}, //接口调用失败的回调函数
+          complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+      }
     }
   },
 
