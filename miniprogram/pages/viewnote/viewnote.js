@@ -10,7 +10,6 @@ Page({
     background: [],
     note: {},
     nostarnumber: 0,
-    profile: {},
     comment_list: [],
     comment_list_number: 0,
     comment_list_reply: [],
@@ -24,7 +23,9 @@ Page({
     user_id: '',
     uid: '',
     review_image_if: false, //评论图标点获取焦点
-    lock: false
+    lock: false,
+    good_num: 0,
+    collection_num: 0
   },
 
   changeReviewIf: function () {
@@ -39,7 +40,7 @@ Page({
   goodUp: function (e) {
     var noteid = e.currentTarget.dataset['noteid']
     var that = this
-    const db = wx.cloud.database()
+
     if (that.data.lock == false) {
       that.setData({
         lock: true
@@ -63,7 +64,12 @@ Page({
               goodList: res.result.data[0].myLikes,
               collectionList: res.result.data[0].myCollections
             })
-            console.log("goodList_before:" + that.data.goodList)
+            var temp = that.data.goodList
+            temp.push(noteid)
+            that.setData({
+              goodList: temp,
+              good_num: that.data.good_num + 1
+            })
             wx.cloud.callFunction({
               name: "upGoodNum",
               data: {
@@ -72,21 +78,8 @@ Page({
                 goodlist: that.data.goodList
               },
               success(res) {
-                var temp = that.data.goodList
-                temp.push(noteid)
                 that.setData({
-                  goodList: temp
-                })
-                console.log("更改成功！", res)
-                db.collection('note').where({
-                  _id: noteid
-                }).get({
-                  success: res => {
-                    that.setData({
-                      note: res.data,
-                      lock: false
-                    })
-                  }
+                  lock: false
                 })
               },
               fail(res) {
@@ -155,7 +148,14 @@ Page({
               goodList: res.result.data[0].myLikes,
               collectionList: res.result.data[0].myCollections
             })
-            console.log("goodList_before:" + that.data.goodList)
+            var temp = that.data.goodList
+            temp.splice(temp.findIndex(function (d) {
+              return d == noteid;
+            }), 1)
+            that.setData({
+              goodList: temp,
+              good_num: that.data.good_num - 1
+            })
             wx.cloud.callFunction({
               name: "downGoodNum",
               data: {
@@ -164,26 +164,8 @@ Page({
                 goodlist: that.data.goodList,
               },
               success(res) {
-                var temp = that.data.goodList
-                console.log(temp)
-                console.log(noteid)
-                temp.splice(temp.findIndex(function (d) {
-                  return d == noteid;
-                }), 1)
-                console.log(temp)
                 that.setData({
-                  goodList: temp
-                })
-                console.log("更改成功！", res)
-                db.collection('note').where({
-                  _id: noteid
-                }).get({
-                  success: res => {
-                    that.setData({
-                      note: res.data,
-                      lock: false
-                    })
-                  }
+                  lock: false
                 })
               }
             })
@@ -238,7 +220,12 @@ Page({
               goodList: res.result.data[0].myLikes,
               collectionList: res.result.data[0].myCollections
             })
-            console.log("colList_before:" + that.data.collectionList)
+            var temp = that.data.collectionList
+            temp.push(noteid)
+            that.setData({
+              collectionList: temp,
+              collection_num: that.data.collection_num + 1
+            })
             wx.cloud.callFunction({
               name: "upColNum",
               data: {
@@ -247,21 +234,8 @@ Page({
                 collist: that.data.collectionList
               },
               success(res) {
-                var temp = that.data.collectionList
-                temp.push(noteid)
                 that.setData({
-                  collectionList: temp
-                })
-                console.log("更改成功！", res)
-                db.collection('note').where({
-                  _id: noteid
-                }).get({
-                  success: res => {
-                    that.setData({
-                      note: res.data,
-                      lock: false
-                    })
-                  }
+                  lock: false
                 })
               },
               fail(res) {
@@ -319,7 +293,16 @@ Page({
               goodList: res.result.data[0].myLikes,
               collectionList: res.result.data[0].myCollections
             })
-            console.log("colList_before:" + that.data.collectionList)
+            var temp = that.data.collectionList
+            console.log(temp)
+            console.log(noteid)
+            temp.splice(temp.findIndex(function (d) {
+              return d == noteid;
+            }), 1)
+            that.setData({
+              collectionList: temp,
+              collection_num: that.data.collection_num - 1
+            })
             wx.cloud.callFunction({
               name: "downColNum",
               data: {
@@ -328,27 +311,10 @@ Page({
                 collectionList: that.data.collectionList,
               },
               success(res) {
-                var temp = that.data.collectionList
-                console.log(temp)
-                console.log(noteid)
-                temp.splice(temp.findIndex(function (d) {
-                  return d == noteid;
-                }), 1)
-                console.log(temp)
                 that.setData({
-                  collectionList: temp
+                  lock: false
                 })
-                console.log("更改成功！", res)
-                db.collection('note').where({
-                  _id: noteid
-                }).get({
-                  success: res => {
-                    that.setData({
-                      note: res.data,
-                      lock: false
-                    })
-                  }
-                })
+
               },
               fail(res) {
                 console.log("更改失败！", res)
