@@ -1,3 +1,4 @@
+<view>
 <view class="picture1">
     <scroll-view   scroll-x="true" class="out3" enable-flex="true">
         <view class="B">
@@ -34,7 +35,7 @@
     <view class="starpic">
         <block wx:for="{{one_2}}" wx:key="index">
             <image catchtap='in_xin' id='{{index+1}}' data-in='use_sc2'
-                src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'></image>
+                src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/yellow.png'></image>
         </block>
         <block wx:for="{{two_2}}" wx:key="index">
             <image class="star" catchtap='in_xin' id='{{index+1}}' data-in='use_sc'
@@ -59,4 +60,4 @@
         <button class="button2" id="fabu" bindtap="uploaddata">发布</button>
     </view>
 </view>
-
+</view>
