@@ -13,10 +13,10 @@
 
 
   <scroll-view  class="scrollview" show-scrollbar="true" scroll-y="true">
-  <mp-tabs tabs="{{tabs}}" tab-class="mptabs" bindtabclick="onTabClick" bindchange="onChange"                           swiperClass="weui-tabs-swiper"  swiperStyle="height: {{height}}px">
+  <mp-tabs tabs="{{tabs}}" tab-class="mptabs" bindtabclick="onTabClick" bindchange="onChange"                           swiperClass="weui-tabs-swiper"  swiperStyle="height: {{h}}px">
     <block wx:for="{{tabs}}" wx:key="title"  >
       <view class="tab-content" data-set="{{item}}" slot="tab-content-{{index}}" class="view1" >
-        
+        <scroll-view  class="scrollview" show-scrollbar="true" scroll-y="true">
             <view class="notes">
                       <view class="left">
                           <block wx:for="{{item.dataList}}" wx:key="index" wx:for-item="item_note">
@@ -31,7 +31,8 @@
                                   data-note="item_note"></template>
                           </block>
                       </view>
-             </view>    
+             </view> 
+            </scroll-view>   
   </view>
   </block>
   </mp-tabs>

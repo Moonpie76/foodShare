@@ -11,6 +11,6 @@ const db = cloud.database()
 exports.main = async (event, context) => {
  
   return await db.collection("note").where({
-    _id:event.id
+    id:event.id
   }).get()
  }
