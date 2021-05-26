@@ -58,6 +58,7 @@ Page({
                 }
               }).then(info => {
                 //用户是第一次登录，把用户信息插入到user表中
+
                 if (info.result.data.length == 0) {
                   db.collection("user").add({
                     data: {
@@ -67,6 +68,7 @@ Page({
                       myLikes: []
                     }
                   }).then(res => {
+                    console.log("首次登录！")
 
                   })
                 } else {
@@ -155,8 +157,6 @@ onchange2:function(){
 
     if (wx.getStorageSync('isLogin')) {
       this.handleClick()
-
-
     } else {
       const tabs = [{
         title: '我的发布' + ' ' + 0,
@@ -203,8 +203,10 @@ onchange2:function(){
 
       that.setData({
         datalist: res.result.data,
+
         height1: res.result.data.length * 140,
         list:res.result.data
+
       })
 
       wx.cloud.callFunction({
@@ -223,8 +225,7 @@ onchange2:function(){
         })
 
         for (var i = 0; i < that.data.alist.length; i++) {
-          for (var j = 0; j < that.data.alist[i].length; j++) {
-            var Id = that.data.alist[i][j]
+            var Id = that.data.alist[i]
 
             wx.cloud.callFunction({
               name: "getbyid",
@@ -236,24 +237,24 @@ onchange2:function(){
                 datalist1: that.data.datalist1.concat(res.result.data)
 
               })
-              if (that.data.height1 < 500 && that.data.datalist1.length * 500 < 500) {
+              if (that.data.height1 < 500 && that.data.datalist1.length * 160 < 500) {
+
                 that.setData({
                   height: 500
                 })
               } else {
-                if (that.data.height1 > that.data.datalist1.length * 140) {
+                if (that.data.height1 > that.data.datalist1.length * 160) {
                   that.setData({
                     height: that.data.height1
                   })
                 } else {
                   that.setData({
-                    height: that.data.datalist1.length * 140
+                    height: that.data.datalist1.length * 160
                   })
                 }
               }
 
             })
-          }
         }
 
 
@@ -306,7 +307,7 @@ onchange2:function(){
       }
     }
     await this.sleep(2000);
-    if (this.data.height1 > this.data.datalist1.length * 140) {
+    if (this.data.height1 > this.data.datalist1.length * 160) {
       this.setData({
         height: this.data.height1
       })
@@ -373,6 +374,7 @@ onchange2:function(){
         }
       })
     } else {
+      that.handleClick()
       wx.cloud.callFunction({
         name: "getOpenid"
       }).then(open => {
@@ -382,6 +384,7 @@ onchange2:function(){
             openid: open.result.openid
           }
         }).then(userInfo => {
+          console.log(userInfo)
           var avatar = userInfo.result.data[0].avatar
           var nickName = userInfo.result.data[0].nickName
 
@@ -389,6 +392,7 @@ onchange2:function(){
             avatar: avatar,
             nickName: nickName
           })
+
         })
       })
     }
@@ -427,7 +431,7 @@ onchange2:function(){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    
   },
 
   /**

@@ -487,10 +487,10 @@ Page({
     })
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
-    this.searchByKeyWord(this.data.inputValue, 4, 0, this.data.city)
+    this.searchByKeyWord(this.data.inputValue, 6, 0, this.data.city)
     console.log(this.data.noteList)
   },
-  searchByKeyWord(info, num = 4, page = 0, city) {
+  searchByKeyWord(info, num = 6, page = 0, city) {
     console.log(city)
     wx.cloud.callFunction({
       name: "searchNotes",
@@ -558,7 +558,7 @@ Page({
     this.setData({
       inputValue: info.info
     })
-    this.searchByKeyWord(this.data.inputValue, 4, 0, this.data.city)
+    this.searchByKeyWord(this.data.inputValue, 6, 0, this.data.city)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -647,7 +647,7 @@ Page({
   onReachBottom: function () {
     if (this.data.hideHistory && this.data.hideScroll) {
       var page = this.data.noteList.length
-      this.searchByKeyWord(this.data.inputValue, 4, page, this.data.city)
+      this.searchByKeyWord(this.data.inputValue, 6, page, this.data.city)
     }
   },
 
