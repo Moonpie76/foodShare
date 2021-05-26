@@ -18,7 +18,8 @@ Page({
     nickName: '',
     avatar: '',
     height: '',
-    lock: false
+    lock: false,
+    goodList: [],
   },
 
   login: async function (e) {
@@ -197,15 +198,12 @@ Page({
           openid: that.data.openid
         }
       }).then(res => {
-        var newData = []
-        for (var i = 0; i < res.result.data.length; i++) {
-          newData[i] = res.result.data[i].myCollections
-        }
+        
         that.setData({
-          alist: newData,
-
+          alist: res.result.data[0].myCollections
         })
 
+        var collections = []
         for (var i = 0; i < that.data.alist.length; i++) {
             var Id = that.data.alist[i]
 
@@ -215,9 +213,9 @@ Page({
                 id: Id
               }
             }).then(res => {
+              collections.push(res.result.data[0])
               that.setData({
-                datalist1: that.data.datalist1.concat(res.result.data)
-
+                datalist1: collections
               })
               if (that.data.height1 < 500 && that.data.datalist1.length * 160 < 500) {
 
@@ -246,7 +244,6 @@ Page({
   },
 
   getaList: function () {
-
     wx.cloud.callFunction({
       name: "getalist",
       data: {
@@ -261,7 +258,6 @@ Page({
 
       this.setData({
         alist: newData,
-
       })
 
       this.getbyid()
