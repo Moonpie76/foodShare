@@ -1,3 +1,4 @@
+<view>
 <view class="picture1">
     <scroll-view   scroll-x="true" class="out3" enable-flex="true">
         <view class="B">
@@ -59,4 +60,4 @@
         <button class="button2" id="fabu" bindtap="uploaddata">发布</button>
     </view>
 </view>
-
+</view>

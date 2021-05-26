@@ -18,7 +18,9 @@ Page({
     nickName: '',
     avatar: '',
     height: '',
-    lock: false
+    lock: false,
+    list:[],
+    check_button: 0
   },
 
   login: async function (e) {
@@ -99,7 +101,8 @@ Page({
                 })
                 that.setData({
                   datalist: [],
-                  datalist1: []
+                  datalist1: [],
+                   list:[]
                 })
                 const tabs = [{
                   title: '我的发布' + ' ' + 0,
@@ -130,8 +133,20 @@ Page({
       if (new Date().getTime() - start > n) break;
   },
 
+onchange1:function(){
+this.setData({
+  list:this.data.datalist,
+  check_button: 0
+})
 
-
+},
+onchange2:function(){
+  this.setData({
+    list:this.data.datalist1,
+    check_button: 1
+  })
+  
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -188,7 +203,10 @@ Page({
 
       that.setData({
         datalist: res.result.data,
-        height1: res.result.data.length * 160
+
+        height1: res.result.data.length * 140,
+        list:res.result.data
+
       })
 
       wx.cloud.callFunction({
@@ -319,7 +337,7 @@ Page({
       this.getdataList()
     })
 
-    await this.sleep(2000)
+    await this.sleep(3000)
 
     const tabs = [{
       title: '我的发布' + ' ' + this.data.datalist.length,
