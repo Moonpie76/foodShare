@@ -396,7 +396,6 @@ Page({
       this.setData({
         noteList: newData
       })
-      console.log(this.data.noteList)
     })
   },
   //没有定位只显示最新的六条笔记
@@ -411,7 +410,6 @@ Page({
       this.setData({
         noteList: res.result.data
       })
-      console.log(this.data.noteList)
     })
   },
   /**
@@ -524,7 +522,7 @@ Page({
     this.setData({
       noteList: []
     })
-    if (this.data.city != "") {
+    if (this.data.city != "请选择学校") {
       this.firstGetNotes(6, 0, this.data.city)
     } else {
       this.firstShowNotes(6, 0)
@@ -537,7 +535,7 @@ Page({
    */
   onReachBottom: function () {
     var page = this.data.noteList.length
-    if (this.data.city != "") {
+    if (this.data.city != "请选择学校") {
       this.getNotes(4, page, this.data.city)
     } else {
       this.initializeNotes(6, page)
