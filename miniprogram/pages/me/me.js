@@ -23,7 +23,7 @@ Page({
 
   login: async function (e) {
     var that = this
-    console.log(e)
+    
 
     //如果没有登录，点击头像登录
     if (!wx.getStorageSync('isLogin')) {
@@ -45,12 +45,10 @@ Page({
               avatar: userInfo.avatarUrl
             })
 
-
             //查看用户是否是第一次登录
             wx.cloud.callFunction({
               name: "getOpenid"
             }).then(open => {
-              console.log(open.result.openid)
               wx.cloud.callFunction({
                 name: "getUserInfo",
                 data: {
@@ -69,6 +67,8 @@ Page({
                   }).then(res => {
 
                   })
+                } else {
+                  that.handleClick()
                 }
               })
             })
@@ -137,7 +137,6 @@ Page({
   onLoad: async function (options) {
     var that = this
 
-    console.log("onload")
 
     if (wx.getStorageSync('isLogin')) {
       this.handleClick()
@@ -172,7 +171,7 @@ Page({
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
-    console.log(this.data.noteList);
+ 
     wx.navigateTo({
       url: '../viewnote/viewnote?id=' + id,
     })
@@ -180,22 +179,17 @@ Page({
 
   getdataList: async function () {
     var that = this
-    console.log(that.data.openid)
     wx.cloud.callFunction({
       name: "getdatalist",
       data: {
         openid: that.data.openid
       }
     }).then(res => {
-      //var oldData = this.data.noteList
-      console.log(res.result.data)
-      // var newData = that.data.datalist.concat(res.result.data)
 
       that.setData({
         datalist: res.result.data,
         height1: res.result.data.length * 140
       })
-      console.log(that.data.datalist.length)
 
       wx.cloud.callFunction({
         name: "getalist",
@@ -203,19 +197,14 @@ Page({
           openid: that.data.openid
         }
       }).then(res => {
-        //var oldData = this.data.noteList
-        console.log(res)
-        //var newData = this.data.alist.concat(res.result.data)
         var newData = []
         for (var i = 0; i < res.result.data.length; i++) {
           newData[i] = res.result.data[i].myCollections
         }
-        console.log(newData)
         that.setData({
           alist: newData,
 
         })
-        console.log(that.data.alist)
 
         for (var i = 0; i < that.data.alist.length; i++) {
           for (var j = 0; j < that.data.alist[i].length; j++) {
@@ -231,7 +220,6 @@ Page({
                 datalist1: that.data.datalist1.concat(res.result.data)
 
               })
-              console.log(that.data.datalist1)
               if (that.data.height1 < 500 && that.data.datalist1.length * 500 < 500) {
                 that.setData({
                   height: 500
@@ -251,19 +239,6 @@ Page({
             })
           }
         }
-        // console.log(new Date())
-        // const tabs = [{
-        //   title: '我的发布' + ' ' + this.data.datalist.length,
-
-        //   dataList: this.data.datalist
-        // }, {
-        //   title: '我的收藏' + ' ' + this.data.datalist1.length,
-        //   dataList: this.data.datalist1,
-        // }]
-        // this.setData({
-        //   tabs: tabs
-        // })
-        // console.log(tabs)
 
 
       })
@@ -273,16 +248,13 @@ Page({
 
   getaList: function () {
 
-    console.log(this.data.openid)
     wx.cloud.callFunction({
       name: "getalist",
       data: {
         openid: this.data.openid
       }
     }).then(res => {
-      //var oldData = this.data.noteList
-      console.log(res)
-      //var newData = this.data.alist.concat(res.result.data)
+    
       var newData = []
       for (var i = 0; i < res.result.data.length; i++) {
         newData[i] = res.result.data[i].myCollections
@@ -293,8 +265,6 @@ Page({
 
       })
 
-      console.log(this.data.alist)
-      console.log(this.data.height)
       this.getbyid()
     })
   },
@@ -363,7 +333,6 @@ Page({
     this.setData({
       tabs: tabs
     })
-    console.log(tabs)
   },
 
   /**
