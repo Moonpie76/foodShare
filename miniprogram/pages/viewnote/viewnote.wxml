@@ -58,15 +58,17 @@
       <text>{{note[0].good_num}}</text>
     </view>
     <view class="handel_style">
-      <image class="collection_icon" wx:if="{{tools.checkCollection(collectionList,c_length,note[0]._id) == '0'}}"
-        bindtap='collection' data-num='{{note[0].collection_num}}'
+      <image class="collection_icon"
+        wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '0'}}"
+        bindtap='collectionUp' data-noteid='{{note[0]._id}}'
         src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/shoucang.png" mode="aspectFit" />
-      <image class="collections_icon" wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '1'}}"
+      <image class="collections_icon"
+        wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '1'}}"
         bindtap='collectionDown' data-noteid='{{note[0]._id}}'
         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png' />
       <text>{{note[0].collection_num}}</text>
     </view>
-    <view class="handel_style" bindtap="changeReviewIf">
+    <view class="handel_style">
       <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"
         mode="aspectFit" />
       <text>{{comment_number}}</text>

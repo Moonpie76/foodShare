@@ -6,7 +6,16 @@
   display: flex;
 }
 
+.collections_icon{
+  width: 53rpx;
+  height: 53rpx;
+}
 
+.collection_icon{
+  width: 47rpx;
+  height: 47rpx;
+  margin-right: 2px;
+}
 
 .profile {
   width: 40px;
@@ -132,7 +141,7 @@
   color:rgb(107, 103, 103);
 }
 .handel_style {
-  width: 60px;
+  width: 55px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -147,18 +156,6 @@
   width: 25px;
   height: 25px;
   margin-right: 2px;
-}
-
-.collections_icon{
-  width: 53rpx;
-  height: 53rpx;
-  margin-right: 4rpx;
-}
-
-.collection_icon{
-  width: 47rpx;
-  height: 47rpx;
-  margin-right: 4rpx;
 }
 
 .comment {

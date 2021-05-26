@@ -491,6 +491,7 @@ Page({
     console.log(this.data.noteList)
   },
   searchByKeyWord(info, num = 4, page = 0, city) {
+    console.log(city)
     wx.cloud.callFunction({
       name: "searchNotes",
       data: {
@@ -599,7 +600,6 @@ Page({
             collectionList: res.result.data[0].myCollections
           })
           console.log(that.data.inputValue)
-          console.log(that.data.noteList.length)
           if (that.data.inputValue) {
             wx.cloud.callFunction({
               name: "updateSearchNote",
