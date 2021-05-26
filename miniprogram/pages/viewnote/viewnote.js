@@ -78,8 +78,6 @@ changeReviewIf:function(){
                 success: res => {
                   that.setData({
                     note: res.data,
-                    nostarnumber: 5 - res.data[0].level,
-                    background: res.data[0].picture,
                   })
                 }
               })
@@ -172,8 +170,6 @@ changeReviewIf:function(){
                 success: res => {
                   that.setData({
                     note: res.data,
-                    nostarnumber: 5 - res.data[0].level,
-                    background: res.data[0].picture,
                   })
                 }
               })
@@ -330,8 +326,6 @@ changeReviewIf:function(){
                 success: res => {
                   that.setData({
                     note: res.data,
-                    nostarnumber: 5 - res.data[0].level,
-                    background: res.data[0].picture,
                   })
                 }
               })

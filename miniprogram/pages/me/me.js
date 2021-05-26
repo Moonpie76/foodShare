@@ -260,7 +260,7 @@ console.log(this.data.height)
     }).then(res=>{
       console.log(res.result.openid)
       this.setData({
-        openid:  res.result.openid
+        openid: res.result.openid
       })
       console.log(this.data.openid)
       this.getdataList()
