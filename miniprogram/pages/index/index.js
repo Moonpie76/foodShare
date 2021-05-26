@@ -420,9 +420,16 @@ Page({
   onLoad: function (options) {
 
     var that = this
-    that.setData({
-      city: wx.getStorageSync('city')
-    })
+    var school = wx.getStorageSync('city')
+    if(school=='') {
+      that.setData({
+        city: "请选择学校"
+      })
+    } else {
+      that.setData({
+        city: school
+      })
+    }
     if (wx.getStorageSync('isLogin')) {
       wx.cloud.callFunction({
         name: "getOpenid"
@@ -442,7 +449,7 @@ Page({
             collectionList: res.result.data[0].myCollections
           })
           //判断有没有定位
-          if (that.data.city != "") {
+          if (that.data.city != "请选择学校") {
             that.firstGetNotes(6, 0, that.data.city)
           } else {
             that.firstShowNotes(6, 0)
@@ -451,7 +458,7 @@ Page({
       })
     } else {
       //判断有没有定位
-      if (that.data.city != "") {
+      if (that.data.city != "请选择学校") {
         that.firstGetNotes(6, 0, that.data.city)
       } else {
         that.firstShowNotes(6, 0)
@@ -548,7 +555,6 @@ Page({
   onShareAppMessage: function () {
 
   },
-
 
 
   showcityPicker() {

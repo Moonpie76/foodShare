@@ -44,12 +44,14 @@
 }
 
 .scrollview{
-  height:450px;
+  height:550px;
  
 }
 .weui-tabs-swiper{
   margin-left: 8px;
   margin-right:8px;
 }
-
+.view1{
+  margin-top:8px;
+}
 
