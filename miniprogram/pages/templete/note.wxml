@@ -7,7 +7,7 @@
             class="title-wrap">
             <navigator url="url" class="title">{{item_note.title}}</navigator>
         </view>
-        <view class="level">
+        <view class="level" data-id="{{item_note._id}}" data-length="{{length}}" data-c_length="{{c_length}}" bindtap="checkNote">
             <view class='stars' wx:for="{{item_note.level}}" wx:key="index">
                 <image id="star"
                     src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/yellow.png'>
