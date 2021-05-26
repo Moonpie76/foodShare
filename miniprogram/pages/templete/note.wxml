@@ -7,6 +7,18 @@
             class="title-wrap">
             <navigator url="url" class="title">{{item_note.title}}</navigator>
         </view>
+        <view class="level">
+            <view class='stars' wx:for="{{item_note.level}}" wx:key="index">
+                <image id="star"
+                    src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'>
+                </image>
+            </view>
+            <view class='stars' wx:for="{{5-item_note.level}}" wx:key="index">
+                <image id="star"
+                    src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/star_gray.png'>
+                </image>
+            </view>
+        </view>
         <view class="bottom">
             <view data-id="{{item_note._id}}" data-length="{{length}}" data-c_length="{{c_length}}" bindtap="checkNote"
                 class="face-name">
@@ -21,7 +33,6 @@
                     <image class='goods_icon' wx:if="{{tools.checkGood(goodList,length,item_note._id) == '1'}}"
                         bindtap='goodDown' data-noteid='{{item_note._id}}'
                         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/goods.png'></image>
-                    <view class="good_num">{{item_note.good_num}}</view>
                 </view>
                 <view class="collection">
                     <image class="collection_icon"
@@ -34,7 +45,6 @@
                         bindtap='collectionDown' data-noteid='{{item_note._id}}'
                         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'>
                     </image>
-                    <view class="collection_num">{{item_note.collection_num}}</view>
                 </view>
             </view>
         </view>
