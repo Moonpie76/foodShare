@@ -55,7 +55,7 @@
       <image id="like_image" wx:if="{{tools.checkGood(goodList,goodList.length,note[0]._id) == '1'}}" bindtap='goodDown'
         data-noteid='{{note[0]._id}}'
         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/goods.png' mode="aspectFit" />
-      <text>{{note[0].good_num}}</text>
+      <text>{{good_num}}</text>
     </view>
     <view class="handel_style">
       <image class="collection_icon"
@@ -66,7 +66,7 @@
         wx:if="{{tools.checkCollection(collectionList,collectionList.length,note[0]._id) == '1'}}"
         bindtap='collectionDown' data-noteid='{{note[0]._id}}'
         src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/yellow.png' />
-      <text>{{note[0].collection_num}}</text>
+      <text>{{collection_num}}</text>
     </view>
     <view class="handel_style">
       <image id="review_image" src="cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/pinglun.png"

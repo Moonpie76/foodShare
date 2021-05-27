@@ -8,32 +8,29 @@
   <view class="nickname" bindtap="login">{{nickName}}</view>
 </view>
 
-
-
-
-<!-- <scroll-view  class="scrollview" show-scrollbar="true" scroll-y="true"> -->
-<mp-tabs tabs="{{tabs}}" tab-class="mptabs" bindtabclick="onTabClick" bindchange="onChange"
-  swiperClass="weui-tabs-swiper" swiperStyle="height: {{height-170}}px">
-  <block wx:for="{{tabs}}" wx:key="title">
-    <view class="tab-content" data-set="{{item}}" slot="tab-content-{{index}}" class="view1">
-      <scroll-view class="scrollview" show-scrollbar="true" scroll-y="true">
-        <view class="notes">
-          <view class="left">
-            <block wx:for="{{item.dataList}}" wx:key="index" wx:for-item="item_note">
-              <template is="msg"
-                data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}"
-                wx:if="{{index%2==0}}"></template>
-            </block>
-          </view>
-          <view class="right">
-            <block wx:for="{{item.dataList}}" wx:key="index" wx:for-item="item_note">
-              <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}" bindtap="checkNote"
-                data-note="item_note"></template>
-            </block>
-          </view>
-        </view>
-      </scroll-view>
-    </view>
-  </block>
-</mp-tabs>
-<!-- </scroll-view> -->
+<view class="top">
+  <view class="button_first" bindtap="onchange1">
+    <view>我的发布 ({{datalist.length}})</view>
+    <view class="divLine" wx:if="{{check_button==0}}"></view>
+  </view>
+  <view class="button_second" bindtap="onchange2">
+    <view>我的收藏 ({{alist.length}})</view>
+    <view class="divLine" wx:if="{{check_button==1}}"></view>
+  </view>
+</view>
+<view class="notes">
+  <view class="left">
+    <block wx:for="{{list}}" wx:key="index" wx:for-item="item_note">
+      <template is="msg"
+        data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:alist,c_length:alist.length}}"
+        wx:if="{{index%2==0}}"></template>
+    </block>
+  </view>
+  <view class="right">
+    <block wx:for="{{list}}" wx:key="index" wx:for-item="item_note">
+      <template is="msg"
+        data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:alist,c_length:alist.length}}"
+        wx:if="{{index%2==1}}"></template>
+    </block>
+  </view>
+</view>
