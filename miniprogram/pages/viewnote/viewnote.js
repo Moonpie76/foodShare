@@ -614,6 +614,8 @@ Page({
           note: res.data,
           nostarnumber: 5 - res.data[0].level,
           background: res.data[0].picture,
+          good_num: res.data[0].good_num,
+          collection_num: res.data[0].collection_num         
         })
       },
       fail: err => {
