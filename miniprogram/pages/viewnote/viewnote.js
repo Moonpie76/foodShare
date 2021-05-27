@@ -25,9 +25,16 @@ Page({
     review_image_if: false, //评论图标点获取焦点
     lock: false,
     good_num: 0,
-    collection_num: 0
+    collection_num: 0,
+    hidden: true
   },
-
+  //加载页面
+  changeHidden: function () {
+    this.setData({
+      hidden: !this.data.hidden
+    });
+  },
+  //点击评论图片
   changeReviewIf: function () {
     console.log("这是改变")
     var that = this
@@ -429,7 +436,12 @@ Page({
   //刷新页面
   refurbish: function (id) {
     console.log(id)
-    console.log("开始刷新")
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     var that = this
     that.setData({
       comment_list_reply: [],
@@ -543,6 +555,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     var that = this
     const db = wx.cloud.database()
     if (wx.getStorageSync('isLogin')) {
