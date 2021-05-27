@@ -19,6 +19,7 @@ Page({
     avatar: '',
     height: '',
     lock: false,
+    goodList: [],
     list:[],
     check_button: 0,
     goodList:[],
@@ -205,8 +206,10 @@ onchange2:function(){
 
       that.setData({
         datalist: res.result.data,
+
         height1: res.result.data.length * 140,
         list:res.result.data
+
       })
 
       wx.cloud.callFunction({
@@ -215,15 +218,13 @@ onchange2:function(){
           openid: that.data.openid
         }
       }).then(res => {
-        var newData = []
-        for (var i = 0; i < res.result.data.length; i++) {
-          newData[i] = res.result.data[i].myCollections
-        }
+        
         that.setData({
-          alist: newData,
-
+          alist: res.result.data[0].myCollections,
+          goodList: res.result.data[0].myLikes,
         })
 
+        var collections = []
         for (var i = 0; i < that.data.alist.length; i++) {
             var Id = that.data.alist[i]
 
@@ -233,9 +234,9 @@ onchange2:function(){
                 id: Id
               }
             }).then(res => {
+              collections.push(res.result.data[0])
               that.setData({
-                datalist1: that.data.datalist1.concat(res.result.data)
-
+                datalist1: collections
               })
               if (that.data.height1 < 500 && that.data.datalist1.length * 160 < 500) {
 
@@ -264,7 +265,6 @@ onchange2:function(){
   },
 
   getaList: function () {
-
     wx.cloud.callFunction({
       name: "getalist",
       data: {
@@ -279,7 +279,6 @@ onchange2:function(){
 
       this.setData({
         alist: newData,
-
       })
 
       this.getbyid()

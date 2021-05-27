@@ -14,7 +14,7 @@
     <view class="divLine" wx:if="{{check_button==0}}"></view>
   </view>
   <view class="button_second" bindtap="onchange2">
-    <view>我的收藏 ({{datalist1.length}})</view>
+    <view>我的收藏 ({{alist.length}})</view>
     <view class="divLine" wx:if="{{check_button==1}}"></view>
   </view>
 </view>
@@ -22,18 +22,15 @@
   <view class="left">
     <block wx:for="{{list}}" wx:key="index" wx:for-item="item_note">
       <template is="msg"
-        data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}"
+        data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:alist,c_length:alist.length}}"
         wx:if="{{index%2==0}}"></template>
     </block>
   </view>
   <view class="right">
     <block wx:for="{{list}}" wx:key="index" wx:for-item="item_note">
-      <template is="msg" data="{{item_note}}" wx:if="{{index%2==1}}" bindtap="checkNote"
-        data-note="item_note"></template>
+      <template is="msg"
+        data="{{item_note:item_note,goodList:goodList,length:goodList.length,collectionList:alist,c_length:alist.length}}"
+        wx:if="{{index%2==1}}"></template>
     </block>
   </view>
 </view>
-
-
-
-
