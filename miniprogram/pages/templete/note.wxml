@@ -10,7 +10,7 @@
         <view class="level">
             <view class='stars' wx:for="{{item_note.level}}" wx:key="index">
                 <image id="star"
-                    src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'>
+                    src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/yellow.png'>
                 </image>
             </view>
             <view class='stars' wx:for="{{5-item_note.level}}" wx:key="index">
@@ -43,7 +43,7 @@
                     <image class='collections_icon'
                         wx:if="{{tools.checkCollection(collectionList,c_length,item_note._id) == '1'}}"
                         bindtap='collectionDown' data-noteid='{{item_note._id}}'
-                        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/stars_yellow.png'>
+                        src='cloud://cloud1-3g2crjv629049c8c.636c-cloud1-3g2crjv629049c8c-1305648382/yellow.png'>
                     </image>
                 </view>
             </view>

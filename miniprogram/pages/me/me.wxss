@@ -1,16 +1,18 @@
 /* pages/me/me.wxss */
 @import "../templete/note.wxss";
-.head-pic{
+
+.head-pic {
   width: 120rpx;
   height: 120rpx;
   border: 1px solid #DDDDDD;
   border-radius: 50px;
 }
+
 .avatar {
   margin-left: 20px;
   margin-right: 20px;
-
 }
+
 .avatarBtn {
   width: 130rpx !important;
   height: 135rpx;
@@ -20,38 +22,39 @@
 }
 
 .avatarBtn::after {
-  border: 0; 
+  border: 0;
 }
 
-.firstview{
+.firstview {
   display: flex;
   width: 100%;
-  height: 180rpx;
+  height: 100px;
   flex-direction: row;
   align-items: center;
 }
 
 
 
-.mptabs{
-  margin-left:73px;
- 
+.mptabs {
+  margin-left: 73px;
+
 }
 
 
-.tabbar{
+.tabbar {
   height: 400px;
 }
 
-.scrollview{
-  height:550px;
- 
-}
-.weui-tabs-swiper{
-  margin-left: 8px;
-  margin-right:8px;
-}
-.view1{
-  margin-top:8px;
+.scrollview {
+  height: 650px;
+
 }
 
+.weui-tabs-swiper {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.view1 {
+  margin-top: 8px;
+}
