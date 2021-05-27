@@ -6,7 +6,7 @@ Page({
   data: {
     "hidden": true,
     cityName: "", //获取选中的学校名
- 
+
   },
   onLoad: function (options) {
     // 生命周期函数--监听页面加载
@@ -30,15 +30,15 @@ Page({
   },
   onShow: function () {
     // 生命周期函数--监听页面显示
- 
+
   },
   onHide: function () {
     // 生命周期函数--监听页面隐藏
- 
+
   },
   onUnload: function () {
     // 生命周期函数--监听页面卸载
- 
+
   },
   //触发全部开始选择
   chStart: function () {
@@ -71,7 +71,7 @@ Page({
       scrollTopId: id
     })
   },
- 
+
   // 滑动选择学校
   chMove: function (e) {
     var y = e.touches[0].clientY;
@@ -85,7 +85,7 @@ Page({
         height = res.windowHeight - 10;
       }
     });
- 
+
     //判断选择区域,只有在选择区才会生效
     if (y > offsettop && y < height) {
       // console.log((y-offsettop)/lineHeight)
@@ -94,8 +94,8 @@ Page({
       // 这里 把endWords 绑定到this 上，是为了手指离开事件获取值
       that.endWords = endWords;
     };
- 
- 
+
+
     //去除重复，为了防止每次移动都赋值 ,这里限制值有变化后才会有赋值操作，
     //DOTO 这里暂时还有问题，还是比较卡，待优化
     if (isNum != num) {
@@ -111,18 +111,19 @@ Page({
     var cityName = e.currentTarget.dataset.city;
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2]; //上一个页面
- 
+
     //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
     prevPage.setData({
       city: cityName
     })
-    wx.setStorage({
-      data: cityName,
-      key: 'city',
-    })
+
+    if (prevPage.route == "pages/index/index") {
+      wx.setStorage({
+        data: cityName,
+        key: 'city',
+      })
+    }
     wx.navigateBack()
-    // wx.navigateBack({
-    //   url: '/pages/home/search/index'
-    // })
+    
   }
 })

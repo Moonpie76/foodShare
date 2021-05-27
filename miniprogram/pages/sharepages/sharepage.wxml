@@ -20,12 +20,12 @@
 
 <view class="titleline">
     <input class="input1" maxlength="20" bindinput="biaoti"  value="{{title}}"
-        placeholder="填写标题会让更多人搜到你的分享~" placeholder-class="myholder1" selection-start="100"></input>
+        placeholder="填写标题会让更多人搜到你的分享(标题限制20字)" placeholder-class="myholder1" selection-start="100"></input>
 </view>
 
 
 <scroll-view class="scrolltext" scroll-y>
-    <textarea class="input2" bindinput="zhengwen" value="{{content}}" placeholder="添加精美文案留下你的美食体验吧~"
+    <textarea  maxlength="1000" class="input2" bindinput="zhengwen" value="{{content}}" placeholder="添加精美文案留下你的美食体验吧(正文限制1000字)"
         placeholder-class="myholder2"></textarea>
 </scroll-view>
 
