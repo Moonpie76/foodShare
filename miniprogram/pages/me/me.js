@@ -23,7 +23,9 @@ Page({
     list:[],
     check_button: 0,
     goodList:[],
-    collectionList:[]
+    collectionList:[],
+    tar:0,
+    tar1:0
   } ,
 
   login: async function (e) {
@@ -47,7 +49,8 @@ Page({
             let userInfo = res.userInfo
             that.setData({
               nickName: userInfo.nickName,
-              avatar: userInfo.avatarUrl
+              avatar: userInfo.avatarUrl,
+              tar:1
             })
 
             //查看用户是否是第一次登录
@@ -61,7 +64,7 @@ Page({
                 }
               }).then(info => {
                 //用户是第一次登录，把用户信息插入到user表中
-
+                
                 if (info.result.data.length == 0) {
                   db.collection("user").add({
                     data: {
@@ -337,7 +340,15 @@ onchange2:function(){
     })
 
     await this.sleep(3000)
-
+    if(this.data.datalist.length==0&&this.data.datalist1==0){
+      this.setData({
+        tar1:1
+      })
+    }else{
+      this.setData({
+        tar1:0
+      })
+    }
     const tabs = [{
       title: '我的发布' + ' ' + this.data.datalist.length,
 
@@ -368,7 +379,8 @@ onchange2:function(){
         success: res => {
           that.setData({
             avatar: res.userInfo.avatarUrl,
-            nickName: "请点击头像进行登录"
+            nickName: "请点击头像进行登录",
+           
           })
         }
       })
@@ -389,7 +401,8 @@ onchange2:function(){
 
           that.setData({
             avatar: avatar,
-            nickName: nickName
+            nickName: nickName,
+            tar:1
           })
 
         })

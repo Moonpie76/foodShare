@@ -76,6 +76,14 @@
 
 }
 
+.warning1{
+  color:gray; 
+  justify-content: center;
+  margin-left: 85px;
+  width:100%;
+  margin-top:80px;
+}
+
 .notes {
   display: flex;
   justify-content: center;
