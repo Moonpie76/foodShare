@@ -14,7 +14,6 @@ Page({
     openid: '',
     alist: [],
     height1: '',
-    height2: '',
     nickName: '',
     avatar: '',
     height: '',
@@ -30,7 +29,7 @@ Page({
 
   login: async function (e) {
     var that = this
-    
+
 
     //如果没有登录，点击头像登录
     if (!wx.getStorageSync('isLogin')) {
@@ -108,7 +107,7 @@ Page({
                 that.setData({
                   datalist: [],
                   datalist1: [],
-                   list:[]
+                  list: []
                 })
                 const tabs = [{
                   title: '我的发布' + ' ' + 0,
@@ -139,19 +138,19 @@ Page({
       if (new Date().getTime() - start > n) break;
   },
 
-onchange1:function(){
-this.setData({
-  list:this.data.datalist,
-  check_button: 0
-})
+  onchange1: function () {
+    this.setData({
+      list: this.data.datalist,
+      check_button: 0
+    })
 
-},
-onchange2:function(){
-  this.setData({
-    list:this.data.datalist1,
-    check_button: 1
-  })
-  
+  },
+  onchange2: function () {
+    this.setData({
+      list: this.data.datalist1,
+      check_button: 1
+    })
+
   },
 
   /**
@@ -192,7 +191,7 @@ onchange2:function(){
 
   checkNote: function (e) {
     var id = e.currentTarget.dataset["id"];
- 
+
     wx.navigateTo({
       url: '../viewnote/viewnote?id=' + id,
     })
@@ -206,59 +205,60 @@ onchange2:function(){
         openid: that.data.openid
       }
     }).then(res => {
-
       that.setData({
         datalist: res.result.data,
-
         height1: res.result.data.length * 140,
-        list:res.result.data
-
       })
-
+      if (that.data.check_button == 0) {
+        that.setData({
+          list: res.result.data
+        })
+      }
       wx.cloud.callFunction({
         name: "getalist",
         data: {
           openid: that.data.openid
         }
       }).then(res => {
-        
         that.setData({
           alist: res.result.data[0].myCollections,
           goodList: res.result.data[0].myLikes,
         })
-
         var collections = []
         for (var i = 0; i < that.data.alist.length; i++) {
-            var Id = that.data.alist[i]
-
-            wx.cloud.callFunction({
-              name: "getbyid",
-              data: {
-                id: Id
-              }
-            }).then(res => {
-              collections.push(res.result.data[0])
+          var Id = that.data.alist[i]
+          wx.cloud.callFunction({
+            name: "getbyid",
+            data: {
+              id: Id
+            }
+          }).then(res => {
+            collections.push(res.result.data[0])
+            that.setData({
+              datalist1: collections
+            })
+            if (that.data.check_button == 1) {
               that.setData({
-                datalist1: collections
+                list: that.data.datalist1
               })
-              if (that.data.height1 < 500 && that.data.datalist1.length * 160 < 500) {
-
+            }
+            if (that.data.height1 < 500 && that.data.datalist1.length * 160 < 500) {
+              that.setData({
+                height: 500
+              })
+            } else {
+              if (that.data.height1 > that.data.datalist1.length * 160) {
                 that.setData({
-                  height: 500
+                  height: that.data.height1
                 })
               } else {
-                if (that.data.height1 > that.data.datalist1.length * 160) {
-                  that.setData({
-                    height: that.data.height1
-                  })
-                } else {
-                  that.setData({
-                    height: that.data.datalist1.length * 160
-                  })
-                }
+                that.setData({
+                  height: that.data.datalist1.length * 160
+                })
               }
+            }
 
-            })
+          })
         }
 
 
@@ -274,7 +274,7 @@ onchange2:function(){
         openid: this.data.openid
       }
     }).then(res => {
-    
+
       var newData = []
       for (var i = 0; i < res.result.data.length; i++) {
         newData[i] = res.result.data[i].myCollections
@@ -395,7 +395,6 @@ onchange2:function(){
             openid: open.result.openid
           }
         }).then(userInfo => {
-          console.log(userInfo)
           var avatar = userInfo.result.data[0].avatar
           var nickName = userInfo.result.data[0].nickName
 
@@ -443,7 +442,7 @@ onchange2:function(){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
