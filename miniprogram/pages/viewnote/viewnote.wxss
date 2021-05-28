@@ -58,8 +58,8 @@
   margin: 15px;
   font-family: 'Times New Roman', 'PingFang SC-Medium';
   letter-spacing: 3rpx;
-  line-height: 20px;
-  font-size: 35rpx;
+  line-height: 30px;
+  font-size: 32rpx;
 }
 
 .timelocation {
@@ -67,7 +67,7 @@
   height: 20px;
   line-height: 20px;
   font-size: 30rpx;
-  color: darkgray;
+  color: rgb(172, 172, 172);
   margin-right: 20px;
   margin-left: 15px;
   justify-content: space-between;
@@ -75,9 +75,23 @@
 
 .location {
   display: flex;
+  width: 45%;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+}
+
+.locate_image{
+  width: 12px;
+}
+
+.locate_text{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-left: 5rpx;
 }
 
 .locatepic {
@@ -111,6 +125,7 @@
 
 .handel {
   margin: 15px;
+  height:30px;
   width: 93%;
   display: flex;
   justify-content: space-between;

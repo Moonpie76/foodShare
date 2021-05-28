@@ -25,16 +25,43 @@ Page({
     review_image_if: false, //评论图标点获取焦点
     lock: false,
     good_num: 0,
-    collection_num: 0
+    collection_num: 0,
+    hidden: true
   },
-
+  //加载页面
+  changeHidden: function () {
+    this.setData({
+      hidden: !this.data.hidden
+    });
+  },
+  //点击评论图片
   changeReviewIf: function () {
-    console.log("这是改变")
     var that = this
-    that.setData({
-      review_image_if: true
-    })
-    console.log(that.data.review_image_if)
+    if(wx.getStorageSync('isLogin')){
+      that.setData({
+        review_image_if: true
+      })
+
+    } else {
+      wx.showModal({
+        title: '评论',
+        content: '请到个人中心登录，登录后方可进行操作',
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+          }
+        },
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
+    }
   },
 
   goodUp: function (e) {
@@ -429,7 +456,12 @@ Page({
   //刷新页面
   refurbish: function (id) {
     console.log(id)
-    console.log("开始刷新")
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     var that = this
     that.setData({
       comment_list_reply: [],
@@ -543,6 +575,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     var that = this
     const db = wx.cloud.database()
     if (wx.getStorageSync('isLogin')) {

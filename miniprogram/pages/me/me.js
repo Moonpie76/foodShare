@@ -19,174 +19,13 @@ Page({
     height: '',
     lock: false,
     goodList: [],
-    list: [],
+    list:[],
     check_button: 0,
-    uid: ''
-  },
-
-
-  goodUp: async function (e) {
-    var noteid = e.currentTarget.dataset['noteid']
-    var that = this
-
-    if (that.data.lock == false) {
-      that.setData({
-        lock: true
-      })
-      wx.cloud.callFunction({
-        name: "getUserInfo",
-        data: {
-          openid: that.data.openid
-        }
-      }).then(res => {
-        that.setData({
-          uid: res.result.data[0]._id,
-        })
-        var temp = that.data.goodList
-        temp.push(noteid)
-        that.setData({
-          goodList: temp
-        })
-        wx.cloud.callFunction({
-          name: "upGoodNum",
-          data: {
-            note_id: noteid,
-            user_id: that.data.uid,
-            goodlist: that.data.goodList
-          },
-          success: function (res) {
-            that.setData({
-              lock: false
-            })
-          }
-        })
-      })
-    }
-  },
-
-  goodDown: function (e) {
-    var noteid = e.currentTarget.dataset['noteid']
-    var that = this
-    if (that.data.lock == false) {
-      that.setData({
-        lock: true
-      })
-      wx.cloud.callFunction({
-        name: "getUserInfo",
-        data: {
-          openid: that.data.openid
-        }
-      }).then(res => {
-        that.setData({
-          uid: res.result.data[0]._id,
-        })
-        var temp = that.data.goodList
-        temp.splice(temp.findIndex(function (d) {
-          return d == noteid;
-        }), 1)
-        that.setData({
-          goodList: temp
-        })
-        wx.cloud.callFunction({
-          name: "downGoodNum",
-          data: {
-            note_id: noteid,
-            user_id: that.data.uid,
-            goodlist: that.data.goodList,
-          },
-          success: function (res) {
-            that.setData({
-              lock: false
-            })
-          },
-          fail(res) {
-            console.log("更改失败！", res)
-          }
-        })
-      })
-    }
-  },
-
-  collectionUp: function (e) {
-    var noteid = e.currentTarget.dataset['noteid']
-    var that = this
-
-    if (that.data.lock == false) {
-      that.setData({
-        lock: true
-      })
-      wx.cloud.callFunction({
-        name: "getUserInfo",
-        data: {
-          openid: that.data.openid
-        }
-      }).then(res => {
-        that.setData({
-          uid: res.result.data[0]._id,
-        })
-        var temp = that.data.alist
-        temp.push(noteid)
-        that.setData({
-          alist: temp
-        })
-        console.log("更改成功！", res)
-        wx.cloud.callFunction({
-          name: "upColNum",
-          data: {
-            note_id: noteid,
-            user_id: that.data.uid,
-            collist: that.data.alist
-          },
-          success: function (res) {
-            that.setData({
-              lock: false
-            })
-          }
-        })
-      })
-    }
-  },
-
-  collectionDown: function (e) {
-    var noteid = e.currentTarget.dataset['noteid']
-    var that = this
-    if (that.data.lock == false) {
-      that.setData({
-        lock: true
-      })
-      wx.cloud.callFunction({
-        name: "getUserInfo",
-        data: {
-          openid: that.data.openid
-        }
-      }).then(res => {
-        that.setData({
-          uid: res.result.data[0]._id,
-        })
-        var temp = that.data.alist
-        temp.splice(temp.findIndex(function (d) {
-          return d == noteid;
-        }), 1)
-        that.setData({
-          alist: temp
-        })
-        console.log("更改成功！", res)
-        wx.cloud.callFunction({
-          name: "downColNum",
-          data: {
-            note_id: noteid,
-            user_id: that.data.uid,
-            collectionList: that.data.alist,
-          },
-          success: function (res) {
-            that.setData({
-              lock: false
-            })
-          }
-        })
-      })
-    }
-  },
+    goodList:[],
+    collectionList:[],
+    tar:0,
+    tar1:0
+  } ,
 
   login: async function (e) {
     var that = this
@@ -209,7 +48,8 @@ Page({
             let userInfo = res.userInfo
             that.setData({
               nickName: userInfo.nickName,
-              avatar: userInfo.avatarUrl
+              avatar: userInfo.avatarUrl,
+              tar:1
             })
 
             //查看用户是否是第一次登录
@@ -223,7 +63,7 @@ Page({
                 }
               }).then(info => {
                 //用户是第一次登录，把用户信息插入到user表中
-
+                
                 if (info.result.data.length == 0) {
                   db.collection("user").add({
                     data: {
@@ -500,7 +340,15 @@ Page({
     })
 
     await this.sleep(3000)
-
+    if(this.data.datalist.length==0&&this.data.datalist1==0){
+      this.setData({
+        tar1:1
+      })
+    }else{
+      this.setData({
+        tar1:0
+      })
+    }
     const tabs = [{
       title: '我的发布' + ' ' + this.data.datalist.length,
 
@@ -531,7 +379,8 @@ Page({
         success: res => {
           that.setData({
             avatar: res.userInfo.avatarUrl,
-            nickName: "请点击头像进行登录"
+            nickName: "请点击头像进行登录",
+           
           })
         }
       })
@@ -551,7 +400,8 @@ Page({
 
           that.setData({
             avatar: avatar,
-            nickName: nickName
+            nickName: nickName,
+            tar:1
           })
 
         })
