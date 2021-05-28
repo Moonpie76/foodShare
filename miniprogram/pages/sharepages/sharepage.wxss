@@ -14,7 +14,7 @@
 
 .button {
   display: flex;
-  margin-top: 75px;
+  margin-top: 67px;
 }
 
 .picture1 {

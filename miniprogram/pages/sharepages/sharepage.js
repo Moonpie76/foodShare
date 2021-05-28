@@ -197,6 +197,19 @@ Page({
     上传内容
   */
   uploaddata: async function (e) {
+    if(this.data.title.length==0||this.data.content.length==0||this.data.images.length==0||this.data.time.time==0||this.data.city==''||(this.data.two_2==5&&this.data.one_2==0)){
+      wx.showToast({
+        title: '笔记信息不完整 请填写完整！',//提示文字
+        duration:2000,//显示时长
+        mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+        icon:"none",
+        success:function(){ },//接口调用成功
+        fail: function () { },  //接口调用失败的回调函数  
+        complete: function () { } //接口调用结束的回调函数  
+     })
+     return 0
+    }
+
     wx.switchTab({
       url: '/pages/index/index',
     });
