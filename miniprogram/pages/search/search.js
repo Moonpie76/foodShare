@@ -479,13 +479,18 @@ Page({
     const {
       info
     } = e.currentTarget.dataset
-    console.log(info.join(''))
     this.setData({
       // 将点击选择的值展示在input框中
       inputValue: info.join(''),
       // 当用户选择某个联想词，隐藏下拉列表
       hideScroll: true
     })
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
     this.searchByKeyWord(this.data.inputValue, 6, 0, this.data.city)
@@ -568,6 +573,12 @@ Page({
     this.setData({
       inputValue: info.info
     })
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 500)
     this.searchByKeyWord(this.data.inputValue, 6, 0, this.data.city)
   },
   /**
