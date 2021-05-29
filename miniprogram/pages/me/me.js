@@ -23,7 +23,7 @@ Page({
     check_button: 0,
     goodList: [],
     collectionList: [],
-    tar: 0,
+    tar: !wx.getStorageSync('isLogin'),
     tar1: 0,
     temp: 0,
     temp1: 0
@@ -57,7 +57,7 @@ Page({
             that.setData({
               nickName: userInfo.nickName,
               avatar: userInfo.avatarUrl,
-              tar: 1
+              tar: false
             })
 
             //查看用户是否是第一次登录
@@ -86,6 +86,37 @@ Page({
                   })
                 } else {
                   that.handleClick()
+                  that.asleep(3000)
+                  //当前在我的发布页面
+                  if (that.data.check_button == 0) {
+                    this.setData({
+                      temp1: 0
+                    })
+                    if (this.data.datalist == 0) {
+                      this.setData({
+                        temp: 1
+                      })
+                    } else {
+                      this.setData({
+                        temp: 0
+                      })
+                    }
+
+                  } else {
+                    //当前在我的收藏页面
+                    this.setData({
+                      temp: 0
+                    })
+                    if (this.data.alist == 0) {
+                      this.setData({
+                        temp1: 1
+                      })
+                    } else {
+                      this.setData({
+                        temp1: 0
+                      })
+                    }
+                  }
                 }
               })
             })
@@ -117,7 +148,9 @@ Page({
                   datalist1: [],
                   list: [],
                   tar1: 0,
-                  tar: 0,
+                  tar: true,
+                  temp1:0,
+                  temp:0,
                   alist: []
                 })
                 const tabs = [{
@@ -197,17 +230,26 @@ Page({
   },
 
   onchange1: function () {
-    if (this.data.datalist == 0 && this.data.alist.length != 0) {
+    if(wx.getStorageSync('isLogin')) {
       this.setData({
-        temp: 1,
         temp1: 0
       })
+      if (this.data.datalist == 0) {
+        this.setData({
+          temp: 1
+        })
+      } else {
+        this.setData({
+          temp: 0
+        })
+      }
     } else {
       this.setData({
-        temp: 0,
-        temp1: 0
+        temp:0,
+        temp1:0
       })
     }
+
     this.setData({
       list: this.data.datalist,
       check_button: 0
@@ -215,15 +257,23 @@ Page({
 
   },
   onchange2: function () {
-    if (this.data.alist == 0 && this.data.datalist.length != 0) {
+    if(wx.getStorageSync('isLogin')) {
       this.setData({
-        temp1: 1,
         temp: 0
       })
+      if (this.data.alist == 0) {
+        this.setData({
+          temp1: 1
+        })
+      } else {
+        this.setData({
+          temp1: 0
+        })
+      }
     } else {
       this.setData({
-        temp1: 0,
-        temp: 0
+        temp1:0,
+        temp:0
       })
     }
     this.setData({
@@ -247,6 +297,39 @@ Page({
 
     if (wx.getStorageSync('isLogin')) {
       this.handleClick()
+      await this.sleep(3000)
+      //当前在我的发布页面
+      console.log(that.data.check_button)
+      console.log(that.data.datalist)
+      if (that.data.check_button == 0) {
+        this.setData({
+          temp1: 0
+        })
+        if (this.data.datalist == 0) {
+          this.setData({
+            temp: 1
+          })
+        } else {
+          this.setData({
+            temp: 0
+          })
+        }
+
+      } else {
+        //当前在我的收藏页面
+        this.setData({
+          temp: 0
+        })
+        if (this.data.alist == 0) {
+          this.setData({
+            temp1: 1
+          })
+        } else {
+          this.setData({
+            temp1: 0
+          })
+        }
+      }
     } else {
       const tabs = [{
         title: '我的发布' + ' ' + 0,
@@ -345,6 +428,14 @@ Page({
 
           })
         }
+        that.setData({
+          datalist1: collections
+        })
+        if (that.data.check_button == 1) {
+          that.setData({
+            list: that.data.datalist1
+          })
+        }
 
 
       })
@@ -425,26 +516,7 @@ Page({
     })
 
     await this.sleep(3000)
-    if (this.data.datalist.length == 0 && this.data.datalist1 == 0) {
-      this.setData({
-        tar1: 1
-      })
-    } else {
-      this.setData({
-        tar1: 0
-      })
-    }
-    const tabs = [{
-      title: '我的发布' + ' ' + this.data.datalist.length,
 
-      dataList: this.data.datalist
-    }, {
-      title: '我的收藏' + ' ' + this.data.datalist1.length,
-      dataList: this.data.datalist1,
-    }]
-    this.setData({
-      tabs: tabs
-    })
   },
 
   /**
@@ -457,7 +529,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: async function () {
     var that = this
     if (!wx.getStorageSync('isLogin')) {
       wx.getUserInfo({
@@ -471,6 +543,37 @@ Page({
       })
     } else {
       that.handleClick()
+      await this.sleep(3000)
+      //当前在我的发布页面
+      if (that.data.check_button == 0) {
+        this.setData({
+          temp1: 0
+        })
+        if (this.data.datalist == 0) {
+          this.setData({
+            temp: 1
+          })
+        } else {
+          this.setData({
+            temp: 0
+          })
+        }
+
+      } else {
+        //当前在我的收藏页面
+        this.setData({
+          temp: 0
+        })
+        if (this.data.alist == 0) {
+          this.setData({
+            temp1: 1
+          })
+        } else {
+          this.setData({
+            temp1: 0
+          })
+        }
+      }
       wx.cloud.callFunction({
         name: "getOpenid"
       }).then(open => {
@@ -486,7 +589,7 @@ Page({
           that.setData({
             avatar: avatar,
             nickName: nickName,
-            tar: 1
+            tar: false
           })
 
         })
