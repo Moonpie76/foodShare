@@ -226,10 +226,13 @@ Page({
             Astring: that.data.Astring.concat(res.fileID),
           })
         }
+        
       })
+      await this.sleep(300)
+      if(i==0){ await this.sleep(300)}
     }
 
-    await this.sleep(3000);
+    //await this.sleep(3000);
     console.log(that.data.Astring)
     this.getTime()
 
