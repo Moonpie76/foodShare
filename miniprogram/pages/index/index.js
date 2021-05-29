@@ -438,6 +438,7 @@ Page({
       wx.cloud.callFunction({
         name: "getOpenid"
       }).then(res => {
+        console.log(res)
         that.setData({
           user_id: res.result.openid
         })
@@ -447,6 +448,7 @@ Page({
             openid: res.result.openid
           }
         }).then(res => {
+          console.log(res)
           that.setData({
             uid: res.result.data[0]._id,
             goodList: res.result.data[0].myLikes,

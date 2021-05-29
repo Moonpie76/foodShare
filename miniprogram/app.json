@@ -10,10 +10,7 @@
     "pages/universityPicker/universityPicker"
   ],
   "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示",
-      "value": true
-    }
+    
   },
   "window": {
     "backgroundColor": "#F6F6F6",

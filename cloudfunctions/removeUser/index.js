@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
   var openid = event.openid
   try {
     return await db.collection('user').where({
-      openid: openid
+      _openid: openid
     }).remove()
   } catch(e) {
     console.error(e)
