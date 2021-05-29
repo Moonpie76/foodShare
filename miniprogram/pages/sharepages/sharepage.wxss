@@ -1,20 +1,21 @@
 /* miniprogram/pages/sharepage.wxss */
 .button1 {
-  background-color: rgb(226, 211, 211);
-  color: rgb(129, 38, 38);
-  border-radius: 98rpx
+  background-color: white;
+  color: #f48787;
+  border-radius: 98rpx;
+  border: 1px solid #f48787
 }
 
 .button2 {
   width: 50%;
-  background-color: rgb(238, 55, 55);
+  background-color: #f48787;
   color: white;
   border-radius: 98rpx;
 }
 
 .button {
   display: flex;
-  margin-top: 75px;
+  margin-top: 80rpx;
 }
 
 .picture1 {
@@ -30,7 +31,6 @@
 .btn1 {
   margin-left: 13px;
   padding-top: 5px;
-  background:none!important;
 }
 
 .btn2 {
