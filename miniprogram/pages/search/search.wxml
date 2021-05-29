@@ -25,7 +25,12 @@
     </block>
 </scroll-view>
 
-<view class="notes">
+<view class="noResult" wx:if="{{!hasNotes&&hideScroll&&!(!inputValue&&historySearch.length>0)}}">
+  <icon class="search_icon" type="search" size="24"></icon>
+  <view class="sorryText">抱歉，没有找到相关笔记</view>
+</view>
+
+<view class="notes" wx:if="{{hasNotes}}">
     <view class="left">
         <block wx:for="{{noteList}}" wx:key="index" wx:for-item="item_note">
             <template is="msg" data="{{item_note:item_note, goodList:goodList, length:goodList.length,collectionList:collectionList,c_length:collectionList.length}}" wx:if="{{index%2==0}}"></template>

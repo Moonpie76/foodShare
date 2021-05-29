@@ -19,13 +19,15 @@ Page({
     height: '',
     lock: false,
     goodList: [],
-    list:[],
+    list: [],
     check_button: 0,
-    goodList:[],
-    collectionList:[],
-    tar:0,
-    tar1:0
-  } ,
+    goodList: [],
+    collectionList: [],
+    tar: 0,
+    tar1: 0,
+    temp: 0,
+    temp1: 0
+  },
 
   login: async function (e) {
     var that = this
@@ -39,6 +41,12 @@ Page({
           let errMsg = res.errMsg
           //用户同意授权
           if (errMsg == "getUserProfile:ok") {
+            wx.showLoading({
+              title: '加载中',
+            })
+            setTimeout(function () {
+              wx.hideLoading()
+            }, 2000)
             //存储已登录的状态
             wx.setStorage({
               data: true,
@@ -49,7 +57,7 @@ Page({
             that.setData({
               nickName: userInfo.nickName,
               avatar: userInfo.avatarUrl,
-              tar:1
+              tar: 1
             })
 
             //查看用户是否是第一次登录
@@ -63,7 +71,7 @@ Page({
                 }
               }).then(info => {
                 //用户是第一次登录，把用户信息插入到user表中
-                
+
                 if (info.result.data.length == 0) {
                   db.collection("user").add({
                     data: {
@@ -91,7 +99,7 @@ Page({
       // 如果已经是登录状态，点击头像退出登录
       wx.showActionSheet({
         itemList: ['退出登录'], //显示的列表项
-        itemColor: '#007aff',
+        itemColor: '#FF0000',
         success: function (res) { //res.tapIndex点击的列表项
           if (res.tapIndex == 0) {
             wx.setStorage({
@@ -107,7 +115,10 @@ Page({
                 that.setData({
                   datalist: [],
                   datalist1: [],
-                  list: []
+                  list: [],
+                  tar1: 0,
+                  tar: 0,
+                  alist: []
                 })
                 const tabs = [{
                   title: '我的发布' + ' ' + 0,
@@ -138,7 +149,65 @@ Page({
       if (new Date().getTime() - start > n) break;
   },
 
+  deleteNote: async function (e) {
+    var Noteopenid = ""
+    var useropenid = ""
+    var id = e.currentTarget.dataset["id"];
+    wx.cloud.callFunction({
+      name: "getbyid",
+      data: {
+        id: id
+      }
+    }).then(res => {
+      console.log(res.result.data[0]._openid)
+      Noteopenid = res.result.data[0]._openid
+      console.log(Noteopenid)
+    })
+    await this.sleep(500)
+    wx.cloud.callFunction({
+      name: "getOpenid",
+
+    }).then(res => {
+      console.log(res.result.openid)
+      useropenid = res.result.openid
+      console.log(useropenid)
+    })
+    await this.sleep(500)
+    // var id = e.currentTarget.dataset["id"];
+    console.log(useropenid == Noteopenid);
+    if (useropenid == Noteopenid) {
+      wx.showActionSheet({
+        itemList: ["删除笔记"],
+        success(res) {
+          console.log(res.tapIndex)
+          if (res.tapIndex == 0) {
+            wx.cloud.callFunction({
+              name: "deletemydata",
+              data: {
+                id: id
+              }
+            }).then(res => {
+              console.log(res)
+            })
+          }
+        }
+      })
+    }
+
+  },
+
   onchange1: function () {
+    if (this.data.datalist == 0 && this.data.alist.length != 0) {
+      this.setData({
+        temp: 1,
+        temp1: 0
+      })
+    } else {
+      this.setData({
+        temp: 0,
+        temp1: 0
+      })
+    }
     this.setData({
       list: this.data.datalist,
       check_button: 0
@@ -146,6 +215,17 @@ Page({
 
   },
   onchange2: function () {
+    if (this.data.alist == 0 && this.data.datalist.length != 0) {
+      this.setData({
+        temp1: 1,
+        temp: 0
+      })
+    } else {
+      this.setData({
+        temp1: 0,
+        temp: 0
+      })
+    }
     this.setData({
       list: this.data.datalist1,
       check_button: 1
@@ -158,7 +238,12 @@ Page({
    */
   onLoad: async function (options) {
     var that = this
-
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
 
     if (wx.getStorageSync('isLogin')) {
       this.handleClick()
@@ -340,13 +425,13 @@ Page({
     })
 
     await this.sleep(3000)
-    if(this.data.datalist.length==0&&this.data.datalist1==0){
+    if (this.data.datalist.length == 0 && this.data.datalist1 == 0) {
       this.setData({
-        tar1:1
+        tar1: 1
       })
-    }else{
+    } else {
       this.setData({
-        tar1:0
+        tar1: 0
       })
     }
     const tabs = [{
@@ -380,7 +465,7 @@ Page({
           that.setData({
             avatar: res.userInfo.avatarUrl,
             nickName: "请点击头像进行登录",
-           
+
           })
         }
       })
@@ -401,7 +486,7 @@ Page({
           that.setData({
             avatar: avatar,
             nickName: nickName,
-            tar:1
+            tar: 1
           })
 
         })

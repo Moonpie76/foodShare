@@ -418,6 +418,12 @@ Page({
   onLoad: function (options) {
 
     var that = this
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
     var school = wx.getStorageSync('city')
     if(school=='') {
       that.setData({

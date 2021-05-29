@@ -24,20 +24,20 @@ Page({
     one_2: 0,
     two_2: 5,
     mypic: 0
-   
+
   },
 
   /**
    返回函数
    */
   fanhuiupload: function (e) {
-    var flag=0;
+    var flag = 0;
     var that = this;
-    if(that.data.title.length==0&&that.data.content.length==0&&that.data.images.length==0&&that.data.time.length==0&&that.data.city==''&&that.data.two_2==5&&that.data.one_2==0){
-     flag=1
+    if (that.data.title.length == 0 && that.data.content.length == 0 && that.data.images.length == 0 && that.data.time.length == 0 && that.data.city == '' && that.data.two_2 == 5 && that.data.one_2 == 0) {
+      flag = 1
     }
     console.log(flag)
-    if(flag==1){
+    if (flag == 1) {
       wx.switchTab({
         url: '/pages/index/index',
       });
@@ -197,6 +197,18 @@ Page({
     上传内容
   */
   uploaddata: async function (e) {
+    if (this.data.title.length == 0 || this.data.content.length == 0 || this.data.images.length == 0 || this.data.time.time == 0 || this.data.city == '' || (this.data.two_2 == 5 && this.data.one_2 == 0)) {
+      wx.showToast({
+        title: '笔记信息不完整 请填写完整！', //提示文字
+        duration: 2000, //显示时长
+        mask: true, //是否显示透明蒙层，防止触摸穿透，默认：false  
+        icon: "none",
+        success: function () {}, //接口调用成功
+        fail: function () {}, //接口调用失败的回调函数  
+        complete: function () {} //接口调用结束的回调函数  
+      })
+      return 0
+    }
     wx.switchTab({
       url: '/pages/index/index',
     });
@@ -229,7 +241,7 @@ Page({
       console.log(res.result.openid)
       wx.cloud.callFunction({
         name: "getUserInfo",
-        data :{
+        data: {
           openid: res.result.openid
         }
       }).then(userInfo => {
@@ -237,34 +249,34 @@ Page({
         avatar = userInfo.result.data[0].avatar
         nickName = userInfo.result.data[0].nickName
 
-    db.collection('note').add({
-      data: {
-        title: that.data.title,
-        discribe: that.data.content,
-        location: this.data.city,
-        picture: that.data.Astring,
-        time: that.data.time,
-        level: that.data.one_2,
-        flag: 1,
-        good_num: 0,
-        collection_num: 0,
-        avatar: avatar,
-        nickName: nickName
-      }
-    })
-    .then(res => {
-      console.log(res)
-      that.setData({
-        title: [],
-        content: [],
-        images: [],
-        Astring: [],
-        time: [],
-        two_2: 5,
-        one_2: 0,
-        city: ""
-      })
-    })
+        db.collection('note').add({
+            data: {
+              title: that.data.title,
+              discribe: that.data.content,
+              location: this.data.city,
+              picture: that.data.Astring,
+              time: that.data.time,
+              level: that.data.one_2,
+              flag: 1,
+              good_num: 0,
+              collection_num: 0,
+              avatar: avatar,
+              nickName: nickName
+            }
+          })
+          .then(res => {
+            console.log(res)
+            that.setData({
+              title: [],
+              content: [],
+              images: [],
+              Astring: [],
+              time: [],
+              two_2: 5,
+              one_2: 0,
+              city: ""
+            })
+          })
       })
 
     })
@@ -290,13 +302,13 @@ Page({
     });
 
   },
-  addLocation: function(e) {
+  addLocation: function (e) {
     wx.navigateTo({
       url: '/pages/universityPicker/universityPicker',
     })
 
   },
-  
+
 
   /**
    获取标题内容
@@ -349,14 +361,14 @@ Page({
     })
   },
 
-  login: function(e) {
+  login: function (e) {
     var that = this
 
     db.collection("user").add({
       data: {
         nickName: e.detail.userInfo.nickName,
         avatar: e.detail.userInfo.avatarUrl,
-        myCollections:[],
+        myCollections: [],
         myLikes: []
       }
     }).then(res => {
@@ -383,7 +395,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
 
   },
 
@@ -398,28 +410,28 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(!wx.getStorageSync('isLogin')){
+    if (!wx.getStorageSync('isLogin')) {
       wx.showModal({
         title: '发布笔记',
         content: '请到个人中心登录，登录后方可进行操作',
-        showCancel: true,//是否显示取消按钮
-        confirmText:"去登录",//默认是“确定”
+        showCancel: true, //是否显示取消按钮
+        confirmText: "去登录", //默认是“确定”
         success: function (res) {
-           if (res.cancel) {
-              //点击取消,默认隐藏弹框
-              wx.switchTab({
-                url: '/pages/index/index'
-              })
-           } else {
-              //点击确定
-              wx.switchTab({
-                url: '/pages/me/me'
-              })
-           }
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+            wx.switchTab({
+              url: '/pages/index/index'
+            })
+          } else {
+            //点击确定
+            wx.switchTab({
+              url: '/pages/me/me'
+            })
+          }
         },
-        fail: function (res) { },//接口调用失败的回调函数
-        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-     })
+        fail: function (res) {}, //接口调用失败的回调函数
+        complete: function (res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+      })
     }
 
   },
