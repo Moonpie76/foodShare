@@ -107,7 +107,10 @@ Page({
                 that.setData({
                   datalist: [],
                   datalist1: [],
-                  list: []
+                  list: [],
+                  tar: 0,
+                  tar1: 0,
+                  alist: []
                 })
                 const tabs = [{
                   title: '我的发布' + ' ' + 0,

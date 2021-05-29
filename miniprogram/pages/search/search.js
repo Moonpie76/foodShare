@@ -19,7 +19,8 @@ Page({
     goodList: [],
     collectionList: [],
     user_id: '',
-    uid: ''
+    uid: '',
+    hasNotes: true
   },
 
   getInf(str, key) {
@@ -488,10 +489,9 @@ Page({
     this.addHistorySearch(this.data.inputValue)
     // 发起请求，获取查询结果
     this.searchByKeyWord(this.data.inputValue, 6, 0, this.data.city)
-    console.log(this.data.noteList)
+    
   },
   searchByKeyWord(info, num = 6, page = 0, city) {
-    console.log(city)
     wx.cloud.callFunction({
       name: "searchNotes",
       data: {
@@ -501,6 +501,16 @@ Page({
         city: city
       }
     }).then(res => {
+      var resArr = res.result.data
+      if(resArr.length != 0) {
+        this.setData({
+          hasNotes: true
+        })
+      } else {
+        this.setData({
+          hasNotes: false
+        })
+      }
       var oldData = this.data.noteList
       var newData = oldData.concat(res.result.data)
       this.setData({
