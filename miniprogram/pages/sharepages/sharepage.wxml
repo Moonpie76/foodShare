@@ -55,7 +55,7 @@
 
 <view class="button">
     <view class="btn1">
-        <button  style="width:20vw;height:9vw" plain="true" type="warn" class="button1" size="mini" id="fanhui" bindtap="fanhuiupload">返回</button></view>
+        <button  style="width:20vw;height:9vw" class="button1" size="mini" id="fanhui" bindtap="fanhuiupload">返回</button></view>
     <view class="btn2">
         <button style="width:70vw" class="button2"  size="default" id="fabu" bindtap="uploaddata">发布</button>
     </view>
