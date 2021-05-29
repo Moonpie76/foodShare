@@ -163,6 +163,7 @@ Page({
     console.log(index)
     wx.showActionSheet({
       itemList: ["删除图片"],
+      itemColor: '#FF0000',
       success(res) {
         console.log(res.tapIndex)
         if (res.tapIndex == 0) {

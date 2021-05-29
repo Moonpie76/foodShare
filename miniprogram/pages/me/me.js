@@ -211,6 +211,7 @@ Page({
     if (useropenid == Noteopenid) {
       wx.showActionSheet({
         itemList: ["删除笔记"],
+        itemColor: '#FF0000',
         success(res) {
           console.log(res.tapIndex)
           if (res.tapIndex == 0) {
